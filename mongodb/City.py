@@ -22,13 +22,16 @@ class City:
         latest_city = travel1.latestcity
         city_new = travel2.city
 
-        for cityOld in latest_city.find({'cityname_en': 'New York'}):
-            _id = cityOld['_id']
-            city_name = cityOld['cityname']
-            city_name_en = cityOld['cityname_en']
-            # city_name_py = cityOld['cityname_py']
+        # clean former data
+        city_new.remove()
 
-            show_flag = cityOld['show_flag']
+        for city_old in latest_city.find():
+            _id = city_old['_id']
+            city_name = city_old['cityname']
+            city_name_en = city_old['cityname_en']
+            city_name_py = city_old['cityname_py']
+
+            show_flag = city_old['show_flag']
             if show_flag == u'1':
                 is_show = True
             else:
@@ -38,6 +41,7 @@ class City:
                 '_id': _id,  # 城市ID
                 'city_name': city_name,  # 城市中文名
                 'city_name_en': city_name_en,  # 城市英文名
+                'city_name_py': city_name_py,  # 城市中文名拼音
                 'is_show': is_show  # 是否线上展示
             }
             city_new.insert(post)

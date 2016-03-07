@@ -2,6 +2,7 @@
 # -*- coding: UTF-8 -*-
 
 from City import City
+from Weather import Weather
 
 
 def main():
@@ -10,7 +11,11 @@ def main():
     address_new = '192.168.1.113'
     port_new = 27017
 
+    print("convert city data")
     City.convert_city(address_old, port_old, address_new, port_new)
+
+    print("convert weather data")
+    Weather.convert_weather(address_old, port_old, address_new, port_new)
 
 
 if __name__ == "__main__":
