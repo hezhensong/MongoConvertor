@@ -9,7 +9,7 @@ from Activity import Activity
 def main():
     address_old = 'localhost'
     port_old = 27017
-    address_new = '192.168.1.53'
+    address_new = '192.168.6.107'
     port_new = 27017
 
     print("convert city data")

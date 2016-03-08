@@ -25,6 +25,9 @@ class Activity:
         # clean former data
         activity_new.remove()
 
+        # map activities to city
+        kv_activity_city = Activity.get_city_activity(address_old, port_old)
+
         for activity_old in activities.find():
             _id = activity_old['_id']
             title = activity_old['title']
@@ -34,8 +37,16 @@ class Activity:
             else:
                 cover_image = None
 
+            # print str(_id).encode(encoding='unicode')
+            print kv_activity_city
+
+            if unicode(_id) in kv_activity_city:
+                city_id = kv_activity_city[unicode(_id)]
+            else:
+                city_id = None
             post = {
                 '_id': _id,  # 活动ID
+                'city_id': city_id,  # 城市ID
                 'title': title,  # 活动主题
                 'cover_image': cover_image  # 活动封面
             }
@@ -50,17 +61,14 @@ class Activity:
         # old collection city
         latest_city = travel1.latestcity
 
-        kv_city_activity = {}
-        for city in latest_city.find():
+        kv_activity_city = {}
+        for city in latest_city.find({'show_flag': '1'}):
             city_id = city['_id']
 
             if 'activity_labels' in city:
                 activity_labels = city['activity_labels']
                 if len(activity_labels) > 0:
-                    activity_list = []
                     for activity in activity_labels:
-                        activity_list.append(activity['_id'])
-                    kv_city_activity[city_id] = activity_list
+                        kv_activity_city[activity['_id']] = city_id
 
-        return kv_city_activity
-
+        return kv_activity_city
