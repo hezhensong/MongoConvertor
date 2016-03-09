@@ -41,7 +41,6 @@ class Pgc:
             if 'pgc_city' in pgc_old:
                 city_id = pgc_old['pgc_city']['_id']
                 city_id = ObjectId(city_id)
-                print(unicode(city_id))
             else:
                 city_id = None
 
