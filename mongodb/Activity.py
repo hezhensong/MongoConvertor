@@ -37,9 +37,6 @@ class Activity:
             else:
                 cover_image = None
 
-            # print str(_id).encode(encoding='unicode')
-            print kv_activity_city
-
             if unicode(_id) in kv_activity_city:
                 city_id = kv_activity_city[unicode(_id)]
             else:
