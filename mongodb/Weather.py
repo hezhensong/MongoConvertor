@@ -28,8 +28,8 @@ class Weather:
         for weather_old in weather.find():
             _id = weather_old['_id']
             city_id = weather_old['city_id']
-            timestamp = weather_old['timestamp']
-            yahoo_weather = weather_old['yahooWeather']
+            timestamp = str(weather_old['timestamp'])
+            yahoo_weather = str(weather_old['yahooWeather'])
 
             post = {
                 '_id': _id,  # 天气ID
