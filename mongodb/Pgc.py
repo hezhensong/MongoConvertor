@@ -5,6 +5,7 @@ from pymongo import MongoClient
 from bson.objectid import ObjectId
 # from pymongo import ObjectId
 
+
 class Pgc:
     def __init__(self):
         pass
@@ -20,7 +21,7 @@ class Pgc:
         travel2 = client.travel2
         # old collection latest activities
         pgcs = travel1.pgcs
-        pgcs_new = travel2.pgcs
+        pgcs_new = travel2.pgc
 
         # clean former data
         pgcs_new.remove()
@@ -31,7 +32,7 @@ class Pgc:
             if 'title' in pgc_old:
                 title = pgc_old['title']
             else:
-                cover_image = None
+                title = None
 
             if 'cover_image' in pgc_old:
                 cover_image = pgc_old['cover_image']
@@ -42,17 +43,17 @@ class Pgc:
                city_id=pgc_old['pgc_city']['_id']
                # city_id1 = json.loads(city_id)
                # print(city_id1._id)
-
+               city_id=ObjectId(city_id)
                print(unicode(city_id))
 
 
             else:
-               pgc_city=None
+               city_id=None
 
 
             post = {
                 '_id': _id,  # 活动ID
-                'city_id': ObjectId(city_id),  # 城市ID
+                'city_id': city_id,  # 城市ID
                 'title': title,  # 活动主题
                 'cover_image': cover_image  # 活动封面
             }
