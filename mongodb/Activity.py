@@ -41,11 +41,35 @@ class Activity:
                 city_id = kv_activity_city[unicode(_id)]
             else:
                 city_id = None
+
+            if 'address' in activity_old:
+                address = activity_old['address']
+            else:
+                address =None
+
+            if 'start_time' in activity_old:
+                start_time = activity_old['start_time']
+            else:
+                start_time =None
+
+            if 'end_time' in activity_old:
+                end_time = activity_old['end_time']
+            else:
+                end_time = None
+
+            if 'desc' in activity_old:
+                desc = activity_old['desc']
+            else:
+                desc = None
             post = {
                 '_id': _id,  # 活动ID
                 'city_id': city_id,  # 城市ID
                 'title': title,  # 活动主题
-                'cover_image': cover_image  # 活动封面
+                'cover_image': cover_image,  # 活动封面
+                'address': address,             #活动详细地址
+                'start_time': start_time,   #活动开始时间
+                'end_time': end_time,       #活动结束时间
+                'desc' : desc                   #活动描述
             }
             activity_new.insert(post)
 
