@@ -2,6 +2,7 @@
 # -*- coding: UTF-8 -*-
 
 from pymongo import MongoClient
+from bson.objectid import ObjectId
 
 
 class Activity:
@@ -26,8 +27,9 @@ class Activity:
         # clean former data
         activity_new.remove()
 
-        # map activities to city
+        # map activities to city and attraction
         kv_activity_city = Activity.get_city_activity(address_old, port_old)
+        kv_activity_attraction = Activity.get_attraction_activity(address_old, port_old)
 
         for activity_old in activities.find():
             _id = activity_old['_id']
@@ -42,6 +44,11 @@ class Activity:
                 city_id = kv_activity_city[unicode(_id)]
             else:
                 city_id = None
+
+            if _id in kv_activity_attraction:
+                attraction_id = kv_activity_attraction[_id]
+            else:
+                attraction_id = None
 
             if 'address' in activity_old:
                 address = activity_old['address']
@@ -65,6 +72,7 @@ class Activity:
             post = {
                 '_id': _id,  # 活动ID
                 'city_id': city_id,  # 城市ID
+                'attraction_id': attraction_id,  # 景点ID
                 'title': title,  # 活动主题
                 'cover_image': cover_image,  # 活动封面
                 'address': address,  # 活动详细地址
@@ -94,3 +102,24 @@ class Activity:
                         kv_activity_city[activity['_id']] = city_id
 
         return kv_activity_city
+
+    @staticmethod
+    def get_attraction_activity(address_old, port_old):
+        # old database connection
+        client = MongoClient(address_old, port_old)
+        travel1 = client.travel1
+
+        # old collection city
+        latest_attraction = travel1.latestattractions
+
+        kv_activity_attraction = {}
+        for attraction in latest_attraction.find():
+            attraction_id = attraction['_id']
+
+            if 'activities' in attraction:
+                activities = attraction['activities']
+                if len(activities) > 0:
+                    for activity in activities:
+                        kv_activity_attraction[ObjectId(activity['_id'])] = attraction_id
+
+        return kv_activity_attraction
