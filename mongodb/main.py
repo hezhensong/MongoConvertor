@@ -5,6 +5,7 @@ from City import City
 from Weather import Weather
 from Activity import Activity
 from Pgc import Pgc
+from Label import Label
 
 
 def main():
@@ -24,6 +25,9 @@ def main():
 
     print("convert pgc data")
     Pgc.convert_pgc(address_old, port_old, address_new, port_new)
+
+    print("convert label data")
+    Label.convert_label(address_old, port_old, address_new, port_new)
 
 
 if __name__ == "__main__":
