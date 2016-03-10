@@ -8,9 +8,9 @@ from Pgc import Pgc
 
 
 def main():
-    address_old = '123.56.65.17'
+    address_old = 'localhost'
     port_old = 27017
-    address_new = '192.168.230.128'
+    address_new = '192.168.6.102'
     port_new = 27017
 
     print("convert city data")

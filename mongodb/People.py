@@ -4,7 +4,7 @@
 from pymongo import MongoClient
 
 
-class People :
+class People:
     def __init__(self):
         pass
 
@@ -16,6 +16,7 @@ class People :
         # new database connection
         client = MongoClient(address_new, port_new)
         travel2 = client.travel2
+
         # old collection latest activities
         peoples = travel1.peoples
         peoples_new = travel2.people
@@ -46,11 +47,9 @@ class People :
 
             post = {
                 '_id': _id,  # 活动ID
-                'username' : username,
-                'job_desc' : job_desc,
-                'head_image' : head_image,
-                'simple_introduce' : simple_introduce
-
-
+                'username': username,
+                'job_desc': job_desc,
+                'head_image': head_image,
+                'simple_introduce': simple_introduce
             }
             peoples_new.insert(post)

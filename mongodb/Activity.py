@@ -10,6 +10,7 @@ class Activity:
 
     @staticmethod
     def convert_activity(address_old, port_old, address_new, port_new):
+
         # old database connection
         client = MongoClient(address_old, port_old)
         travel1 = client.travel1
@@ -45,12 +46,12 @@ class Activity:
             if 'address' in activity_old:
                 address = activity_old['address']
             else:
-                address =None
+                address = None
 
             if 'start_time' in activity_old:
                 start_time = activity_old['start_time']
             else:
-                start_time =None
+                start_time = None
 
             if 'end_time' in activity_old:
                 end_time = activity_old['end_time']
@@ -66,10 +67,10 @@ class Activity:
                 'city_id': city_id,  # 城市ID
                 'title': title,  # 活动主题
                 'cover_image': cover_image,  # 活动封面
-                'address': address,             #活动详细地址
-                'start_time': start_time,   #活动开始时间
-                'end_time': end_time,       #活动结束时间
-                'desc' : desc                   #活动描述
+                'address': address,  # 活动详细地址
+                'start_time': start_time,  # 活动开始时间
+                'end_time': end_time,  # 活动结束时间
+                'desc': desc  # 活动描述
             }
             activity_new.insert(post)
 
