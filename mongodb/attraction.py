@@ -2,7 +2,7 @@
 # -*- coding: UTF-8 -*-
 
 from pymongo import MongoClient
-from bson.objectid import ObjectId
+# from bson.objectid import ObjectId
 
 
 class Attraction:
