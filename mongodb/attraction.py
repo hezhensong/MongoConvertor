@@ -31,9 +31,12 @@ class Attraction:
             # address = attraction_old['address']
 
             # 是否线上展示
-            show_flag = attraction_old['show_flag']
-            if show_flag == u'1':
-                is_show = True
+            if 'show_flag' in attraction_old:
+                show_flag = attraction_old['show_flag']
+                if show_flag == u'1':
+                    is_show = True
+                else:
+                    is_show = False
             else:
                 is_show = False
 

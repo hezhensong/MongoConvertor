@@ -5,6 +5,7 @@ from pymongo import MongoClient
 from bson.objectid import ObjectId
 
 
+
 class Activity:
     def __init__(self):
         pass
