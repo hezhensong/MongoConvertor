@@ -20,7 +20,7 @@ class Restaurant:
                   'city_name':'city_name',               # 城市名字
                   'comments':'comments',                 # 评论
                   'comments_from':'comments_from',       # 评论来源
-                  'cover_image':'cover_image',           # 封面图片
+                  'cover_image':'cover_image',           # 背景图片
                   'create_at':'create_at',               # 创建时间
                   'image':'image',                       # 图片
                   'image_url':'image_url',               # 图片 url

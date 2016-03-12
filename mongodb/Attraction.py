@@ -22,7 +22,7 @@ class Attraction:
                   'cityname':'city_name',              # 城市名    
                   'comments':'comments',               # 评论 
                   'comments_from':'comments_from',     # 评论来源
-                  'coverImageName':'cover_image',      #　封面图片
+                  'coverImageName':'cover_image',      #　背景图片
                   'createPerson':'createPerson',       # 创建者
                   'created':'create_at',               # 创建时间
                   'rank':'ranking',                    # 排行 
