@@ -2,7 +2,6 @@
 # -*- coding: UTF-8 -*-
 
 from pymongo import MongoClient
-from bson.objectid import ObjectId
 
 
 class Label:
@@ -26,15 +25,6 @@ class Label:
         # clean former data
         label_new.remove()
 
-        # 转换父级标签
-        relation = {}
-        for label_old in labels_old.find():
-            _id = label_old['_id']
-
-            if label_old['subLabel'] is not None and len(label_old['subLabel']) > 0:
-                for label_child in label_old['subLabel']:
-                    relation[ObjectId(label_child)] = _id
-
         for label_old in labels_old.find():
             _id = label_old['_id']
             title = label_old['label']
@@ -45,18 +35,29 @@ class Label:
             else:
                 title_en = None
 
-            level = int(label_old['level'])
-            if _id in relation:
-                parent = relation[_id]
-            else:
-                parent = None
+            post = {
+                '_id': _id,  # 标签ID
+                'name': title,  # 标签中文名
+                'name_en': title_en,  # 标签英文名
+                'type': 0,  # 标签类型
+            }
+            label_new.insert(post)
+            print(post)
+
+        # old collection latest city
+        categories = travel1.categories
+
+        for category in categories.find():
+            _id = category['_id']
+            title = category['name']
+            title_en = category['en_name']
+            category_type = int(category['type'])
 
             post = {
                 '_id': _id,  # 标签ID
-                'title': title,  # 标签中文名
-                'title_en': title_en,  # 标签英文名
-                'level': level,  # 标签层级
-                'parent': parent,  # 父级标签
+                'name': title,  # 标签中文名
+                'name_en': title_en,  # 标签英文名
+                'type': category_type,  # 标签类型
             }
             label_new.insert(post)
             print(post)

@@ -37,23 +37,23 @@ class City:
             else:
                 city_cover_image = None
 
-            # old collection latest city
-            labels_old = travel1.label
-
             # 主题ID list
-            label_list = []
+            label = travel2.label
+            label_dict = {}
             if 'attrlabels' in city_old:
                 label_list_old = city_old['attrlabels']
+
                 if len(label_list_old) > 0:
                     for label_old in label_list_old:
-                        label = label_old['_id']
-                        if label != u'{{_id}}':
-                            label_temp = labels_old.find_one({"_id": ObjectId(label)})
+                        label_id = ObjectId(label_old['_id'])
+                        if label_id != u'{{_id}}':
+                            label_temp = label.find_one({"_id": label_id})
+                            name = label_temp['name']
 
-                            label_id = ObjectId(label)
-                            title = label_temp["label"]
-
-                            label_list.append({"_id": label_id, "title": title})
+                            if str(label_temp['type']) in label_dict.keys():
+                                label_dict[str(label_temp['type'])].append({"_id": label_id, "name": name})
+                            else:
+                                label_dict[str(label_temp['type'])] = [{"_id": label_id, "name": name}]
 
             # 是否线上展示
             show_flag = city_old['show_flag']
@@ -68,7 +68,7 @@ class City:
                 'city_name_en': city_name_en,  # 城市英文名
                 'city_name_py': city_name_py,  # 城市中文名拼音
                 'city_cover_image': city_cover_image,  # 城市首页背景图片
-                'label_list': label_list,  # 主题ID列表
+                'label_list': label_dict,  # 主题ID列表
                 'is_show': is_show  # 是否线上展示
             }
             city_new.insert(post)
