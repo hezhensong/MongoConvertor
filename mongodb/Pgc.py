@@ -87,3 +87,4 @@ class Pgc:
                 'person': person
             }
             pgc_new.insert(post)
+            print(post)

@@ -25,20 +25,21 @@ class Attraction:
                   'coverImageName':'cover_image',      #　背景图片
                   'createPerson':'createPerson',       # 创建者
                   'created':'create_at',               # 创建时间
-                  'rank':'ranking',                    # 排行 
+#                  'rank':'ranking',                    # 排行 
                   'image':'image',                     # 图片 
                   'image_url':'image_url',             # 图片 url 
                   'introduce':'introduce',             # 介绍
                   'latitude':'latitude',               # 纬度
                   'longitude':'longitude',             # 经度
                   'masterLabelNew':'master_label',     # 景点所属主题
-                  'opentime':'open_time',              # 开放时间
+                  'open_time':'open_time',              # 开放时间
                   'price':'price_desc',                # 价格描述
                   'short_introduce':'brief_introduce', # 简介
                   'telno':'tel',                       # 电话
                   'tips':'tips',                       # 提示
                   'traffic_info':'traffic_info',       # 交通信息
-                  'website':'website'                  # 网站
+                  'website':'website',                 # 网站
+                  'yelp_rating':'yelp_rating'          # 评分      
                   }
     
     @staticmethod
@@ -84,15 +85,15 @@ class Attraction:
                 
             # 是否推荐
             if 'recommand_flag' in document:
-                is_recommand = document['recommand_flag']
-                if is_recommand == u'1':
-                    is_recommand = True
+                is_recommend = document['recommand_flag']
+                if is_recommend == u'1':
+                    is_recommend = True
                 else:
-                    is_recommand = False
+                    is_recommend = False
             else:
-                is_recommand = False
+                is_recommend = False
 
-            other.update({'is_show':is_show, 'is_recommand':is_recommand})
+            other.update({'is_show':is_show, 'is_recommend':is_recommend})
             
             post = {}      
             post.update(other)

@@ -58,3 +58,4 @@ class City:
                 'is_show': is_show  # 是否线上展示
             }
             city_new.insert(post)
+            print(post)

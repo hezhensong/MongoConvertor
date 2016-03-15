@@ -39,7 +39,8 @@ class Restaurant:
                   'tags_zh':'tags_zh',                   # 中文标签
                   'tel':'tel',                           # 电话
                   'tips':'tips',                         # 提示
-                  'website':'website'                    # 网址
+                  'website':'website',                   # 网址
+                  'price_level':'price_level'            # 价格水平
                   }
     
     @staticmethod

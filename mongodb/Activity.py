@@ -26,7 +26,9 @@ class Activity:
                   'order_url':'order_url',      # 订票地址
                   'start_time':'start_time',    # 开始时间
                   'title':'title',              # 标题 
-                  'images_desc':'images_desc'   # 图片描述 
+                  'images_desc':'images_desc',  # 图片描述 
+                  'latitude':'latitude',        # 纬度
+                  'longitude':'longitude'       # 经度
                   }
     
     def __init__(self):

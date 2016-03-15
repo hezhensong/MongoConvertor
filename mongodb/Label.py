@@ -59,3 +59,4 @@ class Label:
                 'parent': parent,  # 父级标签
             }
             label_new.insert(post)
+            print(post)
