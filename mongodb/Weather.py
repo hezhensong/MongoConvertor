@@ -2,6 +2,8 @@
 # -*- coding: UTF-8 -*-
 
 from pymongo import MongoClient
+from bson.objectid import ObjectId
+import json
 
 
 class Weather:
@@ -14,7 +16,7 @@ class Weather:
                   'cityname': 'city_name',  # 城市名字
                   'cityname_en': 'city_name_en',  # 城市英文名字
                   'timestamp': 'timestamp',  # 更新时间
-                  'yahoo_weather': 'yahoo_weather'  # Yahoo天气详情
+#                  'yahooWeather': 'yahoo_weather'  # Yahoo天气详情
                   }
 
     def __init__(self):
@@ -49,8 +51,46 @@ class Weather:
                     temp[i] = document[params_map.keys()[i]]
 
             # 需要特殊处理的字段,处理后以字典的形式添加到 other 中
+            yahoo_weather = None
+            description = None
+            temperature = None
+            high = None
+            low = None
+            sunrise = None
+            sunset = None
+            updateTime = None
             other = {}
-
+            if 'yahooWeather' in document:
+                print(document['_id'])
+                yahoo_weather = document['yahooWeather']
+                
+                if document['_id'] == ObjectId('5602ae56da00caf21d010410') or document['_id'] == ObjectId('5602ba7e6c529a1d1f19efa2'):
+                    jsonStr = yahoo_weather 
+                else:
+                    jsonStr = json.loads(yahoo_weather)
+                    
+                dic = jsonStr['query']['results']['channel']
+                description = dic['item']['condition']['text']
+                temperature = dic['item']['condition']['temp']
+                sunrise = dic['astronomy']['sunrise']
+                sunset = dic['astronomy']['sunset']
+                updateTime = dic['lastBuildDate']
+               
+                forecast = []
+                forecastTemp = dic['item']['forecast']
+                for i in range(len(forecastTemp)):
+                    forecastDetail = {}
+                    forecastDetail.update({'date':forecastTemp[i]['date']})
+                    forecastDetail.update({'description':forecastTemp[i]['text']})
+                    forecastDetail.update({'high':forecastTemp[i]['high']})
+                    forecastDetail.update({'low':forecastTemp[i]['low']})
+                    forecast.append(forecastDetail)
+                
+                other.update({'condition':{'description':description,'temperature':temperature,
+                                           'high':forecastTemp[0]['high'],'low':forecastTemp[0]['low'],
+                                           'sunrise':sunrise,'sunset':sunset,
+                                           'updateTime':updateTime},'forecast':forecast})
+                
             post = {}
             post.update(other)
             for i in range(len(params_map.keys())):
