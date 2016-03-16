@@ -31,6 +31,7 @@ class City:
             city_name = city_old['cityname']
             city_name_en = city_old['cityname_en']
             city_name_py = city_old['cityname_py']
+            continent_code = city_old['continentscode']
 
             if 'coverImageName' in city_old:
                 city_cover_image = city_old['coverImageName']
@@ -55,6 +56,11 @@ class City:
                             else:
                                 label_dict[str(label_temp['type'])] = [{"_id": label_id, "name": name}]
 
+            area = {
+                'continent': city_old['continents'],
+                'country': city_old['countryname']
+            }
+
             # 是否线上展示
             show_flag = city_old['show_flag']
             if show_flag == u'1':
@@ -64,11 +70,13 @@ class City:
 
             post = {
                 '_id': _id,  # 城市ID
-                'city_name': city_name,  # 城市中文名
-                'city_name_en': city_name_en,  # 城市英文名
-                'city_name_py': city_name_py,  # 城市中文名拼音
-                'city_cover_image': city_cover_image,  # 城市首页背景图片
+                'name': city_name,  # 城市中文名
+                'name_en': city_name_en,  # 城市英文名
+                'name_py': city_name_py,  # 城市中文名拼音
+                'continent_code': continent_code,  # 城市所在大洲
+                'cover_image': city_cover_image,  # 城市首页背景图片
                 'label_list': label_dict,  # 主题ID列表
+                'area': area,
                 'is_show': is_show  # 是否线上展示
             }
             city_new.insert(post)
