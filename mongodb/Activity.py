@@ -3,6 +3,9 @@
 
 from pymongo import MongoClient
 from bson.objectid import ObjectId
+import datetime
+import time
+import pymongo
 
 
 class Activity:
@@ -18,13 +21,13 @@ class Activity:
     params_map = {'_id':'_id',                  # 活动 ID
                   'acttime':'act_time',         # 活动时间
                   'acturl':'act_url',           # 活动 url 
-                  'atype':'atype',              # 活动类型
+                  'atype':'type',              # 活动类型
                   'cover_image':'cover_image',  # 背景图片
                   'deaddress':'detail_address', # 详细地址
                   'desc':'desc',                # 描述
-                  'end_time':'end_time',        # 结束时间
+#                  'end_time':'end_time',        # 结束时间
                   'order_url':'order_url',      # 订票地址
-                  'start_time':'start_time',    # 开始时间
+#                  'start_time':'start_time',    # 开始时间
                   'title':'title',              # 标题 
                   'images_desc':'images_desc',  # 图片描述 
                   'latitude':'latitude',        # 纬度
@@ -65,6 +68,22 @@ class Activity:
             # 需要特殊处理的字段,处理后以字典的形式添加到 other 中
             other = {}
             
+            start_time = None
+            end_time = None
+            if 'start_time' in document:
+                temp_start = document['start_time']
+                start_year = int(temp_start[0:4])
+                start_month = int(temp_start[4:6])
+                start_date = int(temp_start[6:8])
+                start_time = datetime.datetime(start_year, start_month, start_date)
+            if 'end_time' in document:
+                temp_end = document['end_time']
+                end_year = int(temp_end[0:4])
+                end_month = int(temp_end[4:6])
+                end_date = int(temp_end[6:8])
+                end_time = datetime.datetime(end_year, end_month, end_date)
+                
+            other.update({'start_time':start_time,'end_time':end_time})
             post = {}      
             post.update(other)
             for i in range(len(params_map.keys())):

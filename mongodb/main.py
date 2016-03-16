@@ -13,14 +13,13 @@ from Shopping import Shopping
 from RecommendDynamic import RecommendDynamic
 from Plan import Plan
 from LabelType import LabelType
-from Area import Area
 
 
 def main():
-    address_old = '192.168.37.128'
+    address_old = '123.56.65.17'
     port_old = 27017
-    address_new = '192.168.37.128'
-    port_new = 27017
+    address_new = '192.168.6.254'
+    port_new = 37017
 
     print("convert label type data")
     LabelType.insert_label_type(address_new, port_new)
@@ -28,10 +27,7 @@ def main():
     print("convert label data")
     Label.convert_label(address_old, port_old, address_new, port_new)
 
-    print("convert area data")
-    Area.insert_area(address_old, port_old, address_new, port_new)
-
-    # 城市表 依赖新导入的Label表,
+    # 城市表 依赖新导入的Label表，需保证City前导入Label
     print("convert city data")
     City.convert_city(address_old, port_old, address_new, port_new)
 
