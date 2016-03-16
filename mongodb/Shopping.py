@@ -7,9 +7,9 @@ from ConvertUtil import ConvertUtil
 
 class Shopping:
     
-    database_old = 'shoppings'
+    collection_old = 'shoppings'
      
-    database_new = 'shopping'
+    collection_new = 'shopping'
     
     params_map = {'_id':'_id',                    # 购物 ID
                   'address':'address',            # 购物地址
@@ -38,7 +38,7 @@ class Shopping:
         pass
     
     @staticmethod
-    def convert_shopping(address_old, port_old, address_new, port_new, database_old, database_new,
+    def convert_shopping(address_old, port_old, address_new, port_new, collection_old, collection_new,
                      params_map):
       
         # old database connection
@@ -50,8 +50,8 @@ class Shopping:
         travel2 = client.travel2
       
         # get old collection and coeate new collection
-        db_old = travel1[database_old]
-        db_new = travel2[database_new]
+        db_old = travel1[collection_old]
+        db_new = travel2[collection_new]
 
         # clean former data
         db_new.remove()

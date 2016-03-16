@@ -7,23 +7,20 @@ import json
 
 
 class Weather:
-    database_old = 'weathers'
+    collection_old = 'weathers'
 
-    database_new = 'weather'
+    collection_new = 'weather'
 
-    params_map = {'_id': '_id',  # 天气 ID
-                  'city_id': 'city_id',  # 城市 ID
-                  'cityname': 'city_name',  # 城市名字
-                  'cityname_en': 'city_name_en',  # 城市英文名字
-                  'timestamp': 'timestamp',  # 更新时间
-                  #                  'yahooWeather': 'yahoo_weather'  # Yahoo天气详情
+    params_map = {'_id': '_id', # 天气 ID
+                  'city_id': 'city_id', # 城市 ID
+                  'timestamp': 'timestamp'  # 更新时间
                   }
 
     def __init__(self):
         pass
 
     @staticmethod
-    def convert_weather(address_old, port_old, address_new, port_new, database_old, database_new,
+    def convert_weather(address_old, port_old, address_new, port_new, collection_old, collection_new,
                         params_map):
 
         # old database connection
@@ -35,8 +32,8 @@ class Weather:
         travel2 = client.travel2
 
         # get old collection and coeate new collection
-        db_old = travel1[database_old]
-        db_new = travel2[database_new]
+        db_old = travel1[collection_old]
+        db_new = travel2[collection_new]
 
         # clean former data
         db_new.remove()
@@ -58,7 +55,7 @@ class Weather:
             low = None
             sunrise = None
             sunset = None
-            updateTime = None
+            update_time = None
             other = {}
             if 'yahooWeather' in document:
                 print(document['_id'])
@@ -75,7 +72,7 @@ class Weather:
                 temperature = dic['item']['condition']['temp']
                 sunrise = dic['astronomy']['sunrise']
                 sunset = dic['astronomy']['sunset']
-                updateTime = dic['lastBuildDate']
+                update_time = dic['lastBuildDate']
 
                 forecast = []
                 forecastTemp = dic['item']['forecast']
@@ -90,7 +87,7 @@ class Weather:
                 other.update({'condition': {'description': description, 'temperature': temperature,
                                             'high': forecastTemp[0]['high'], 'low': forecastTemp[0]['low'],
                                             'sunrise': sunrise, 'sunset': sunset,
-                                            'updateTime': updateTime}, 'forecast': forecast})
+                                            'update_time': update_time}, 'forecast': forecast})
 
             post = {}
             post.update(other)

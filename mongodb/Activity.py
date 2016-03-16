@@ -9,10 +9,10 @@ from pymongo import MongoClient
 class Activity:
     
     # 定义旧集合的名字
-    database_old = 'activities'
+    collection_old = 'activities'
     
     # 定义新集合的名字
-    database_new = 'activity'
+    collection_new = 'activity'
     
     # 定义参数字典,其中键为旧集合的字段名,值为新集合的字段名
     # 注意:这里只定义不需要做特殊处理的字段
@@ -23,20 +23,17 @@ class Activity:
                   'cover_image':'cover_image',  # 背景图片
                   'deaddress':'detail_address', # 详细地址
                   'desc': 'desc',                # 描述
-                  #'end_time':'end_time',        # 结束时间
                   'order_url':'order_url',      # 订票地址
-#                  'start_time':'start_time',    # 开始时间
                   'title':'title',              # 标题 
-                  'images_desc':'images_desc',  # 图片描述 
-                  'latitude':'latitude',        # 纬度
-                  'longitude':'longitude'       # 经度
+#                  'latitude':'latitude',        # 纬度
+#                  'longitude':'longitude'       # 经度
                   }
     
     def __init__(self):
         pass
 
     @staticmethod
-    def convert_activity(address_old, port_old, address_new, port_new, database_old, database_new,
+    def convert_activity(address_old, port_old, address_new, port_new, collection_old, collection_new,
                      params_map):
       
         # old database connection
@@ -48,8 +45,8 @@ class Activity:
         travel2 = client.travel2
       
         # get old collection and coeate new collection
-        db_old = travel1[database_old]
-        db_new = travel2[database_new]
+        db_old = travel1[collection_old]
+        db_new = travel2[collection_new]
 
         # clean former data
         db_new.remove()
@@ -68,6 +65,9 @@ class Activity:
             
             start_time = None
             end_time = None
+            coordination = None
+            latitude = None
+            longitude = None
             if 'start_time' in document:
                 temp_start = document['start_time']
                 start_year = int(temp_start[0:4])
@@ -80,8 +80,16 @@ class Activity:
                 end_month = int(temp_end[4:6])
                 end_date = int(temp_end[6:8])
                 end_time = datetime.datetime(end_year, end_month, end_date)
+            if 'latitude' in document:
+                latitude =  document['latitude']
+            if 'longitude' in document:
+                longitude =  document['longitude']
+                coordination = latitude + ',' + longitude
+            
                 
-            other.update({'start_time':start_time,'end_time':end_time})
+            other.update({'start_time':start_time, 'end_time':end_time, 'coordination': coordination,
+                          'paragraphs':{'imageTitle': None, 'imageUrl': None,
+                                        'detailUp': None, 'detailDown': None, 'imageBrief': None}})
             post = {}      
             post.update(other)
             for i in range(len(params_map.keys())):

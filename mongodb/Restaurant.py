@@ -9,9 +9,9 @@ class Restaurant:
     def __init__(self):
         pass
     
-    database_old = 'restaurants'
+    collection_old = 'restaurants'
     
-    database_new = 'restaurant'
+    collection_new = 'restaurant'
     
     params_map = {'_id':'_id',                           # 餐厅ID
                   'address':'address',                   # 餐厅地址
@@ -44,7 +44,7 @@ class Restaurant:
                   }
     
     @staticmethod
-    def convert_restaurant(address_old, port_old, address_new, port_new, database_old, database_new,
+    def convert_restaurant(address_old, port_old, address_new, port_new, collection_old, collection_new,
                      params_map):
       
         # old database connection
@@ -56,8 +56,8 @@ class Restaurant:
         travel2 = client.travel2
       
         # get old collection and coeate new collection
-        db_old = travel1[database_old]
-        db_new = travel2[database_new]
+        db_old = travel1[collection_old]
+        db_new = travel2[collection_new]
 
         # clean former data
         db_new.remove()

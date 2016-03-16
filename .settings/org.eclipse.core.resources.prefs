@@ -1,5 +1,6 @@
 eclipse.preferences.version=1
 encoding//mongodb/Activity.py=UTF-8
+encoding//mongodb/Area.py=UTF-8
 encoding//mongodb/Attraction.py=UTF-8
 encoding//mongodb/City.py=UTF-8
 encoding//mongodb/ConvertUtil.py=UTF-8
@@ -12,4 +13,5 @@ encoding//mongodb/RecommendDynamic.py=UTF-8
 encoding//mongodb/Restaurant.py=UTF-8
 encoding//mongodb/Shopping.py=UTF-8
 encoding//mongodb/Weather.py=UTF-8
+encoding//mongodb/WeatherHistory.py=UTF-8
 encoding//mongodb/main.py=UTF-8

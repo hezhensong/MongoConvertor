@@ -6,6 +6,7 @@ from City import City
 from Label import Label
 from Pgc import Pgc
 from Weather import Weather
+from WeatherHistory import WeatherHistory
 from Attraction import Attraction
 from Restaurant import Restaurant
 from Shopping import Shopping
@@ -15,55 +16,59 @@ from LabelType import LabelType
 
 
 def main():
-    address_old = '192.168.37.128'
+    address_old = 'localhost'
     port_old = 27017
-    address_new = '192.168.37.128'
-    port_new = 27017
+    address_new = '192.168.6.254'
+    port_new = 37017
 
     print("convert label type data")
-    LabelType.insert_label_type(address_new, port_new)
+#    LabelType.insert_label_type(address_new, port_new)
 
     print("convert label data")
-    Label.convert_label(address_old, port_old, address_new, port_new)
+#    Label.convert_label(address_old, port_old, address_new, port_new)
 
     # 城市表 依赖新导入的Label表，需保证City前导入Label
     print("convert city data")
-    City.convert_city(address_old, port_old, address_new, port_new)
+#    City.convert_city(address_new, port_new, address_new, port_new)
 
     print("convert weather data")
-    Weather.convert_weather(address_old, port_old, address_new, port_new,
-                            Weather.database_old, Weather.database_new, Weather.params_map)
+#    Weather.convert_weather(address_old, port_old, address_new, port_new,
+#                            Weather.collection_old, Weather.collection_new, Weather.params_map)
+    
+    # 特别注意  weather_history 表依赖于当前的 weather 表
+    print("create weather_history data")
+#    WeatherHistory.create_weather_history(address_new, port_new, address_new, port_new,
+#                            WeatherHistory.collection_old, WeatherHistory.collection_new, WeatherHistory.params_map)
 
     print("convert pgc data")
-    Pgc.convert_pgc(address_old, port_old, address_new, port_new)
+#    Pgc.convert_pgc(address_old, port_old, address_new, port_new)
 
     print("convert label data")
-    Label.convert_label(address_old, port_old, address_new, port_new)
+#    Label.convert_label(address_old, port_old, address_new, port_new)
 
     print("convert attraction data")
-    Attraction.convert_attraction(address_old, port_old, address_new, port_new,
-                                  Attraction.database_old, Attraction.database_new, Attraction.params_map)
+#    Attraction.convert_attraction(address_old, port_old, address_new, port_new,
+#                                  Attraction.collection_old, Attraction.collection_new, Attraction.params_map)
 
     print("convert restaurant data")
-    Restaurant.convert_restaurant(address_old, port_old, address_new, port_new,
-                                  Restaurant.database_old, Restaurant.database_new, Restaurant.params_map)
+#    Restaurant.convert_restaurant(address_old, port_old, address_new, port_new,
+#                                  Restaurant.collection_old, Restaurant.collection_new, Restaurant.params_map)
 
     print("convert shopping data")
-    Shopping.convert_shopping(address_old, port_old, address_new, port_new,
-                              Shopping.database_old, Shopping.database_new, Shopping.params_map)
+#    Shopping.convert_shopping(address_old, port_old, address_new, port_new,
+#                              Shopping.collection_old, Shopping.collection_new, Shopping.params_map)
 
     print("convert activity data")
     Activity.convert_activity(address_old, port_old, address_new, port_new,
-                              Activity.database_old, Activity.database_new, Activity.params_map)
+                              Activity.collection_old, Activity.collection_new, Activity.params_map)
 
     print("convert recommendBynamic data")
-    RecommendDynamic.convert_recommendDynamic(address_old, port_old, address_new, port_new,
-                                              RecommendDynamic.database_old, RecommendDynamic.database_new,
-                                              RecommendDynamic.params_map)
+#    RecommendDynamic.convert_recommendDynamic(address_old, port_old, address_new, port_new,RecommendDynamic.collection_old, 
+#                               RecommendDynamic.collection_new, RecommendDynamic.params_map)
 
     print("convert plan data")
-    Plan.convert_plan(address_old, port_old, address_new, port_new,
-                      Plan.database_old, Plan.database_new, Plan.params_map)
+#    Plan.convert_plan(address_old, port_old, address_new, port_new,
+#                      Plan.collection_old, Plan.collection_new, Plan.params_map)
     print("OK")
 
 

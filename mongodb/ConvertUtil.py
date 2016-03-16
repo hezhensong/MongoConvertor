@@ -6,10 +6,10 @@ from pymongo import MongoClient
 
 class ConvertUtil:
     # 定义旧集合的名字
-    database_old = ''
+    collection_old = ''
 
     # 定义新集合的名字
-    database_new = ''
+    collection_new = ''
 
     # 定义参数字典,其中键为旧集合的字段名,值为新集合的字段名
     # 注意:这里只定义不需要做特殊处理的字段
@@ -19,7 +19,7 @@ class ConvertUtil:
         pass
 
     @staticmethod
-    def convert_util(address_old, port_old, address_new, port_new, database_old, database_new,
+    def convert_util(address_old, port_old, address_new, port_new, collection_old, collection_new,
                      params_map):
 
         # old database connection
@@ -31,8 +31,8 @@ class ConvertUtil:
         travel2 = client.travel2
 
         # get old collection and create new collection
-        db_old = travel1[database_old]
-        db_new = travel2[database_new]
+        db_old = travel1[collection_old]
+        db_new = travel2[collection_new]
 
         # clean former data
         db_new.remove()
