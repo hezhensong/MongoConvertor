@@ -31,7 +31,6 @@ class City:
             city_name = city_old['cityname']
             city_name_en = city_old['cityname_en']
             city_name_py = city_old['cityname_py']
-            continent_code = city_old['continentscode']
 
             if 'coverImageName' in city_old:
                 city_cover_image = city_old['coverImageName']
@@ -73,7 +72,6 @@ class City:
                 'name': city_name,  # 城市中文名
                 'name_en': city_name_en,  # 城市英文名
                 'name_py': city_name_py,  # 城市中文名拼音
-                'continent_code': continent_code,  # 城市所在大洲
                 'cover_image': city_cover_image,  # 城市首页背景图片
                 'label_list': label_dict,  # 主题ID列表
                 'area': area,

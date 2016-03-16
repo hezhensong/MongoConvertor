@@ -1,11 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 
-from pymongo import MongoClient
-from bson.objectid import ObjectId
 import datetime
-import time
-import pymongo
+
+from pymongo import MongoClient
 
 
 class Activity:
@@ -24,8 +22,8 @@ class Activity:
                   'atype':'type',              # 活动类型
                   'cover_image':'cover_image',  # 背景图片
                   'deaddress':'detail_address', # 详细地址
-                  'desc':'desc',                # 描述
-#                  'end_time':'end_time',        # 结束时间
+                  'desc': 'desc',                # 描述
+                  #'end_time':'end_time',        # 结束时间
                   'order_url':'order_url',      # 订票地址
 #                  'start_time':'start_time',    # 开始时间
                   'title':'title',              # 标题 
