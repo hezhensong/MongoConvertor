@@ -13,16 +13,17 @@ class WeatherHistory:
 
     # 定义参数字典,其中键为旧集合的字段名,值为新集合的字段名
     # 注意:这里只定义不需要做特殊处理的字段
-    params_map = {'city_id': 'city_id',
-                  'timestamp': 'timestamp'
-                  }
+    params_map = {
+        'city_id': 'city_id',
+        'timestamp': 'timestamp'
+    }
 
     def __init__(self):
         pass
 
     @staticmethod
     def create_weather_history(address_old, port_old, address_new, port_new, collection_old, collection_new,
-                     params_map):
+                               params_map):
 
         # old database connection
         client = MongoClient(address_old, port_old)
@@ -58,7 +59,7 @@ class WeatherHistory:
             low = None
             high = None
             temperature = None
-            
+
             if 'condition' in document:
                 condition = document['condition']
                 print(condition)
@@ -71,14 +72,14 @@ class WeatherHistory:
                 if 'sunset' in condition:
                     sunset = condition['sunset']
                 if 'low' in condition:
-                    low = condition['low']  
+                    low = condition['low']
                 if 'high' in condition:
-                    high = condition['high'] 
+                    high = condition['high']
                 if 'temperature' in condition:
                     temperature = condition['temperature']
-                
-                other.update({'update_time': update_time, 'description': description,'temperature': temperature,
-                               'sunrise': sunrise, 'sunset': sunset, 'low': low, 'high': high})
+
+                other.update({'update_time': update_time, 'description': description, 'temperature': temperature,
+                              'sunrise': sunrise, 'sunset': sunset, 'low': low, 'high': high})
             post = {}
             post.update(other)
             for i in range(len(params_map.keys())):

@@ -41,8 +41,21 @@ class City:
             label = travel2.label
             label_dict = {}
             if 'attrlabels' in city_old:
-                label_list_old = city_old['attrlabels']
 
+                label_list_old = city_old['attrlabels']
+                if len(label_list_old) > 0:
+                    for label_old in label_list_old:
+                        label_id = ObjectId(label_old['_id'])
+                        if label_id != u'{{_id}}':
+                            label_temp = label.find_one({"_id": label_id})
+                            name = label_temp['name']
+
+                            if str(label_temp['type']) in label_dict.keys():
+                                label_dict[str(label_temp['type'])].append({"_id": label_id, "name": name})
+                            else:
+                                label_dict[str(label_temp['type'])] = [{"_id": label_id, "name": name}]
+
+                label_list_old = city_old['shoplabels']
                 if len(label_list_old) > 0:
                     for label_old in label_list_old:
                         label_id = ObjectId(label_old['_id'])

@@ -4,9 +4,6 @@
 from pymongo import MongoClient
 
 
-# from bson.objectid import ObjectId
-
-
 class Attraction:
     def __init__(self):
         pass
@@ -76,14 +73,14 @@ class Attraction:
             other = {}
 
             if 'latitude' in document:
-                latitude =  document['latitude']
+                latitude = document['latitude']
             if 'longitude' in document:
-                longitude =  document['longitude']
+                longitude = document['longitude']
                 coordination = latitude + ',' + longitude
-                
+
             if 'open_time' in document:
                 ''
-            
+
             # 是否线上展示
             if 'show_flag' in document:
                 show_flag = document['show_flag']
