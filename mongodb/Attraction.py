@@ -4,9 +4,6 @@
 from pymongo import MongoClient
 
 
-# from bson.objectid import ObjectId
-
-
 class Attraction:
     def __init__(self):
         pass
@@ -15,27 +12,27 @@ class Attraction:
 
     collection_new = 'attraction'
 
-    params_map = {'_id': '_id',  # 景点 ID
-                  'activities': 'activities',  # 景点活动
-                  'address': 'address',  # 景点地址
-                  'attractions': 'name',  # 景点名
-                  'attractions_en': 'name_en',  # 景点英文名
-                  'city_id': 'city_id',  # 城市 ID
-                  'cityname': 'city_name',  # 城市名
-                  'comments': 'comments',  # 评论
-                  'comments_from': 'comments_from',  # 评论来源
-                  'comments_url': 'comments_url',  # 评论 url
-                  'coverImageName': 'cover_image',  # 背景图片
-                  'image': 'image',  # 图片
-                  'introduce': 'introduction',  # 介绍
-                  'masterLabelNew': 'master_label',  # 景点主标签
-                  'subLabelNew': 'sub_label',        # 景点次标签  
-                  'price': 'price_desc',  # 价格描述
-                  'short_introduce': 'brief_introduction',  # 简介
-                  'telno': 'tel',  # 电话
-                  'tips': 'tips',  # 提示
-                  'website': 'website',  # 网站
-                  'yelp_rating': 'rating',  # 评分
+    params_map = {'_id': '_id', # 景点 ID
+                  'activities': 'activities', # 景点活动
+                  'address': 'address', # 景点地址
+                  'attractions': 'name', # 景点名
+                  'attractions_en': 'name_en', # 景点英文名
+                  'city_id': 'city_id', # 城市 ID
+                  'cityname': 'city_name', # 城市名
+                  'comments': 'comments', # 评论
+                  'comments_from': 'comments_from', # 评论来源
+                  'comments_url': 'comments_url', # 评论 url
+                  'coverImageName': 'cover_image', # 背景图片
+                  'image': 'image', # 图片
+                  'introduce': 'introduction', # 介绍
+                  'masterLabelNew': 'master_label', # 景点主标签
+                  'subLabelNew': 'sub_label', # 景点次标签  
+                  'price': 'price_desc', # 价格描述
+                  'short_introduce': 'brief_introduction', # 简介
+                  'telno': 'tel', # 电话
+                  'tips': 'tips', # 提示
+                  'website': 'website', # 网站
+                  'yelp_rating': 'rating', # 评分
                   'spot': 'spot' 
                   }
 
@@ -76,11 +73,13 @@ class Attraction:
             other = {}
 
             if 'latitude' in document:
-                latitude =  str(document['latitude'])
+
+                latitude = str(document['latitude'])
             if 'longitude' in document:
-                longitude =  str(document['longitude'])
+                longitude = str(document['longitude'])
+
                 coordination = latitude + ',' + longitude
-                
+
             if 'open_time' in document:
                 temp_open_time = document['open_time']
                 if type(temp_open_time) == dict:
@@ -88,7 +87,7 @@ class Attraction:
                         open_time.append(temp_open_time[i]['desc'])
                 else:
                     open_time.append(temp_open_time)
-            
+
             # 是否线上展示
             if 'show_flag' in document:
                 show_flag = document['show_flag']
@@ -110,7 +109,7 @@ class Attraction:
                 is_recommend = False
 
             other.update({'is_show': is_show, 'is_recommend': is_recommend,
-                          'coordination': coordination ,'open_time': open_time,
+                          'coordination': coordination , 'open_time': open_time,
                           'open_table_url': None,
                           'last_modified_person': None, 'last_modified_time': None})
 

@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 
-from pymongo import MongoClient
-from bson.objectid import ObjectId
 import json
+
+from bson.objectid import ObjectId
+from pymongo import MongoClient
 
 
 class Weather:
@@ -11,8 +12,8 @@ class Weather:
 
     collection_new = 'weather'
 
-    params_map = {'_id': '_id', # 天气 ID
-                  'city_id': 'city_id', # 城市 ID
+    params_map = {'_id': '_id',  # 天气 ID
+                  'city_id': 'city_id',  # 城市 ID
                   'timestamp': 'timestamp'  # 更新时间
                   }
 
