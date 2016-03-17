@@ -45,19 +45,24 @@ class Label:
             print(post)
 
         # old collection latest city
-        categories = travel1.categories
+        latestcity = travel1.latestcity
+        res_label_dict = {}
 
-        for category in categories.find():
-            _id = category['_id']
-            title = category['name']
-            title_en = category['en_name']
-            category_type = int(category['type'])
+        for city in latestcity.find():
+            if 'reslabels' not in city:
+                continue
 
-            post = {
-                '_id': _id,  # 标签ID
-                'name': title,  # 标签中文名
-                'name_en': title_en,  # 标签英文名
-                'type': category_type,  # 标签类型
-            }
-            label_new.insert(post)
-            print(post)
+            for reslabel in city['reslabels']:
+                _id = reslabel['_id']
+                name = reslabel['title']
+                if _id not in res_label_dict.keys():
+                    res_label_dict[_id] = True
+
+                    post = {
+                        '_id': _id,  # 标签ID
+                        'name': name,  # 标签中文名
+                        'name_en': None,  # 标签英文名
+                        'type': 1,  # 标签类型
+                    }
+                    label_new.insert(post)
+                    print(post)

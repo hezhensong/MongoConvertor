@@ -30,6 +30,9 @@ class Tag:
             title_en = category['en_name']
             label_type = int(category['type'])
 
+            if label_type == 3:
+                label_type = 2
+
             post = {
                 '_id': _id,  # 标签ID
                 'name': title,  # 标签中文名

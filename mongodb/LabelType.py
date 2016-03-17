@@ -26,22 +26,22 @@ class LabelType:
         print(post)
 
         post = {'type_id': 1,  # 标签类型ID
-                'name': u"购物",  # 标签类型中文名
+                'name': u"餐厅",  # 标签类型中文名
                 'name_en': u"shopping"  # 标签类型英文名
                 }
         label_type.insert(post)
         print(post)
 
         post = {'type_id': 2,  # 标签类型ID
-                'name': u"餐厅",  # 标签类型中文名
+                'name': u"购物",  # 标签类型中文名
                 'name_en': u"restaurant"  # 标签类型英文名
                 }
         label_type.insert(post)
         print(post)
 
-        post = {'type_id': 3,  # 标签类型ID
-                'name': u"购物圈",  # 标签类型中文名
-                'name_en': u"shopping"  # 标签类型英文名
-                }
-        label_type.insert(post)
-        print(post)
+        # post = {'type_id': 3,  # 标签类型ID
+        #         'name': u"购物圈",  # 标签类型中文名
+        #         'name_en': u"shopping"  # 标签类型英文名
+        #         }
+        # label_type.insert(post)
+        # print(post)
