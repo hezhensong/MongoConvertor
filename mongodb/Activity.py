@@ -88,8 +88,8 @@ class Activity:
             
                 
             other.update({'start_time':start_time, 'end_time':end_time, 'coordination': coordination,
-                          'paragraphs':{'imageTitle': None, 'imageUrl': None,
-                                        'detailUp': None, 'detailDown': None, 'imageBrief': None}})
+                          'paragraphs':{'image_title': None, 'image_url': None,
+                                        'detai_up': None, 'detail_down': None, 'image_brief': None}})
             post = {}      
             post.update(other)
             for i in range(len(params_map.keys())):

@@ -19,6 +19,8 @@ def main():
     address_old = 'localhost'
     port_old = 27017
     address_new = '192.168.6.254'
+#    address_new = 'localhost'
+
     port_new = 37017
 
     print("convert label type data")
@@ -51,16 +53,16 @@ def main():
 #                                  Attraction.collection_old, Attraction.collection_new, Attraction.params_map)
 
     print("convert restaurant data")
-#    Restaurant.convert_restaurant(address_old, port_old, address_new, port_new,
-#                                  Restaurant.collection_old, Restaurant.collection_new, Restaurant.params_map)
+    Restaurant.convert_restaurant(address_old, port_old, address_new, port_new,
+                                  Restaurant.collection_old, Restaurant.collection_new, Restaurant.params_map)
 
     print("convert shopping data")
 #    Shopping.convert_shopping(address_old, port_old, address_new, port_new,
 #                              Shopping.collection_old, Shopping.collection_new, Shopping.params_map)
 
     print("convert activity data")
-    Activity.convert_activity(address_old, port_old, address_new, port_new,
-                              Activity.collection_old, Activity.collection_new, Activity.params_map)
+#    Activity.convert_activity(address_old, port_old, address_new, port_new,
+#                              Activity.collection_old, Activity.collection_new, Activity.params_map)
 
     print("convert recommendBynamic data")
 #    RecommendDynamic.convert_recommendDynamic(address_old, port_old, address_new, port_new,RecommendDynamic.collection_old, 

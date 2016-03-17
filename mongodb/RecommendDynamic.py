@@ -23,7 +23,7 @@ class RecommendDynamic:
         pass
 
     @staticmethod
-    def convert_recommendDynamic(address_old, port_old, address_new, port_new, collection_old, collection_new,
+    def convert_recommend_dynamic(address_old, port_old, address_new, port_new, collection_old, collection_new,
                                  params_map):
 
         # old database connection
