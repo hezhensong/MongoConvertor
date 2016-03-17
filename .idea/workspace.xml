@@ -3,9 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="a46a223c-8ac6-499e-81be-01b6d64b6566" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mongodb/Label.py" afterPath="$PROJECT_DIR$/mongodb/Label.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mongodb/LabelType.py" afterPath="$PROJECT_DIR$/mongodb/LabelType.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mongodb/Tag.py" afterPath="$PROJECT_DIR$/mongodb/Tag.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mongodb/City.py" afterPath="$PROJECT_DIR$/mongodb/City.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mongodb/main1.py" afterPath="$PROJECT_DIR$/mongodb/main1.py" />
     </list>
     <ignored path="Convertor.iws" />
@@ -20,7 +18,7 @@
   </component>
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/Convertor$main1.coverage" NAME="main1 Coverage Results" MODIFIED="1458210508934" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongodb" />
+    <SUITE FILE_PATH="coverage/Convertor$main1.coverage" NAME="main1 Coverage Results" MODIFIED="1458212828777" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongodb" />
     <SUITE FILE_PATH="coverage/Convertor$City.coverage" NAME="City Coverage Results" MODIFIED="1458026023203" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongodb" />
     <SUITE FILE_PATH="coverage/Convertor$Weather.coverage" NAME="Weather Coverage Results" MODIFIED="1457328291403" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongodb" />
     <SUITE FILE_PATH="coverage/Convertor$mongodb.coverage" NAME="mongodb Coverage Results" MODIFIED="1457320653378" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mongodb" />
@@ -42,7 +40,17 @@
         <entry file="file://$PROJECT_DIR$/mongodb/main.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+              <caret line="32" column="0" selection-start-line="32" selection-start-column="0" selection-end-line="34" selection-end-column="68" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="main2.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mongodb/main2.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="77" column="0" selection-start-line="77" selection-start-column="0" selection-end-line="77" selection-end-column="0" />
               <folding>
                 <element signature="e#47#76#0" expanded="true" />
               </folding>
@@ -50,35 +58,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Weather.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mongodb/Weather.py">
+      <file leaf-file-name="main1.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/mongodb/main1.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="100" column="34" selection-start-line="100" selection-start-column="34" selection-end-line="100" selection-end-column="34" />
+            <state vertical-scroll-proportion="0.66741073">
+              <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
               <folding>
-                <element signature="e#59#70#0" expanded="true" />
-                <marker date="1458204689816" expanded="true" signature="4022:4341" placeholder="..." />
+                <element signature="e#47#70#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="WeatherHistory.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mongodb/WeatherHistory.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="16" column="29" selection-start-line="16" selection-start-column="29" selection-end-line="16" selection-end-column="29" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Label.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/mongodb/Label.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.43638393">
-              <caret line="17" column="51" selection-start-line="17" selection-start-column="51" selection-end-line="17" selection-end-column="51" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -87,52 +74,9 @@
         <entry file="file://$PROJECT_DIR$/mongodb/City.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="50" column="53" selection-start-line="50" selection-start-column="53" selection-end-line="50" selection-end-column="53" />
+              <caret line="69" column="60" selection-start-line="69" selection-start-column="60" selection-end-line="69" selection-end-column="60" />
               <folding>
                 <element signature="e#47#78#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Tag.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mongodb/Tag.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="32" column="31" selection-start-line="32" selection-start-column="31" selection-end-line="32" selection-end-column="31" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="main1.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mongodb/main1.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="19" column="26" selection-start-line="19" selection-start-column="26" selection-end-line="19" selection-end-column="26" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LabelType.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mongodb/LabelType.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="37" column="17" selection-start-line="37" selection-start-column="17" selection-end-line="37" selection-end-column="17" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Shopping.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mongodb/Shopping.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="83" column="0" selection-start-line="83" selection-start-column="0" selection-end-line="83" selection-end-column="0" />
-              <folding>
-                <marker date="1458195870430" expanded="true" signature="2509:2522" placeholder="..." />
-                <marker date="1458195870430" expanded="true" signature="2682:3720" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -165,7 +109,6 @@
         <option value="$PROJECT_DIR$/mongodb/Area.py" />
         <option value="$PROJECT_DIR$/mongodb/Activity.py" />
         <option value="$PROJECT_DIR$/mongodb/Attraction.py" />
-        <option value="$PROJECT_DIR$/mongodb/City.py" />
         <option value="$PROJECT_DIR$/mongodb/Plan.py" />
         <option value="$PROJECT_DIR$/mongodb/RecommendDynamic.py" />
         <option value="$PROJECT_DIR$/mongodb/Restaurant.py" />
@@ -175,8 +118,9 @@
         <option value="$PROJECT_DIR$/mongodb/WeatherHistory.py" />
         <option value="$PROJECT_DIR$/mongodb/Tag.py" />
         <option value="$PROJECT_DIR$/mongodb/LabelType.py" />
-        <option value="$PROJECT_DIR$/mongodb/main1.py" />
         <option value="$PROJECT_DIR$/mongodb/Label.py" />
+        <option value="$PROJECT_DIR$/mongodb/main1.py" />
+        <option value="$PROJECT_DIR$/mongodb/City.py" />
       </list>
     </option>
   </component>
@@ -710,14 +654,20 @@
       <option name="project" value="LOCAL" />
       <updated>1458204715303</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="添加餐厅label">
+      <created>1458210725471</created>
+      <option name="number" value="00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1458210725471</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15511727" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14712153" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -765,7 +715,8 @@
     <MESSAGE value="添加行政区划表 area，为city添加两级导航label" />
     <MESSAGE value="更新部分表" />
     <MESSAGE value="添加 tag 表" />
-    <option name="LAST_COMMIT_MESSAGE" value="添加 tag 表" />
+    <MESSAGE value="添加餐厅label" />
+    <option name="LAST_COMMIT_MESSAGE" value="添加餐厅label" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -782,13 +733,6 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/mongodb/City.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="57" column="16" selection-start-line="57" selection-start-column="16" selection-end-line="57" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mongodb/Weather.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1020,13 +964,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mongodb/Area.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="43" column="36" selection-start-line="43" selection-start-column="36" selection-end-line="43" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mongodb/ConvertUtil.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1076,11 +1013,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mongodb/Shopping.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state vertical-scroll-proportion="0.43526787">
           <caret line="83" column="0" selection-start-line="83" selection-start-column="0" selection-end-line="83" selection-end-column="0" />
           <folding>
-            <marker date="1458195870430" expanded="true" signature="2509:2522" placeholder="..." />
-            <marker date="1458195870430" expanded="true" signature="2682:3720" placeholder="..." />
+            <marker date="1458210859779" expanded="true" signature="2509:2522" placeholder="..." />
+            <marker date="1458210859779" expanded="true" signature="3760:3984" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -1096,27 +1033,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mongodb/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
-          <folding>
-            <element signature="e#47#76#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mongodb/WeatherHistory.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="16" column="29" selection-start-line="16" selection-start-column="29" selection-end-line="16" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mongodb/Tag.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state vertical-scroll-proportion="0.5636161">
           <caret line="32" column="31" selection-start-line="32" selection-start-column="31" selection-end-line="32" selection-end-column="31" />
           <folding />
         </state>
@@ -1124,19 +1043,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mongodb/LabelType.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state vertical-scroll-proportion="0.7433036">
           <caret line="37" column="17" selection-start-line="37" selection-start-column="17" selection-end-line="37" selection-end-column="17" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mongodb/City.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="50" column="53" selection-start-line="50" selection-start-column="53" selection-end-line="50" selection-end-column="53" />
-          <folding>
-            <element signature="e#47#78#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1148,19 +1057,65 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mongodb/main1.py">
+    <entry file="file://$PROJECT_DIR$/mongodb/Label.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="19" column="26" selection-start-line="19" selection-start-column="26" selection-end-line="19" selection-end-column="26" />
+        <state vertical-scroll-proportion="0.6417411">
+          <caret line="25" column="26" selection-start-line="25" selection-start-column="26" selection-end-line="25" selection-end-column="26" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mongodb/Label.py">
+    <entry file="file://$PROJECT_DIR$/mongodb/WeatherHistory.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.43638393">
-          <caret line="17" column="51" selection-start-line="17" selection-start-column="51" selection-end-line="17" selection-end-column="51" />
+        <state vertical-scroll-proportion="0.4107143">
+          <caret line="16" column="29" selection-start-line="16" selection-start-column="29" selection-end-line="16" selection-end-column="29" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mongodb/Area.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.2834822">
+          <caret line="50" column="27" selection-start-line="50" selection-start-column="27" selection-end-line="50" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mongodb/main2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="77" column="0" selection-start-line="77" selection-start-column="0" selection-end-line="77" selection-end-column="0" />
+          <folding>
+            <element signature="e#47#76#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mongodb/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="32" column="0" selection-start-line="32" selection-start-column="0" selection-end-line="34" selection-end-column="68" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mongodb/City.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="69" column="60" selection-start-line="69" selection-start-column="60" selection-end-line="69" selection-end-column="60" />
+          <folding>
+            <element signature="e#47#78#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mongodb/main1.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.66741073">
+          <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
+          <folding>
+            <element signature="e#47#70#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

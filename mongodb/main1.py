@@ -2,6 +2,7 @@
 # -*- coding: UTF-8 -*-
 
 from Label import Label
+from City import City
 
 
 def main():
@@ -13,6 +14,10 @@ def main():
 
     print("convert label data")
     Label.convert_label(address_old, port_old, address_new, port_new)
+
+    # 城市表 依赖新导入的Label表，需保证City前导入Label
+    print("convert city data")
+    City.convert_city(address_old, port_old, address_new, port_new)
 
     print("OK")
 
