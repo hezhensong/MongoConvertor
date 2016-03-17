@@ -2,6 +2,7 @@
 # -*- coding: UTF-8 -*-
 
 from pymongo import MongoClient
+import datetime
 
 
 class Restaurant:
@@ -19,7 +20,6 @@ class Restaurant:
                   'name_en': 'name_en', # 餐厅英文名
                   'city_id': 'city_id', # 城市 ID
                   'city_name': 'city_name', # 城市名
-                  'comments': 'comments', # 评论
                   'comments_from': 'comments_from', # 评论来源
                   'comments_url': 'comments_url', # 评论 url
                   'cover_image': 'cover_image', # 背景图片
@@ -88,6 +88,13 @@ class Restaurant:
             wifi = False
 
             master_tag = {}
+            comments = []
+            new_comments = []
+            new_date = None
+            rating = None
+            nickname = None
+            text = None
+            title = None
             other = {}
             
             if 'category' in document:
@@ -108,7 +115,45 @@ class Restaurant:
                         open_time.append(temp_open_time[i]['desc'])
                 else:
                     open_time.append(temp_open_time)
-            
+
+            if 'comments' in document:
+                comments = document['comments']
+                for i in range(len(comments)):
+                    if type(comments[i]) == unicode:
+                        temp_comments = {}
+                        temp_comments.update({'date': new_date,'rating': rating,'nickname': 
+                                                  nickname,'text': comments[i], 'title': title})
+                        new_comments.append(temp_comments)
+                    else:
+                        if comments != [None]:
+                            if 'date' in comments[i]:
+                                temp_date = comments[i]['date'].encode('utf-8').strip()
+                                index1 = temp_date.find('年')
+                                index2 = temp_date.find('月')
+                                index3 = temp_date.find('日')
+                                if index1 != -1:
+                                    year = int(temp_date[0:index1])
+                                    month = int(temp_date[index1+3:index2])
+                                    if month == 0:
+                                        month = 1
+                                    day = int(temp_date[index2+3:index3])
+                                    if day == 0:
+                                        day = 1
+                                    new_date = datetime.datetime(year, month ,day)
+                                else:
+                                    new_date = comments[i]['date']
+                            if 'rating' in comments[i]:
+                                rating = comments[i]['rating']
+                            if 'nickname' in comments[i]:
+                                nickname = comments[i]['nickname']
+                            if 'text' in comments[i]:
+                                text = comments[i]['text']
+                            if 'title' in comments[i]:
+                                title = comments[i]['title']
+                            temp_comments = {}
+                            temp_comments.update({'date': new_date,'rating': rating,'nickname': 
+                                                  nickname,'text': text, 'title': title})
+                            new_comments.append(temp_comments)
             
             if 'menu' in document:
                 dish = document['menu']
@@ -164,7 +209,7 @@ class Restaurant:
                 is_show = False
             
             other.update({'coordination': coordination , 'open_time': open_time,
-                          'dish': newdish, 'facilities': facilities,
+                          'dish': newdish, 'facilities': facilities,'comments': new_comments,
                           'master_tag': master_tag, 'is_show': is_show,
                           'last_modified_person': None, 'last_modified_time': None})
             

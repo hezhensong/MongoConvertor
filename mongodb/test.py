@@ -37,7 +37,14 @@ print(year)
 print(month)
 print(day)
 
+test = [{'a':1},{'b':2}]
+print(type(test) == list)
+
+test = [None]
+print(test == [None])
     
+m = []
+print(len(m))
 
 #print(type(str))
 #l = time.strptime(str,"%Y年%m月%d日")[0:3]

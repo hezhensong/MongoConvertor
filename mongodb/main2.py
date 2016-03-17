@@ -20,9 +20,9 @@ def main():
     address_old = 'localhost'
     port_old = 27017
 
-    address_new = '192.168.6.254'
-#    address_new = 'localhost'
-    port_new = 37017
+#    address_new = '192.168.6.254'
+    address_new = 'localhost'
+    port_new = 27017
 
 
     print("convert label type data")
@@ -51,12 +51,12 @@ def main():
 #    Label.convert_label(address_old, port_old, address_new, port_new)
 
     print("convert attraction data")
-    Attraction.convert_attraction(address_old, port_old, address_new, port_new,
-                                  Attraction.collection_old, Attraction.collection_new, Attraction.params_map)
+#    Attraction.convert_attraction(address_old, port_old, address_new, port_new,
+#                                  Attraction.collection_old, Attraction.collection_new, Attraction.params_map)
 
     print("convert restaurant data")
-#    Restaurant.convert_restaurant(address_old, port_old, address_new, port_new,
-#                                  Restaurant.collection_old, Restaurant.collection_new, Restaurant.params_map)
+    Restaurant.convert_restaurant(address_old, port_old, address_new, port_new,
+                                  Restaurant.collection_old, Restaurant.collection_new, Restaurant.params_map)
 
     print("convert shopping data")
 #    Shopping.convert_shopping(address_old, port_old, address_new, port_new,

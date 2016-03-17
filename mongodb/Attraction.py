@@ -118,6 +118,8 @@ class Attraction:
                         nickname = comments[i]['nickname']
                     if 'text' in comments[i]:
                         text = comments[i]['text']
+                    if 'title' in comments[i]:
+                        title = comments[i]['title']
                     temp_comments = {}
                     temp_comments.update({'date': new_date,'rating': rating,'nickname': 
                                           nickname,'text': text, 'title': title})

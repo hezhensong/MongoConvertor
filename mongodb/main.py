@@ -50,16 +50,16 @@ def main():
 #    Label.convert_label(address_old, port_old, address_new, port_new)
 
     print("convert attraction data")
-    Attraction.convert_attraction(address_old, port_old, address_new, port_new,
-                                  Attraction.collection_old, Attraction.collection_new, Attraction.params_map)
+#    Attraction.convert_attraction(address_old, port_old, address_new, port_new,
+#                                  Attraction.collection_old, Attraction.collection_new, Attraction.params_map)
 
     print("convert restaurant data")
 #    Restaurant.convert_restaurant(address_old, port_old, address_new, port_new,
 #                                  Restaurant.collection_old, Restaurant.collection_new, Restaurant.params_map)
 
     print("convert shopping data")
-#    Shopping.convert_shopping(address_old, port_old, address_new, port_new,
-#                              Shopping.collection_old, Shopping.collection_new, Shopping.params_map)
+    Shopping.convert_shopping(address_old, port_old, address_new, port_new,
+                              Shopping.collection_old, Shopping.collection_new, Shopping.params_map)
 
     print("convert activity data")
 #    Activity.convert_activity(address_old, port_old, address_new, port_new,
