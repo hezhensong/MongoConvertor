@@ -2,7 +2,8 @@
 # -*- coding: UTF-8 -*-
 
 import json
-
+import time
+import datetime
 from bson.objectid import ObjectId
 from pymongo import MongoClient
 
@@ -14,7 +15,6 @@ class Weather:
 
     params_map = {'_id': '_id',  # 天气 ID
                   'city_id': 'city_id',  # 城市 ID
-                  'timestamp': 'timestamp'  # 更新时间
                   }
 
     def __init__(self):
@@ -57,7 +57,15 @@ class Weather:
             sunrise = None
             sunset = None
             update_time = None
+            timestamp = None
             other = {}
+            
+            if 'timestamp' in document:
+                temp_timestamp = document['timestamp']
+                array_timestamp = time.localtime(float(temp_timestamp) / 1000)
+                y,m,d,h,mm,s = array_timestamp[0:6]
+                timestamp = datetime.datetime(y,m,d,h,mm,s)
+            
             if 'yahooWeather' in document:
                 print(document['_id'])
                 yahoo_weather = document['yahooWeather']
@@ -73,22 +81,30 @@ class Weather:
                 temperature = dic['item']['condition']['temp']
                 sunrise = dic['astronomy']['sunrise']
                 sunset = dic['astronomy']['sunset']
+                
                 update_time = dic['lastBuildDate']
+                temp_update = update_time[0:len(update_time)-7]
+                array_update = time.strptime(temp_update, "%a, %d %b %Y %H:%M")
+                y,m,d,h,mm,s = array_update[0:6]
+                update_time = datetime.datetime(y,m,d,h,mm,s)
 
                 forecast = []
                 forecastTemp = dic['item']['forecast']
                 for i in range(len(forecastTemp)):
                     forecastDetail = {}
-                    forecastDetail.update({'date': forecastTemp[i]['date']})
+                    temp_date = time.strptime(forecastTemp[i]['date'], "%d %b %Y")
+                    year, month, day = temp_date[0:3]
+                    forecastDetail.update({'date': datetime.datetime(year, month, day)})
                     forecastDetail.update({'description': forecastTemp[i]['text']})
-                    forecastDetail.update({'high': forecastTemp[i]['high']})
-                    forecastDetail.update({'low': forecastTemp[i]['low']})
+                    forecastDetail.update({'high': int(forecastTemp[i]['high'])})
+                    forecastDetail.update({'low': int(forecastTemp[i]['low'])})
                     forecast.append(forecastDetail)
 
-                other.update({'condition': {'description': description, 'temperature': temperature,
-                                            'high': forecastTemp[0]['high'], 'low': forecastTemp[0]['low'],
-                                            'sunrise': sunrise, 'sunset': sunset,
-                                            'update_time': update_time}, 'forecast': forecast})
+                other.update({'timestamp': timestamp,'condition': 
+                                            {'description': description, 'temperature': int(temperature),
+                                             'high': int(forecastTemp[0]['high']), 'low': int(forecastTemp[0]['low']),
+                                             'sunrise': sunrise, 'sunset': sunset,
+                                             'update_time': update_time}, 'forecast': forecast})
 
             post = {}
             post.update(other)

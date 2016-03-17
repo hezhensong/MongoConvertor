@@ -72,9 +72,9 @@ class WeatherHistory:
                 if 'sunset' in condition:
                     sunset = condition['sunset']
                 if 'low' in condition:
-                    low = condition['low']
+                    low = int(condition['low'])
                 if 'high' in condition:
-                    high = condition['high']
+                    high = int(condition['high'])
                 if 'temperature' in condition:
                     temperature = condition['temperature']
 

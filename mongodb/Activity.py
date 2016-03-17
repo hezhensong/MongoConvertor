@@ -2,7 +2,6 @@
 # -*- coding: UTF-8 -*-
 
 import datetime
-
 from pymongo import MongoClient
 
 

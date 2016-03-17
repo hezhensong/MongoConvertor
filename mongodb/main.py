@@ -16,7 +16,7 @@ from LabelType import LabelType
 
 
 def main():
-    address_old = '192.168.37.128'
+    address_old = 'localhost'
     port_old = 27017
 
     address_new = '192.168.6.254'
@@ -25,18 +25,18 @@ def main():
 
 
     print("convert label type data")
-    LabelType.insert_label_type(address_new, port_new)
+#    LabelType.insert_label_type(address_new, port_new)
 
     print("convert label data")
-    Label.convert_label(address_old, port_old, address_new, port_new)
+#    Label.convert_label(address_old, port_old, address_new, port_new)
 
     # 城市表 依赖新导入的Label表，需保证City前导入Label
     print("convert city data")
-    City.convert_city(address_old, port_old, address_new, port_new)
+#    City.convert_city(address_old, port_old, address_new, port_new)
 
     print("convert weather data")
-#    Weather.convert_weather(address_old, port_old, address_new, port_new,
-#                            Weather.collection_old, Weather.collection_new, Weather.params_map)
+    Weather.convert_weather(address_old, port_old, address_new, port_new,
+                            Weather.collection_old, Weather.collection_new, Weather.params_map)
     
     # 特别注意  weather_history 表依赖于当前的 weather 表
     print("create weather_history data")
@@ -54,8 +54,8 @@ def main():
 #                                  Attraction.collection_old, Attraction.collection_new, Attraction.params_map)
 
     print("convert restaurant data")
-    Restaurant.convert_restaurant(address_old, port_old, address_new, port_new,
-                                  Restaurant.collection_old, Restaurant.collection_new, Restaurant.params_map)
+#    Restaurant.convert_restaurant(address_old, port_old, address_new, port_new,
+#                                  Restaurant.collection_old, Restaurant.collection_new, Restaurant.params_map)
 
     print("convert shopping data")
 #    Shopping.convert_shopping(address_old, port_old, address_new, port_new,
