@@ -59,7 +59,7 @@ class Attraction:
         temp = [None] * len(params_map.keys())
 
         # 判断当前文档是否含有某个字段,若有则取出后赋值给临时数组,否则为 None
-        for document in db_old.find().limit(50):
+        for document in db_old.find():
             print(document['_id'])
             for i in range(len(params_map.keys())):
                 if params_map.keys()[i] in document:
@@ -71,7 +71,8 @@ class Attraction:
             longitude = None
             open_time = []
             comments = []
-            date = None
+            new_comments = []
+            new_date = None
             rating = None
             nickname = None
             text = None
@@ -96,10 +97,21 @@ class Attraction:
                 comments = document['comments']
                 for i in range(len(comments)):
                     if 'date' in comments[i]:
-                        temp_date = comments[i]['date']
-                        print(type(temp_date))
-                        year, month, day = time.strptime(temp_date,"%Y年%m月%d日")[0:3]
-                        date = datetime.datetime(year, month ,day)
+                        temp_date = comments[i]['date'].encode('utf-8').strip()
+                        index1 = temp_date.find('年')
+                        index2 = temp_date.find('月')
+                        index3 = temp_date.find('日')
+                        if index1 != -1:
+                            year = int(temp_date[0:index1])
+                            month = int(temp_date[index1+3:index2])
+                            if month == 0:
+                                month = 1
+                            day = int(temp_date[index2+3:index3])
+                            if day == 0:
+                                day = 1
+                            new_date = datetime.datetime(year, month ,day)
+                        else:
+                            new_date = comments[i]['date']
                     if 'rating' in comments[i]:
                         rating = comments[i]['rating']
                     if 'nickname' in comments[i]:
@@ -107,8 +119,9 @@ class Attraction:
                     if 'text' in comments[i]:
                         text = comments[i]['text']
                     temp_comments = {}
-                    temp_comments.update({'date':date,'rating': rating,'nickname': 
+                    temp_comments.update({'date': new_date,'rating': rating,'nickname': 
                                           nickname,'text': text, 'title': title})
+                    new_comments.append(temp_comments)
 
             # 是否线上展示
             if 'show_flag' in document:
@@ -122,7 +135,8 @@ class Attraction:
 
 
             other.update({'is_show': is_show,'coordination': coordination , 'open_time': open_time,
-                          'open_table_url': None,'last_modified_person': None, 'last_modified_time': None})
+                          'open_table_url': None, 'comments': new_comments,
+                          'last_modified_person': None, 'last_modified_time': None})
 
             post = {}
             post.update(other)
