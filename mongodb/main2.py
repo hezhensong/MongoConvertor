@@ -13,6 +13,7 @@ from Shopping import Shopping
 from RecommendDynamic import RecommendDynamic
 from Plan import Plan
 from LabelType import LabelType
+from Brand import Brand
 
 
 def main():
@@ -61,6 +62,12 @@ def main():
 #    Shopping.convert_shopping(address_old, port_old, address_new, port_new,
 #                              Shopping.collection_old, Shopping.collection_new, Shopping.params_map)
 
+    print("convert brand data")
+#    Brand.convert_brand(address_old, port_old, address_new, port_new,
+#                              Brand.collection_old, Brand.collection_new, Brand.params_map)
+
+    
+    
     print("convert activity data")
 #    Activity.convert_activity(address_old, port_old, address_new, port_new,
 #                              Activity.collection_old, Activity.collection_new, Activity.params_map)

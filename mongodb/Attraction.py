@@ -2,7 +2,8 @@
 # -*- coding: UTF-8 -*-
 
 from pymongo import MongoClient
-
+import datetime
+import time
 
 class Attraction:
     def __init__(self):
@@ -19,7 +20,6 @@ class Attraction:
                   'attractions_en': 'name_en', # 景点英文名
                   'city_id': 'city_id', # 城市 ID
                   'cityname': 'city_name', # 城市名
-                  'comments': 'comments', # 评论
                   'comments_from': 'comments_from', # 评论来源
                   'comments_url': 'comments_url', # 评论 url
                   'coverImageName': 'cover_image', # 背景图片
@@ -70,6 +70,12 @@ class Attraction:
             latitude = None
             longitude = None
             open_time = []
+            comments = []
+            date = None
+            rating = None
+            nickname = None
+            text = None
+            title = None
             other = {}
 
             if 'latitude' in document:
@@ -85,6 +91,24 @@ class Attraction:
                         open_time.append(temp_open_time[i]['desc'])
                 else:
                     open_time.append(temp_open_time)
+            
+            if 'comments' in document:
+                comments = document['comments']
+                for i in range(len(comments)):
+                    if 'date' in comments[i]:
+                        temp_date = comments[i]['date']
+                        print(type(temp_date))
+                        year, month, day = time.strptime(temp_date,"%Y年%m月%d日")[0:3]
+                        date = datetime.datetime(year, month ,day)
+                    if 'rating' in comments[i]:
+                        rating = comments[i]['rating']
+                    if 'nickname' in comments[i]:
+                        nickname = comments[i]['nickname']
+                    if 'text' in comments[i]:
+                        text = comments[i]['text']
+                    temp_comments = {}
+                    temp_comments.update({'date':date,'rating': rating,'nickname': 
+                                          nickname,'text': text, 'title': title})
 
             # 是否线上展示
             if 'show_flag' in document:

@@ -1,3 +1,5 @@
+# -*- coding: UTF-8 -*-
+
 import time
 import datetime
 
@@ -5,6 +7,7 @@ a = '1458038390723'
 b = float(a) / 1000
 x = time.localtime(b)  
 y,m,d,h,mm,s = x[0:6]
+
 print(datetime.datetime(y,m,d,h,mm,s))
 
 
@@ -17,3 +20,9 @@ print(m)
 print(len(m))
 test = time.strptime(m, "%a, %d %b %Y %H:%M")
 print(test[0:6])
+
+
+str = '2015年7月1日'
+print(type(str))
+l = time.strptime(str,"%Y年%m月%d日")[0:3]
+print(l)

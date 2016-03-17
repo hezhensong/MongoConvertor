@@ -25,8 +25,7 @@ class Restaurant:
                   'cover_image': 'cover_image', # 背景图片
                   'image': 'image', # 图片
                   'introduce': 'introduction', # 介绍
-                  'category': 'master_label', # 餐厅主标签
-                  'tags_zh': 'sub_label', # 餐厅次标签  
+                  'category': 'sub_tag', # 餐厅次标签  
                   'price_desc': 'price_desc', # 价格描述
                   'brief_introduce': 'brief_introduction', # 简介
                   'tel': 'tel', # 电话
@@ -35,33 +34,6 @@ class Restaurant:
                   'rating': 'rating', # 评分
                   'openTable_url':'open_table_url'  # 服务预订 url
     }
-                  
-                  
-                  
-#                  'address':'address', # 餐厅地址
-#                  'brief_introduce':'brief_introduction', # 餐厅简介
-#                  'city_id':'city_id', # 城市 ID 
-#                  'city_name':'city_name', # 城市名字
-#                  'comments':'comments', # 评论
-#                  'comments_from':'comments_from', # 评论来源
-#                  'cover_image':'cover_image', # 背景图片
-#                  'image':'image', # 图片
-#                  'info':'info', # 餐厅的相关信息    
-#                  'introduce':'introduce', # 餐厅介绍
-#                  'latitude':'latitude', # 纬度
-#                  'longitude':'longitude', # 经度
-#                  'menu':'menu', # 菜品推荐
-#                  'name':'name', # 名字
-#                  'openTable_url':'open_table_url', # 服务预订 url
-#                  'open_time':'open_time', # 开放时间
-#                  'price_desc':'price_desc', # 价格描述
-#                  'rating':'rating', # 评分
-#                  'tags':'tags', # 标签
-#                  'tags_zh':'tags_zh', # 中文标签
-#                  'tel':'tel', # 电话
-#                  'tips':'tips', # 提示
-#                  'website':'website', # 网址
-
 
     @staticmethod
     def convert_restaurant(address_old, port_old, address_new, port_new, collection_old, collection_new,
@@ -86,7 +58,7 @@ class Restaurant:
         temp = [None] * len(params_map.keys())
 
         # 判断当前文档是否含有某个字段,若有则取出后赋值给临时数组,否则为 None
-        for document in db_old.find().limit(50):
+        for document in db_old.find():
             for i in range(len(params_map.keys())):
                 if params_map.keys()[i] in document:
                     temp[i] = document[params_map.keys()[i]]
@@ -115,13 +87,19 @@ class Restaurant:
             reserve = False
             wifi = False
 
+            master_tag = {}
             other = {}
-
+            
+            if 'category' in document:
+                category = document['category']
+                if len(category) > 0:
+                    master_tag.update({'_id':category[0]['_id'],'name':category[0]['name']})
+                
             if 'latitude' in document:
                 latitude = str(document['latitude'])
             if 'longitude' in document:
                 longitude = str(document['longitude'])
-                coordination = latitude + ',' + longitude
+                coordination = longitude + ',' + latitude
                 
             if 'open_time' in document:
                 temp_open_time = document['open_time']
@@ -175,8 +153,19 @@ class Restaurant:
                                    'card': card, 'takeout': takeout, 'delivery': delivery,
                                    'reserve': reserve, 'wifi': wifi})
                 
+            # 是否线上展示
+            if 'show_flag' in document:
+                show_flag = document['show_flag']
+                if show_flag == u'1':
+                    is_show = True
+                else:
+                    is_show = False
+            else:
+                is_show = False
+            
             other.update({'coordination': coordination , 'open_time': open_time,
                           'dish': newdish, 'facilities': facilities,
+                          'master_tag': master_tag, 'is_show': is_show,
                           'last_modified_person': None, 'last_modified_time': None})
             
             post = {}      
