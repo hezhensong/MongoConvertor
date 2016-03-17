@@ -83,7 +83,7 @@ class Weather:
                 sunset = dic['astronomy']['sunset']
                 
                 update_time = dic['lastBuildDate']
-                temp_update = update_time[0:len(update_time)-7]
+                temp_update = update_time[0:21]
                 array_update = time.strptime(temp_update, "%a, %d %b %Y %H:%M")
                 y,m,d,h,mm,s = array_update[0:6]
                 update_time = datetime.datetime(y,m,d,h,mm,s)
@@ -100,7 +100,7 @@ class Weather:
                     forecastDetail.update({'low': int(forecastTemp[i]['low'])})
                     forecast.append(forecastDetail)
 
-                other.update({'timestamp': timestamp,'condition': 
+                other.update({'date': timestamp,'condition': 
                                             {'description': description, 'temperature': int(temperature),
                                              'high': int(forecastTemp[0]['high']), 'low': int(forecastTemp[0]['low']),
                                              'sunrise': sunrise, 'sunset': sunset,

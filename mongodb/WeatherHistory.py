@@ -15,7 +15,7 @@ class WeatherHistory:
     # 注意:这里只定义不需要做特殊处理的字段
     params_map = {
         'city_id': 'city_id',
-        'timestamp': 'timestamp'
+        'date': 'date'
     }
 
     def __init__(self):
@@ -63,8 +63,6 @@ class WeatherHistory:
             if 'condition' in document:
                 condition = document['condition']
                 print(condition)
-                if 'update_time' in condition:
-                    update_time = condition['update_time']
                 if 'description' in condition:
                     description = condition['description']
                 if 'sunrise' in condition:
@@ -78,7 +76,7 @@ class WeatherHistory:
                 if 'temperature' in condition:
                     temperature = condition['temperature']
 
-                other.update({'update_time': update_time, 'description': description, 'temperature': temperature,
+                other.update({'description': description, 'temperature': temperature,
                               'sunrise': sunrise, 'sunset': sunset, 'low': low, 'high': high})
             post = {}
             post.update(other)

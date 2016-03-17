@@ -25,8 +25,8 @@ class Attraction:
                   'coverImageName': 'cover_image', # 背景图片
                   'image': 'image', # 图片
                   'introduce': 'introduction', # 介绍
-                  'masterLabelNew': 'master_label', # 景点主标签
-                  'subLabelNew': 'sub_label', # 景点次标签  
+                  'masterLabelNew': 'master_tag', # 景点主标签
+                  'subLabelNew': 'sub_tag', # 景点次标签  
                   'price': 'price_desc', # 价格描述
                   'short_introduce': 'brief_introduction', # 简介
                   'telno': 'tel', # 电话
@@ -59,7 +59,7 @@ class Attraction:
         temp = [None] * len(params_map.keys())
 
         # 判断当前文档是否含有某个字段,若有则取出后赋值给临时数组,否则为 None
-        for document in db_old.find():
+        for document in db_old.find().limit(50):
             print(document['_id'])
             for i in range(len(params_map.keys())):
                 if params_map.keys()[i] in document:
@@ -73,16 +73,14 @@ class Attraction:
             other = {}
 
             if 'latitude' in document:
-
                 latitude = str(document['latitude'])
             if 'longitude' in document:
                 longitude = str(document['longitude'])
-
-                coordination = latitude + ',' + longitude
+                coordination = longitude + ',' + latitude
 
             if 'open_time' in document:
                 temp_open_time = document['open_time']
-                if type(temp_open_time) == dict:
+                if type(temp_open_time) == list:
                     for i in range(len(temp_open_time)):
                         open_time.append(temp_open_time[i]['desc'])
                 else:
@@ -98,20 +96,9 @@ class Attraction:
             else:
                 is_show = False
 
-            # 是否推荐
-            if 'recommand_flag' in document:
-                is_recommend = document['recommand_flag']
-                if is_recommend == u'1':
-                    is_recommend = True
-                else:
-                    is_recommend = False
-            else:
-                is_recommend = False
 
-            other.update({'is_show': is_show, 'is_recommend': is_recommend,
-                          'coordination': coordination , 'open_time': open_time,
-                          'open_table_url': None,
-                          'last_modified_person': None, 'last_modified_time': None})
+            other.update({'is_show': is_show,'coordination': coordination , 'open_time': open_time,
+                          'open_table_url': None,'last_modified_person': None, 'last_modified_time': None})
 
             post = {}
             post.update(other)

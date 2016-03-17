@@ -20,7 +20,7 @@ class Activity:
                   'atype': 'type',  # 活动类型
                   'cover_image': 'cover_image',  # 背景图片
                   'deaddress': 'detail_address',  # 详细地址
-                  'desc': 'desc',  # 描述
+                  'desc': 'description',  # 描述
                   'order_url': 'order_url',  # 订票地址
                   'title': 'title',  # 标题
                   #                  'latitude':'latitude',        # 纬度
@@ -82,7 +82,7 @@ class Activity:
                 latitude = document['latitude']
             if 'longitude' in document:
                 longitude = document['longitude']
-                coordination = latitude + ',' + longitude
+                coordination = longitude + ',' + latitude
             
                 
             other.update({'start_time':start_time, 'end_time':end_time, 'coordination': coordination,
