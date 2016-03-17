@@ -37,7 +37,7 @@ class City:
             else:
                 city_cover_image = None
 
-            # 主题ID list
+            # 景点 list
             label = travel2.label
             label_dict = {}
             if 'attrlabels' in city_old:
@@ -55,18 +55,19 @@ class City:
                             else:
                                 label_dict[str(label_temp['type'])] = [{"_id": label_id, "name": name}]
 
-                label_list_old = city_old['shoplabels']
-                if len(label_list_old) > 0:
-                    for label_old in label_list_old:
-                        label_id = ObjectId(label_old['_id'])
-                        if label_id != u'{{_id}}':
-                            label_temp = label.find_one({"_id": label_id})
-                            name = label_temp['name']
+            # 餐厅 list
+            label_dict['1'] = []
+            label_list = label_dict['1']
+            label_list.append({"_id": ObjectId("000000000000"), "name": "米其林推荐"})
+            label_list.append({"_id": ObjectId("000000000000"), "name": "本地特色"})
+            label_list.append({"_id": ObjectId("000000000000"), "name": "人气热门"})
+            label_list.append({"_id": ObjectId("000000000000"), "name": "城市精选"})
 
-                            if str(label_temp['type']) in label_dict.keys():
-                                label_dict[str(label_temp['type'])].append({"_id": label_id, "name": name})
-                            else:
-                                label_dict[str(label_temp['type'])] = [{"_id": label_id, "name": name}]
+            # 购物 list
+            label_dict['2'] = []
+            label_list = label_dict['2']
+            label_list.append({"_id": ObjectId("000000000000"), "name": "购物商圈"})
+            label_list.append({"_id": ObjectId("000000000000"), "name": "商圈"})
 
             area = {
                 'continent': city_old['continents'],
@@ -86,7 +87,7 @@ class City:
                 'name_en': city_name_en,  # 城市英文名
                 'name_py': city_name_py,  # 城市中文名拼音
                 'cover_image': city_cover_image,  # 城市首页背景图片
-                'label_list': label_dict,  # 主题ID列表
+                'label_list': label_dict,  # label列表
                 'area': area,
                 'is_show': is_show  # 是否线上展示
             }
