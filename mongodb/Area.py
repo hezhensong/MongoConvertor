@@ -29,10 +29,11 @@ class Area:
         exist_countries = []
         for city in latest_city.find({"continents": "亚洲"}):
             post_city = {
-                'type': 'city',
+                'id': str(city['_id']),
                 'name': city['cityname'],
                 'name_en': city['cityname_en'],
-                'name_py': city['cityname_py']
+                'name_py': city['cityname_py'],
+                'type': 'city'
             }
 
             country_name = city['countryname']
@@ -64,10 +65,11 @@ class Area:
         exist_countries = []
         for city in latest_city.find({"continents": "欧洲"}):
             post_city = {
-                'type': 'city',
+                'id': str(city['_id']),
                 'name': city['cityname'],
                 'name_en': city['cityname_en'],
-                'name_py': city['cityname_py']
+                'name_py': city['cityname_py'],
+                'type': 'city'
             }
 
             country_name = city['countryname']
@@ -90,7 +92,7 @@ class Area:
             'name': u'欧洲',
             'name_en': u"Europe",
             'code': u'EU',
-            'country_list': [post_eu_countries]
+            'country_list': post_eu_countries
         }
         area.insert(post_eu)
         print(post_eu)
@@ -99,10 +101,11 @@ class Area:
         exist_countries = []
         for city in latest_city.find({"continents": "美洲"}):
             post_city = {
-                'type': 'city',
+                'id': str(city['_id']),
                 'name': city['cityname'],
                 'name_en': city['cityname_en'],
-                'name_py': city['cityname_py']
+                'name_py': city['cityname_py'],
+                'type': 'city'
             }
 
             country_name = city['countryname']
@@ -125,7 +128,7 @@ class Area:
             'name': u'美洲',
             'name_en': u'North America',
             'code': u'NA',
-            'country_list': [post_na_countries]
+            'country_list': post_na_countries
         }
         area.insert(post_na)
         print(post_na)
