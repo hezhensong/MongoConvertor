@@ -10,7 +10,7 @@ from WeatherHistory import WeatherHistory
 from Attraction import Attraction
 from Restaurant import Restaurant
 from Shopping import Shopping
-from RecommendDynamic import RecommendDynamic
+from RecommendInfo import RecommendInfo
 from Plan import Plan
 from LabelType import LabelType
 from Brand import Brand
@@ -59,8 +59,8 @@ def main():
 #                                  Restaurant.collection_old, Restaurant.collection_new, Restaurant.params_map)
 
     print("convert shopping data")
-    Shopping.convert_shopping(address_old, port_old, address_new, port_new,
-                              Shopping.collection_old, Shopping.collection_new, Shopping.params_map)
+#    Shopping.convert_shopping(address_old, port_old, address_new, port_new,
+#                              Shopping.collection_old, Shopping.collection_new, Shopping.params_map)
 
     print("convert brand data")
 #    Brand.convert_brand(address_old, port_old, address_new, port_new,
@@ -72,9 +72,9 @@ def main():
 #    Activity.convert_activity(address_old, port_old, address_new, port_new,
 #                              Activity.collection_old, Activity.collection_new, Activity.params_map)
 
-    print("convert recommendBynamic data")
-#    RecommendDynamic.convert_recommendDynamic(address_old, port_old, address_new, port_new,RecommendDynamic.collection_old, 
-#                               RecommendDynamic.collection_new, RecommendDynamic.params_map)
+    print("convert recommendInfo data")
+    RecommendInfo.convert_recommend_info(address_old, port_old, address_new, port_new,
+                                           RecommendInfo.collection_old, RecommendInfo.collection_new, RecommendInfo.params_map)
 
     print("convert plan data")
 #    Plan.convert_plan(address_old, port_old, address_new, port_new,
