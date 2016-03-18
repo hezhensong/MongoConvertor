@@ -58,7 +58,8 @@ class Activity:
 
             # 需要特殊处理的字段,处理后以字典的形式添加到 other 中
             other = {}
-
+            paragraphs = []
+            
             start_time = None
             end_time = None
             coordination = None
@@ -82,11 +83,12 @@ class Activity:
                 longitude = document['longitude']
                 coordination = longitude + ',' + latitude
             
+            paragraphs.append({'image_title': None, 'image_url': None,
+                                        'detail_up': None, 'detail_down': None, 'image_brief': None})
                 
             other.update({'start_time':start_time, 'end_time':end_time, 'coordination': coordination,
                           'last_modified_person': None, 'last_modified_time': None, 
-                          'paragraphs':{'image_title': None, 'image_url': None,
-                                        'detai_up': None, 'detail_down': None, 'image_brief': None}})
+                          'paragraphs': paragraphs})
             post = {}      
 
             post.update(other)

@@ -13,4 +13,6 @@ print month
 print day
 print datetime.datetime(year,month,day,4)
 
+test = 'this'
+print(type(test))
 

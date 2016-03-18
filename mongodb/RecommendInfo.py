@@ -3,6 +3,7 @@
 
 from pymongo import MongoClient
 import datetime
+from bson.objectid import ObjectId
 
 class RecommendInfo:
     # 定义旧集合的名字
@@ -15,9 +16,8 @@ class RecommendInfo:
     # 注意:这里只定义不需要做特殊处理的字段
     params_map = {
         '_id': '_id',
-        'city_id': 'city_id',
+#        'city_id': 'city_id',
         'city_name': 'city_name',
-        'type': 'type',
         'recommend_poi_position': 'coordination'
     }
 
@@ -72,6 +72,18 @@ class RecommendInfo:
             content_second = None
             content_desc = None
             content_url = None
+            city_id = None
+            new_city_id = None
+            new_type = None
+            
+            if 'type' in document:
+                new_type = int(document['type'])
+        
+            if 'city_id' in document:
+                city_id = document['city_id']
+                if city_id != '':
+                    if type(city_id) == unicode:
+                        city_id = ObjectId(city_id.encode('utf-8'))
 
             if 'recommend_start_time' in document:
                 start_time = document['recommend_start_time']
@@ -109,7 +121,8 @@ class RecommendInfo:
                 if 'cover_image' in recommend_content:
                     cover_image = recommend_content['cover_image']
                             
-            other.update({'start_time': new_start_time, 'end_time': new_end_time,
+            other.update({'type': new_type,'city_id': city_id,
+                          'start_time': new_start_time, 'end_time': new_end_time,
                           'content': {'content_id': content_id,
                                       'content_title': content_title,
                                       'content_first': content_first,
