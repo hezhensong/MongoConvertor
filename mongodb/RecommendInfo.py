@@ -136,4 +136,8 @@ class RecommendInfo:
             for i in range(len(params_map.keys())):
                 post.update({params_map.values()[i]: temp[i]})
             db_new.insert(post)
+            if 'city_id' in document:
+                city_id = document['city_id']
+                if city_id == '':
+                    db_new.remove(document['_id'])
             print post

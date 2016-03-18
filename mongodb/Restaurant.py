@@ -134,7 +134,7 @@ class Restaurant:
                 for i in range(len(comments)):
                     if type(comments[i]) == unicode:
                         temp_comments = {}
-                        temp_comments.update({'date': new_date,'rating': rating,'nickname': nickname,
+                        temp_comments.update({'date': None,'rating': rating,'nickname': nickname,
                                               'language': language, 'text': comments[i], 'title': title})
                         new_comments.append(temp_comments)
                     else:
@@ -154,7 +154,7 @@ class Restaurant:
                                         day = 1
                                     new_date = datetime.datetime(year, month ,day)
                                 else:
-                                    new_date = comments[i]['date']
+                                    new_date = None
                             if 'rating' in comments[i]:
                                 rating = comments[i]['rating']
                             if 'nickname' in comments[i]:

@@ -49,7 +49,7 @@ def main():
 #    Pgc.convert_pgc(address_old, port_old, address_new, port_new)
 
     print("convert person data")
-    People.convert_people(address_old, port_old, address_new, port_new)
+#    People.convert_people(address_old, port_old, address_new, port_new)
 
     print("convert label data")
 #    Label.convert_label(address_old, port_old, address_new, port_new)
@@ -73,12 +73,12 @@ def main():
     
     
     print("convert activity data")
-    Activity.convert_activity(address_old, port_old, address_new, port_new,
-                              Activity.collection_old, Activity.collection_new, Activity.params_map)
+#    Activity.convert_activity(address_old, port_old, address_new, port_new,
+#                              Activity.collection_old, Activity.collection_new, Activity.params_map)
 
     print("convert recommendInfo data")
-#    RecommendInfo.convert_recommend_info(address_old, port_old, address_new, port_new,
-#                                           RecommendInfo.collection_old, RecommendInfo.collection_new, RecommendInfo.params_map)
+    RecommendInfo.convert_recommend_info(address_old, port_old, address_new, port_new,
+                                           RecommendInfo.collection_old, RecommendInfo.collection_new, RecommendInfo.params_map)
 
     print("convert plan data")
 #    Plan.convert_plan(address_old, port_old, address_new, port_new,

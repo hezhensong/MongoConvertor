@@ -123,7 +123,8 @@ class Attraction:
                                 day = 1
                             new_date = datetime.datetime(year, month ,day)
                         else:
-                            new_date = comments[i]['date']
+                            new_date = None
+                            
                     if 'rating' in comments[i]:
                         rating = comments[i]['rating']
                     if 'nickname' in comments[i]:
