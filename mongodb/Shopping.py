@@ -26,8 +26,7 @@ class Shopping:
                   'tel': 'tel', # 电话
                   'tips': 'tips', # 提示
                   'url': 'website', # 网站
-                  'rating': 'rating', # 评分
-                  'brand': 'brand'    # 品牌
+                  'rating': 'rating' # 评分
                 }
 
     def __init__(self):
@@ -79,6 +78,13 @@ class Shopping:
             temp_sub_tag = {}
             _id = None
             tag = None
+            brand = []
+            temp_brand = {}
+            new_brand = []
+            cover_image =  None
+            title = None
+            desc = None
+            advice = None
             other = {}
             
             if 'category' in document:
@@ -108,6 +114,23 @@ class Shopping:
                         open_time.append(temp_open_time[i]['desc'])
                 else:
                     open_time.append(temp_open_time)
+            
+            if 'brand' in document:
+                brand = document['brand']
+                if brand != None:
+                    for i in range(len(brand)):
+                        if 'cover_image' in brand[i]:
+                            cover_image = brand[i]['cover_image']
+                        if 'title' in brand[i]:
+                            title = brand[i]['title']
+                        if 'desc' in brand[i]:
+                            desc = brand[i]['desc']
+                        if 'advice' in brand[i]:
+                            advice = brand[i]['advice']
+                        temp_brand.update({'cover_image': cover_image, 'title': title,
+                                          'desc': desc, 'advice': advice, 'tag': None})
+                        new_brand.append(temp_brand)
+            
             
             if 'comments' in document:
                 comments = document['comments']
@@ -160,7 +183,7 @@ class Shopping:
             
             other.update({'coordination': coordination , 'open_time': open_time,'sub_tag': sub_tag,
                           'master_tag': master_tag, 'is_show': is_show, 'comments': new_comments,
-                          'last_modified_person': None, 'last_modified_time': None})
+                          'brand': new_brand, 'last_modified_person': None, 'last_modified_time': None})
 
             post = {}
             post.update(other)

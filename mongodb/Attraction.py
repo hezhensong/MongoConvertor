@@ -25,15 +25,12 @@ class Attraction:
                   'coverImageName': 'cover_image', # 背景图片
                   'image': 'image', # 图片
                   'introduce': 'introduction', # 介绍
-#                  'masterLabelNew': 'master_tag', # 景点主标签
-#                  'subLabelNew': 'sub_tag', # 景点次标签  
                   'price': 'price_desc', # 价格描述
                   'short_introduce': 'brief_introduction', # 简介
                   'telno': 'tel', # 电话
                   'tips': 'tips', # 提示
                   'website': 'website', # 网站
-                  'yelp_rating': 'rating', # 评分
-                  'spot': 'spot' 
+                  'yelp_rating': 'rating' # 评分
                   }
 
     @staticmethod
@@ -85,6 +82,13 @@ class Attraction:
             _id = None
             tag = None
             temp_sub_tag = {}
+            spot = []
+            temp_spot = {}
+            new_spot = []
+            cover_image =  None
+            title = None
+            desc = None
+            advice = None
             other = {}
 
             if 'latitude' in document:
@@ -153,7 +157,22 @@ class Attraction:
                             tag = sub_tag[i]['label']
                         temp_sub_tag.update({'_id': _id, 'tag': tag})
                         new_sub_tag.append(temp_sub_tag)
-               
+            
+            if 'spot' in document:
+                spot = document['spot']
+                if spot != None:
+                    for i in range(len(spot)):
+                        if 'cover_image' in spot[i]:
+                            cover_image = spot[i]['cover_image']
+                        if 'title' in spot[i]:
+                            title = spot[i]['title']
+                        if 'desc' in spot[i]:
+                            desc = spot[i]['desc']
+                        if 'advice' in spot[i]:
+                            advice = spot[i]['advice']
+                        temp_spot.update({'cover_image': cover_image, 'title': title,
+                                          'desc': desc, 'advice': advice, 'tag': None})
+                        new_spot.append(temp_spot)
             # 是否线上展示
             if 'show_flag' in document:
                 show_flag = document['show_flag']
@@ -166,7 +185,7 @@ class Attraction:
 
 
             other.update({'is_show': is_show,'coordination': coordination , 'open_time': open_time,
-                          'open_table_url': None, 'comments': new_comments,
+                          'open_table_url': None, 'comments': new_comments,'spot': new_spot,
                           'master_tag': new_master_tag,'sub_tag': new_sub_tag,
                           'last_modified_person': None, 'last_modified_time': None})
 

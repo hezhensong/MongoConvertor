@@ -178,7 +178,7 @@ class Restaurant:
                     desc = dish[i]['desc']
                     advice = dish[i]['advice']
                     temp_dish.update({'cover_image':cover_image, 'desc':desc,
-                                      'advice': advice, 'title': title})
+                                      'advice': advice, 'title': title, 'tag': None})
                     newdish.append(temp_dish)
             
             if 'info' in document:
