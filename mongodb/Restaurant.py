@@ -25,7 +25,6 @@ class Restaurant:
                   'cover_image': 'cover_image', # 背景图片
                   'image': 'image', # 图片
                   'introduce': 'introduction', # 介绍
-                  'category': 'sub_tag', # 餐厅次标签  
                   'price_desc': 'price_desc', # 价格描述
                   'brief_introduce': 'brief_introduction', # 简介
                   'tel': 'tel', # 电话
@@ -95,12 +94,26 @@ class Restaurant:
             nickname = None
             text = None
             title = None
+            language = 'zh'
+            sub_tag = []
+            temp_sub_tag = {}
+            _id = None
+            tag = None
             other = {}
             
             if 'category' in document:
                 category = document['category']
                 if len(category) > 0:
-                    master_tag.update({'_id':category[0]['_id'],'name':category[0]['name']})
+                    master_tag.update({'_id':category[0]['_id'],'tag':category[0]['name']})
+                
+                for i in range(len(category)):
+                    if category != None:
+                        if '_id' in category[i]:
+                            _id = category[i]['_id']
+                        if 'name' in category[i]:
+                            tag = category[i]['name']
+                        temp_sub_tag.update({'_id': _id, 'tag': tag})
+                        sub_tag.append(temp_sub_tag)
                 
             if 'latitude' in document:
                 latitude = str(document['latitude'])
@@ -121,8 +134,8 @@ class Restaurant:
                 for i in range(len(comments)):
                     if type(comments[i]) == unicode:
                         temp_comments = {}
-                        temp_comments.update({'date': new_date,'rating': rating,'nickname': 
-                                                  nickname,'text': comments[i], 'title': title})
+                        temp_comments.update({'date': new_date,'rating': rating,'nickname': nickname,
+                                              'language': language, 'text': comments[i], 'title': title})
                         new_comments.append(temp_comments)
                     else:
                         if comments != [None]:
@@ -150,9 +163,11 @@ class Restaurant:
                                 text = comments[i]['text']
                             if 'title' in comments[i]:
                                 title = comments[i]['title']
+                            if 'language' in comments[i]:
+                                language = comments[i]['language']
                             temp_comments = {}
                             temp_comments.update({'date': new_date,'rating': rating,'nickname': 
-                                                  nickname,'text': text, 'title': title})
+                                                  nickname,'text': text, 'title': title, 'language': language})
                             new_comments.append(temp_comments)
             
             if 'menu' in document:
@@ -210,7 +225,7 @@ class Restaurant:
             
             other.update({'coordination': coordination , 'open_time': open_time,
                           'dish': newdish, 'facilities': facilities,'comments': new_comments,
-                          'master_tag': master_tag, 'is_show': is_show,
+                          'master_tag': master_tag, 'sub_tag': sub_tag, 'is_show': is_show,
                           'last_modified_person': None, 'last_modified_time': None})
             
             post = {}      

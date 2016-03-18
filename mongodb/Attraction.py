@@ -25,8 +25,8 @@ class Attraction:
                   'coverImageName': 'cover_image', # 背景图片
                   'image': 'image', # 图片
                   'introduce': 'introduction', # 介绍
-                  'masterLabelNew': 'master_tag', # 景点主标签
-                  'subLabelNew': 'sub_tag', # 景点次标签  
+#                  'masterLabelNew': 'master_tag', # 景点主标签
+#                  'subLabelNew': 'sub_tag', # 景点次标签  
                   'price': 'price_desc', # 价格描述
                   'short_introduce': 'brief_introduction', # 简介
                   'telno': 'tel', # 电话
@@ -77,6 +77,14 @@ class Attraction:
             nickname = None
             text = None
             title = None
+            language = 'zh'
+            master_tag = {}
+            new_master_tag = {}
+            sub_tag = []
+            new_sub_tag = []
+            _id = None
+            tag = None
+            temp_sub_tag = {}
             other = {}
 
             if 'latitude' in document:
@@ -120,11 +128,32 @@ class Attraction:
                         text = comments[i]['text']
                     if 'title' in comments[i]:
                         title = comments[i]['title']
+                    if 'language' in comments[i]:
+                        language = comments[i]['language']
                     temp_comments = {}
                     temp_comments.update({'date': new_date,'rating': rating,'nickname': 
-                                          nickname,'text': text, 'title': title})
+                                          nickname,'text': text, 'title': title, 'language': language})
                     new_comments.append(temp_comments)
 
+            if 'masterLabelNew' in document:
+                master_tag = document['masterLabelNew']
+                if '_id' in master_tag:
+                    _id = master_tag['_id']
+                if 'label' in master_tag:
+                    tag = master_tag['label']
+                new_master_tag.update({'_id': _id,'tag': tag})
+                
+            if 'subLabelNew' in document:
+                sub_tag = document['subLabelNew']
+                if sub_tag != None:
+                    for i in range(len(sub_tag)):
+                        if '_id' in sub_tag[i]:
+                            _id = sub_tag[i]['_id']
+                        if 'label' in sub_tag[i]:
+                            tag = sub_tag[i]['label']
+                        temp_sub_tag.update({'_id': _id, 'tag': tag})
+                        new_sub_tag.append(temp_sub_tag)
+               
             # 是否线上展示
             if 'show_flag' in document:
                 show_flag = document['show_flag']
@@ -138,6 +167,7 @@ class Attraction:
 
             other.update({'is_show': is_show,'coordination': coordination , 'open_time': open_time,
                           'open_table_url': None, 'comments': new_comments,
+                          'master_tag': new_master_tag,'sub_tag': new_sub_tag,
                           'last_modified_person': None, 'last_modified_time': None})
 
             post = {}

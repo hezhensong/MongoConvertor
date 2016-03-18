@@ -23,8 +23,6 @@ class Activity:
                   'desc': 'description',  # 描述
                   'order_url': 'order_url',  # 订票地址
                   'title': 'title',  # 标题
-                  #                  'latitude':'latitude',        # 纬度
-                  #                  'longitude':'longitude'       # 经度
                   }
 
     def __init__(self):
@@ -86,6 +84,7 @@ class Activity:
             
                 
             other.update({'start_time':start_time, 'end_time':end_time, 'coordination': coordination,
+                          'last_modified_person': None, 'last_modified_time': None, 
                           'paragraphs':{'image_title': None, 'image_url': None,
                                         'detai_up': None, 'detail_down': None, 'image_brief': None}})
             post = {}      

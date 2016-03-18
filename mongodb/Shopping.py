@@ -21,7 +21,6 @@ class Shopping:
                   'cover_image': 'cover_image', # 背景图片
                   'image': 'image', # 图片
                   'introduce': 'introduction', # 介绍
-                  'category': 'sub_tag', # 购物次标签  
                   'price_desc': 'price_desc', # 价格描述
                   'brief_introduce': 'brief_introduction', # 简介
                   'tel': 'tel', # 电话
@@ -75,12 +74,26 @@ class Shopping:
             nickname = None
             text = None
             title = None
+            language = 'zh'
+            sub_tag = []
+            temp_sub_tag = {}
+            _id = None
+            tag = None
             other = {}
             
             if 'category' in document:
                 category = document['category']
                 if len(category) > 0:
-                    master_tag.update({'_id':category[0]['_id'],'name':category[0]['name']})
+                    master_tag.update({'_id':category[0]['_id'],'tag':category[0]['name']})
+                
+                for i in range(len(category)):
+                    if category != None:
+                        if '_id' in category[i]:
+                            _id = category[i]['_id']
+                        if 'name' in category[i]:
+                            tag = category[i]['name']
+                        temp_sub_tag.update({'_id': _id, 'tag': tag})
+                        sub_tag.append(temp_sub_tag)
                 
             if 'latitude' in document:
                 latitude = str(document['latitude'])
@@ -101,8 +114,8 @@ class Shopping:
                 for i in range(len(comments)):
                     if type(comments[i]) == unicode:
                         temp_comments = {}
-                        temp_comments.update({'date': new_date,'rating': rating,'nickname': 
-                                                  nickname,'text': comments[i], 'title': title})
+                        temp_comments.update({'date': new_date,'rating': rating,'nickname': nickname,
+                                              'language': language,'text': comments[i], 'title': title})
                         new_comments.append(temp_comments)
                     else:
                         if comments != [None]:
@@ -131,10 +144,9 @@ class Shopping:
                             if 'title' in comments[i]:
                                 title = comments[i]['title']
                             temp_comments = {}
-                            temp_comments.update({'date': new_date,'rating': rating,'nickname': 
-                                                  nickname,'text': text, 'title': title})
+                            temp_comments.update({'date': new_date,'rating': rating,'nickname': nickname,
+                                                  'language': language,'text': text, 'title': title})
                             new_comments.append(temp_comments)
-            
             
             # 是否线上展示
             if 'show_flag' in document:
@@ -146,7 +158,7 @@ class Shopping:
             else:
                 is_show = False
             
-            other.update({'coordination': coordination , 'open_time': open_time,
+            other.update({'coordination': coordination , 'open_time': open_time,'sub_tag': sub_tag,
                           'master_tag': master_tag, 'is_show': is_show, 'comments': new_comments,
                           'last_modified_person': None, 'last_modified_time': None})
 

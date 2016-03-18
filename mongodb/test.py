@@ -49,3 +49,6 @@ print(len(m))
 #print(type(str))
 #l = time.strptime(str,"%Y年%m月%d日")[0:3]
 #print(l)
+
+a = {}
+print(type(a))
