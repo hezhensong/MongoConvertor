@@ -103,7 +103,7 @@ class Restaurant:
             if 'category' in document:
                 category = document['category']
                 if len(category) > 0:
-                    master_tag.update({'_id':category[0]['_id'],'tag':category[0]['name']})
+                    master_tag.update({'_id': None,'label': None})
                 
                 for i in range(len(category)):
                     if category != None:
@@ -225,7 +225,7 @@ class Restaurant:
             
             other.update({'coordination': coordination , 'open_time': open_time,
                           'dish': newdish, 'facilities': facilities,'comments': new_comments,
-                          'master_tag': master_tag, 'sub_tag': sub_tag, 'is_show': is_show,
+                          'master_label': master_tag, 'sub_tag': sub_tag, 'is_show': is_show,
                           'last_modified_person': None, 'last_modified_time': None})
             
             post = {}      

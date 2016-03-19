@@ -4,12 +4,12 @@
 from pymongo import MongoClient
 
 
-class People:
+class Person:
     def __init__(self):
         pass
 
     @staticmethod
-    def convert_people(address_old, port_old, address_new, port_new):
+    def convert_person(address_old, port_old, address_new, port_new):
         client = MongoClient(address_old, port_old)
         travel1 = client.travel1
 
@@ -19,7 +19,7 @@ class People:
 
         # old collection latest activities
         peoples = travel1.peoples
-        peoples_new = travel2.people
+        peoples_new = travel2.person
 
         peoples_new.remove()
 

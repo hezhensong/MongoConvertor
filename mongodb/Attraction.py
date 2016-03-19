@@ -144,7 +144,7 @@ class Attraction:
                     _id = master_tag['_id']
                 if 'label' in master_tag:
                     tag = master_tag['label']
-                new_master_tag.update({'_id': _id,'tag': tag})
+                new_master_tag.update({'_id': _id,'label': tag})
                 
             if 'subLabelNew' in document:
                 sub_tag = document['subLabelNew']
@@ -187,7 +187,7 @@ class Attraction:
 
             other.update({'is_show': is_show,'coordination': coordination , 'open_time': open_time,
                           'open_table_url': None, 'comments': new_comments,'spot': new_spot,
-                          'master_tag': new_master_tag,'sub_tag': new_sub_tag,
+                          'master_label': new_master_tag,'sub_tag': new_sub_tag,
                           'last_modified_person': None, 'last_modified_time': None})
 
             post = {}

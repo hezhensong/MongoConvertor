@@ -14,7 +14,7 @@ from RecommendInfo import RecommendInfo
 from Plan import Plan
 from LabelType import LabelType
 from Brand import Brand
-from People import People
+from Person import Person
 
 
 def main():
@@ -49,14 +49,14 @@ def main():
 #    Pgc.convert_pgc(address_old, port_old, address_new, port_new)
 
     print("convert person data")
-#    People.convert_people(address_old, port_old, address_new, port_new)
+#    Person.convert_person(address_old, port_old, address_new, port_new)
 
     print("convert label data")
 #    Label.convert_label(address_old, port_old, address_new, port_new)
 
     print("convert attraction data")
-    Attraction.convert_attraction(address_old, port_old, address_new, port_new,
-                                  Attraction.collection_old, Attraction.collection_new, Attraction.params_map)
+#    Attraction.convert_attraction(address_old, port_old, address_new, port_new,
+#                                  Attraction.collection_old, Attraction.collection_new, Attraction.params_map)
 
     print("convert restaurant data")
     Restaurant.convert_restaurant(address_old, port_old, address_new, port_new,

@@ -88,7 +88,7 @@ class Shopping:
             if 'category' in document:
                 category = document['category']
                 if len(category) > 0:
-                    master_tag.update({'_id':category[0]['_id'],'tag':category[0]['name']})
+                    master_tag.update({'_id': None,'tag': None})
                 
                 for i in range(len(category)):
                     if category != None:
@@ -182,7 +182,7 @@ class Shopping:
                 is_show = False
             
             other.update({'coordination': coordination , 'open_time': open_time,'sub_tag': sub_tag,
-                          'master_tag': master_tag, 'is_show': is_show, 'comments': new_comments,
+                          'master_label': master_tag, 'is_show': is_show, 'comments': new_comments,
                           'brand': new_brand, 'last_modified_person': None, 'last_modified_time': None})
 
             post = {}
