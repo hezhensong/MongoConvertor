@@ -96,7 +96,6 @@ class Restaurant:
             title = None
             language = 'zh'
             sub_tag = []
-            temp_sub_tag = {}
             _id = None
             tag = None
             other = {}
@@ -112,6 +111,7 @@ class Restaurant:
                             _id = category[i]['_id']
                         if 'name' in category[i]:
                             tag = category[i]['name']
+                        temp_sub_tag = {}
                         temp_sub_tag.update({'_id': _id, 'tag': tag})
                         sub_tag.append(temp_sub_tag)
                 
@@ -173,10 +173,10 @@ class Restaurant:
             if 'menu' in document:
                 dish = document['menu']
                 for i in range(len(dish)):
-                    temp_dish = {}
                     cover_image = dish[i]['cover_image']
                     desc = dish[i]['desc']
                     advice = dish[i]['advice']
+                    temp_dish = {}
                     temp_dish.update({'cover_image':cover_image, 'desc':desc,
                                       'advice': advice, 'title': title, 'tag': None})
                     newdish.append(temp_dish)

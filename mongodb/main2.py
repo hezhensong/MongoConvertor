@@ -55,16 +55,16 @@ def main():
 #    Label.convert_label(address_old, port_old, address_new, port_new)
 
     print("convert attraction data")
-#    Attraction.convert_attraction(address_old, port_old, address_new, port_new,
-#                                  Attraction.collection_old, Attraction.collection_new, Attraction.params_map)
+    Attraction.convert_attraction(address_old, port_old, address_new, port_new,
+                                  Attraction.collection_old, Attraction.collection_new, Attraction.params_map)
 
     print("convert restaurant data")
-#    Restaurant.convert_restaurant(address_old, port_old, address_new, port_new,
-#                                  Restaurant.collection_old, Restaurant.collection_new, Restaurant.params_map)
+    Restaurant.convert_restaurant(address_old, port_old, address_new, port_new,
+                                  Restaurant.collection_old, Restaurant.collection_new, Restaurant.params_map)
 
     print("convert shopping data")
-#    Shopping.convert_shopping(address_old, port_old, address_new, port_new,
-#                              Shopping.collection_old, Shopping.collection_new, Shopping.params_map)
+    Shopping.convert_shopping(address_old, port_old, address_new, port_new,
+                              Shopping.collection_old, Shopping.collection_new, Shopping.params_map)
 
     print("convert brand data")
 #    Brand.convert_brand(address_old, port_old, address_new, port_new,
@@ -77,8 +77,8 @@ def main():
 #                              Activity.collection_old, Activity.collection_new, Activity.params_map)
 
     print("convert recommendInfo data")
-    RecommendInfo.convert_recommend_info(address_old, port_old, address_new, port_new,
-                                           RecommendInfo.collection_old, RecommendInfo.collection_new, RecommendInfo.params_map)
+#    RecommendInfo.convert_recommend_info(address_old, port_old, address_new, port_new,
+#                                           RecommendInfo.collection_old, RecommendInfo.collection_new, RecommendInfo.params_map)
 
     print("convert plan data")
 #    Plan.convert_plan(address_old, port_old, address_new, port_new,

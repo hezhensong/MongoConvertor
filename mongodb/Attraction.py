@@ -81,9 +81,7 @@ class Attraction:
             new_sub_tag = []
             _id = None
             tag = None
-            temp_sub_tag = {}
             spot = []
-            temp_spot = {}
             new_spot = []
             cover_image =  None
             title = None
@@ -156,6 +154,7 @@ class Attraction:
                             _id = sub_tag[i]['_id']
                         if 'label' in sub_tag[i]:
                             tag = sub_tag[i]['label']
+                        temp_sub_tag = {}    
                         temp_sub_tag.update({'_id': _id, 'tag': tag})
                         new_sub_tag.append(temp_sub_tag)
             
@@ -171,6 +170,7 @@ class Attraction:
                             desc = spot[i]['desc']
                         if 'advice' in spot[i]:
                             advice = spot[i]['advice']
+                        temp_spot = {}
                         temp_spot.update({'cover_image': cover_image, 'title': title,
                                           'desc': desc, 'advice': advice, 'tag': None})
                         new_spot.append(temp_spot)

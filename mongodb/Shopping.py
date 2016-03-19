@@ -75,11 +75,9 @@ class Shopping:
             title = None
             language = 'zh'
             sub_tag = []
-            temp_sub_tag = {}
             _id = None
             tag = None
             brand = []
-            temp_brand = {}
             new_brand = []
             cover_image =  None
             title = None
@@ -98,6 +96,7 @@ class Shopping:
                             _id = category[i]['_id']
                         if 'name' in category[i]:
                             tag = category[i]['name']
+                        temp_sub_tag = {}
                         temp_sub_tag.update({'_id': _id, 'tag': tag})
                         sub_tag.append(temp_sub_tag)
                 
@@ -127,6 +126,7 @@ class Shopping:
                             desc = brand[i]['desc']
                         if 'advice' in brand[i]:
                             advice = brand[i]['advice']
+                        temp_brand = {}
                         temp_brand.update({'cover_image': cover_image, 'title': title,
                                           'desc': desc, 'advice': advice, 'tag': None})
                         new_brand.append(temp_brand)
