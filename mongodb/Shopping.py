@@ -88,7 +88,7 @@ class Shopping:
             if 'category' in document:
                 category = document['category']
                 if len(category) > 0:
-                    master_tag.update({'_id': None,'tag': None})
+                    master_tag.update({'_id': None,'label': None})
                 
                 for i in range(len(category)):
                     if category != None:

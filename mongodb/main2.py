@@ -59,8 +59,8 @@ def main():
 #                                  Attraction.collection_old, Attraction.collection_new, Attraction.params_map)
 
     print("convert restaurant data")
-    Restaurant.convert_restaurant(address_old, port_old, address_new, port_new,
-                                  Restaurant.collection_old, Restaurant.collection_new, Restaurant.params_map)
+#    Restaurant.convert_restaurant(address_old, port_old, address_new, port_new,
+#                                  Restaurant.collection_old, Restaurant.collection_new, Restaurant.params_map)
 
     print("convert shopping data")
     Shopping.convert_shopping(address_old, port_old, address_new, port_new,
