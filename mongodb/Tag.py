@@ -41,3 +41,26 @@ class Tag:
             }
             tag.insert(post)
             print(post)
+
+        # type 0
+        labels_old = travel1.label
+        label_new = travel2.tag
+
+        for label_old in labels_old.find():
+            _id = label_old['_id']
+            title = label_old['label']
+
+            # 标签英文名
+            if 'label_en' in label_old:
+                title_en = label_old['label_en']
+            else:
+                title_en = None
+
+            post = {
+                '_id': _id,  # 标签ID
+                'name': title,  # 标签中文名
+                'name_en': title_en,  # 标签英文名
+                'type': 0,  # 标签类型
+            }
+            label_new.insert(post)
+            print(post)

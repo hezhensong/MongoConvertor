@@ -24,7 +24,6 @@ def main():
     address_new = '192.168.6.254'
     port_new = 37017
 
-
     print("convert label type data")
     LabelType.insert_label_type(address_new, port_new)
     

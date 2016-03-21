@@ -32,8 +32,8 @@ class City:
             city_name_en = city_old['cityname_en']
             city_name_py = city_old['cityname_py']
 
-            if 'coverImageName' in city_old:
-                city_cover_image = city_old['coverImageName']
+            if 'imgforapp' in city_old:
+                city_cover_image = "http://weegotest.b0.upaiyun.com/city/citypathforApp/" + city_old['imgforapp']
             else:
                 city_cover_image = None
 
@@ -58,10 +58,16 @@ class City:
             # 餐厅 list
             label_dict['1'] = []
             label_list = label_dict['1']
-            label_list.append({"_id": ObjectId("000000000000"), "name": "米其林推荐"})
-            label_list.append({"_id": ObjectId("000000000000"), "name": "本地特色"})
-            label_list.append({"_id": ObjectId("000000000000"), "name": "人气热门"})
-            label_list.append({"_id": ObjectId("000000000000"), "name": "城市精选"})
+            if city_name == "旧金山":
+                label_list.append({"_id": ObjectId("000000000000"), "name": "惬意时光"})
+                label_list.append({"_id": ObjectId("000000000000"), "name": "国际风味"})
+                label_list.append({"_id": ObjectId("000000000000"), "name": "人气中餐"})
+                label_list.append({"_id": ObjectId("000000000000"), "name": "本地独家"})
+            else:
+                label_list.append({"_id": ObjectId("000000000000"), "name": "米其林推荐"})
+                label_list.append({"_id": ObjectId("000000000000"), "name": "本地特色"})
+                label_list.append({"_id": ObjectId("000000000000"), "name": "人气热门"})
+                label_list.append({"_id": ObjectId("000000000000"), "name": "城市精选"})
 
             # 购物 list
             label_dict['2'] = []
