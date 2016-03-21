@@ -58,7 +58,7 @@ class City:
             # 餐厅 list
             label_dict['1'] = []
             label_list = label_dict['1']
-            if city_name == "旧金山":
+            if city_name == u"旧金山":
                 label_list.append({"_id": ObjectId("000000000000"), "name": "惬意时光"})
                 label_list.append({"_id": ObjectId("000000000000"), "name": "国际风味"})
                 label_list.append({"_id": ObjectId("000000000000"), "name": "人气中餐"})
