@@ -14,7 +14,10 @@ from RecommendInfo import RecommendInfo
 from Plan import Plan
 from LabelType import LabelType
 from Brand import Brand
+from Spot import Spot
+from Dish import Dish
 from Person import Person
+
 
 
 def main():
@@ -46,13 +49,28 @@ def main():
 #                            WeatherHistory.collection_old, WeatherHistory.collection_new, WeatherHistory.params_map)
 
     print("convert pgc data")
-#    Pgc.convert_pgc(address_old, port_old, address_new, port_new)
-
+#    Pgc.convert_pgc(address_old, port_old, address_new, port_new,
+#                              Pgc.collection_old, Pgc.collection_new, Pgc.params_map)
+    
     print("convert person data")
 #    Person.convert_person(address_old, port_old, address_new, port_new)
 
     print("convert label data")
 #    Label.convert_label(address_old, port_old, address_new, port_new)
+
+    # 必须在  attraction 之前创建
+    print("create spot data")
+#    Spot.create_spot(address_old, port_old, address_new, port_new,
+#                              Spot.collection_old, Spot.collection_new, Spot.params_map)
+
+    # 必须在 restaurant 之前创建
+    print("create dish data")
+#    Dish.create_dish(address_old, port_old, address_new, port_new,
+#                              Dish.collection_old, Dish.collection_new, Dish.params_map)
+    # 必须在 shopping 之前创建
+    print("convert brand data")
+#    Brand.convert_brand(address_old, port_old, address_new, port_new,
+#                              Brand.collection_old, Brand.collection_new, Brand.params_map)
 
     print("convert attraction data")
 #    Attraction.convert_attraction(address_old, port_old, address_new, port_new,
@@ -65,12 +83,6 @@ def main():
     print("convert shopping data")
     Shopping.convert_shopping(address_old, port_old, address_new, port_new,
                               Shopping.collection_old, Shopping.collection_new, Shopping.params_map)
-
-    print("convert brand data")
-#    Brand.convert_brand(address_old, port_old, address_new, port_new,
-#                              Brand.collection_old, Brand.collection_new, Brand.params_map)
-
-    
     
     print("convert activity data")
 #    Activity.convert_activity(address_old, port_old, address_new, port_new,

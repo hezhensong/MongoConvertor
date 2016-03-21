@@ -8,9 +8,21 @@ from bson.objectid import ObjectId
 class Pgc:
     def __init__(self):
         pass
+    
+    collection_old = 'pgcs'
+    
+    collection_new = 'pgc'
+
+    params_map = {'_id': '_id',
+                  'cover_image': 'cover_image',
+                  'title': 'title',
+                  'introducation': 'introduction'
+                  }
 
     @staticmethod
-    def convert_pgc(address_old, port_old, address_new, port_new):
+    def convert_pgc(address_old, port_old, address_new, port_new, collection_old, collection_new,
+                     params_map):
+
         # old database connection
         client = MongoClient(address_old, port_old)
         travel1 = client.travel1
@@ -19,72 +31,74 @@ class Pgc:
         client = MongoClient(address_new, port_new)
         travel2 = client.travel2
 
-        # old collection latest activities
-        pgcs = travel1.pgcs
-        pgc_new = travel2.pgc
+        # get old collection and create new collection
+        db_old = travel1[collection_old]
+        db_new = travel2[collection_new]
 
         # clean former data
-        pgc_new.remove()
+        db_new.remove()
 
-        for pgc_old in pgcs.find():
-            _id = pgc_old['_id']
+        # 临时数组
+        temp = [None] * len(params_map.keys())
 
-            if 'title' in pgc_old:
-                title = pgc_old['title']
-            else:
-                title = None
+        # 判断当前文档是否含有某个字段,若有则取出后赋值给临时数组,否则为 None
+        for document in db_old.find():
+            for i in range(len(params_map.keys())):
+                if params_map.keys()[i] in document:
+                    temp[i] = document[params_map.keys()[i]]
 
-            if 'cover_image' in pgc_old:
-                cover_image = pgc_old['cover_image']
-            else:
-                cover_image = None
-
-            if 'head_image' in pgc_old:
-                head_image = pgc_old['head_image']
-            else:
-                head_image = None
-
-            if 'pgc_city' in pgc_old:
-                city_id = pgc_old['pgc_city']['_id']
-                city_id = ObjectId(city_id)
-            else:
-                city_id = None
-
-            if 'pgc_people' in pgc_old:
-                person = pgc_old['pgc_people']['_id']
-                if str(person).strip() != "":
-                    person = ObjectId(person)
-                else:
-                    person = None
-            else:
-                person = None
-
-            if 'job_desc' in pgc_old:
-                job_desc = pgc_old['job_desc']
-            else:
-                job_desc = None
-
-            if 'introduction' in pgc_old:
-                introduction = pgc_old['introducation']
-            else:
-                introduction = None
-
+            person = None
+            city_id = None
             poi_list = []
-            if 'pgc_poi' in pgc_old:
-                pgc_poi_old = pgc_old['pgc_poi']
-                for poi_old in pgc_poi_old:
-                    poi_id = poi_old['_id']
-                    poi_list.append(poi_id)
+            temp_poi_list = []
+            _id = None
+            name = None
+            type = None
+            poi_desc = None
+            poi_image = None
+            poi_image_desc = None
+            other = {}
 
-            post = {
-                '_id': _id,  # 活动ID
-                'city_id': city_id,  # 城市ID
-                'title': title,  # 活动主题
-                'cover_image': cover_image,  # 活动封面
-                'head_image': head_image,
-                'introduction': introduction,
-                'poi_list': poi_list,
-                'person': person
-            }
-            pgc_new.insert(post)
-            print(post)
+            if 'pgc_people' in document:
+                person = document['pgc_people']
+                if '_id' in person:
+                    if person['_id'] != '':
+                        person = ObjectId(person['_id'].strip())
+                    else:
+                        person = ''
+                    
+            if 'pgc_city' in document:
+                city_id = document['pgc_city']
+                if '_id' in city_id:
+                    city_id = ObjectId(city_id['_id'].strip())
+            
+            if 'pgc_poi' in document:
+                temp_poi_list = document['pgc_poi']
+                for i in range(len(temp_poi_list)):
+                    if '_id' in temp_poi_list[i]:
+                        _id = temp_poi_list[i]['_id']
+                    if 'type' in temp_poi_list[i]:
+                        type = temp_poi_list[i]['type']
+                    if 'name' in temp_poi_list[i]:
+                        name = temp_poi_list[i]['name']
+                    if 'poi_desc' in temp_poi_list[i]:
+                        poi_desc = temp_poi_list[i]['poi_desc']
+                    if 'poi_image' in temp_poi_list[i]:
+                        poi_image = temp_poi_list[i]['poi_image']
+                    if 'poi_image_desc' in temp_poi_list[i]:
+                        poi_image_desc = temp_poi_list[i]['poi_image_desc']
+                    temp_poi = {}
+                    temp_poi.update({'_id': _id, 'type': type, 'poi_desc': poi_desc,'name': name,
+                                     'poi_image': poi_image, 'poi_image_desc': poi_image_desc})
+                    poi_list.append(temp_poi)
+            
+            other.update({'person': person, 'city_id' : city_id,
+                          'poi_list': poi_list})
+
+            post = {}
+            post.update(other)
+            for i in range(len(params_map.keys())):
+                post.update({params_map.values()[i]: temp[i]})
+            db_new.insert(post)
+            print post
+        

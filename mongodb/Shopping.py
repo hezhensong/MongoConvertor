@@ -2,6 +2,7 @@
 # -*- coding: UTF-8 -*-
 
 from pymongo import MongoClient
+from bson.objectid import ObjectId
 import datetime
 
 class Shopping:
@@ -79,6 +80,7 @@ class Shopping:
             tag = None
             brand = []
             new_brand = []
+            brand_id = None
             cover_image =  None
             title = None
             desc = None
@@ -114,20 +116,23 @@ class Shopping:
                 else:
                     open_time.append(temp_open_time)
             
+            
+            print(document['_id'])
             if 'brand' in document:
                 brand = document['brand']
                 if brand != None:
                     for i in range(len(brand)):
-                        if 'cover_image' in brand[i]:
-                            cover_image = brand[i]['cover_image']
-                        if 'title' in brand[i]:
-                            title = brand[i]['title']
-                        if 'desc' in brand[i]:
-                            desc = brand[i]['desc']
-                        if 'advice' in brand[i]:
-                            advice = brand[i]['advice']
+                        if '_id' in brand[i]:
+                            brand_id = brand[i]['_id']
+                            db_brand = travel2['brand'].find_one({'_id': ObjectId(brand_id)})
+                            if db_brand != None:
+                                cover_image = db_brand['cover_image']
+                                title = db_brand['title']
+                                desc = db_brand['desc']
+                                advice = db_brand['advice']
+                        
                         temp_brand = {}
-                        temp_brand.update({'cover_image': cover_image, 'title': title,
+                        temp_brand.update({'_id': brand_id, 'cover_image': cover_image, 'title': title,
                                           'desc': desc, 'advice': advice, 'tag': None})
                         new_brand.append(temp_brand)
             

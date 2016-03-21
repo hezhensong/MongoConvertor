@@ -17,7 +17,7 @@ class Brand:
                   'advice': 'advice',
                   'cover_image': 'cover_image',
                   'title': 'title',
-                  'desc':'description' 
+                  'desc':'desc' 
     }
 
     def __init__(self):
@@ -53,6 +53,7 @@ class Brand:
 
             # 需要特殊处理的字段,处理后以字典的形式添加到 other 中
             other = {}
+            other.update({'tag': None})
 
             post = {}
             post.update(other)
