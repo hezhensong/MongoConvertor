@@ -57,7 +57,6 @@ class Attraction:
 
         # 判断当前文档是否含有某个字段,若有则取出后赋值给临时数组,否则为 None
         for document in db_old.find():
-            print(document['_id'])
             for i in range(len(params_map.keys())):
                 if params_map.keys()[i] in document:
                     temp[i] = document[params_map.keys()[i]]
@@ -82,6 +81,7 @@ class Attraction:
             _id = None
             tag = None
             spot = []
+            spot_id = None
             new_spot = []
             cover_image =  None
             title = None
@@ -170,8 +170,12 @@ class Attraction:
                             desc = spot[i]['desc']
                         if 'advice' in spot[i]:
                             advice = spot[i]['advice']
+                        
+                        spot_id = travel2['spot'].find_one({'cover_image': cover_image, 'title': title,
+                                          'desc': desc, 'advice': advice})['_id']
+                        
                         temp_spot = {}
-                        temp_spot.update({'cover_image': cover_image, 'title': title,
+                        temp_spot.update({'_id': spot_id, 'cover_image': cover_image, 'title': title,
                                           'desc': desc, 'advice': advice, 'tag': None})
                         new_spot.append(temp_spot)
             # 是否线上展示

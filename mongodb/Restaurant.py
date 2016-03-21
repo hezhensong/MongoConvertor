@@ -72,6 +72,7 @@ class Restaurant:
             desc = None
             advice = None
             newdish = []
+            dish_id = None
             facilities = {}
             alcohol = None
             noise = None
@@ -176,8 +177,13 @@ class Restaurant:
                     cover_image = dish[i]['cover_image']
                     desc = dish[i]['desc']
                     advice = dish[i]['advice']
+                    
+                    dish_id = travel2['dish'].find_one({'cover_image': cover_image,
+                                              'desc': desc, 'advice': advice})['_id']
+                    
+                    print(dish_id)
                     temp_dish = {}
-                    temp_dish.update({'cover_image':cover_image, 'desc':desc,
+                    temp_dish.update({'_id': dish_id, 'cover_image':cover_image, 'desc':desc,
                                       'advice': advice, 'title': title, 'tag': None})
                     newdish.append(temp_dish)
             
