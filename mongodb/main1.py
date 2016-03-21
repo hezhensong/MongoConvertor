@@ -5,8 +5,8 @@ from WeatherTranslation import WeatherTranslation
 
 
 def main():
-    address_new = '192.168.37.128'
-    port_new = 27017
+    address_new = '192.168.6.254'
+    port_new = 37017
 
     WeatherTranslation.insert_weather_translation(address_new, port_new)
 

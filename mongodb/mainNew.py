@@ -9,8 +9,8 @@ def main():
     address_old = '192.168.37.128'
     port_old = 27017
 
-    address_new = '192.168.37.128'
-    port_new = 27017
+    address_new = '192.168.6.254'
+    port_new = 37017
 
     Area.insert_area(address_old, port_old, address_new, port_new)
 
