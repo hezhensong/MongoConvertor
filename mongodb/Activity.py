@@ -2,6 +2,8 @@
 # -*- coding: UTF-8 -*-
 
 import datetime
+
+from bson import ObjectId
 from pymongo import MongoClient
 
 
@@ -14,27 +16,35 @@ class Activity:
 
     # 定义参数字典,其中键为旧集合的字段名,值为新集合的字段名
     # 注意:这里只定义不需要做特殊处理的字段
-    params_map = {'_id': '_id',  # 活动 ID
-                  'acttime': 'act_time',  # 活动时间
-                  'acturl': 'act_url',  # 活动 url
-                  'atype': 'type',  # 活动类型
-                  'cover_image': 'cover_image',  # 背景图片
-                  'deaddress': 'detail_address',  # 详细地址
-                  'desc': 'description',  # 描述
-                  'order_url': 'order_url',  # 订票地址
-                  'title': 'title',  # 标题
-                  }
+    params_map = {
+        '_id': '_id',  # 活动 ID
+        'acttime': 'act_time',  # 活动时间
+        'acturl': 'act_url',  # 活动 url
+        'atype': 'type',  # 活动类型
+        'cover_image': 'cover_image',  # 背景图片
+        'deaddress': 'detail_address',  # 详细地址
+        'desc': 'description',  # 描述
+        'order_url': 'order_url',  # 订票地址
+        'title': 'title',  # 标题
+    }
 
     def __init__(self):
         pass
 
     @staticmethod
-    def convert_activity(address_old, port_old, address_new, port_new, collection_old, collection_new,
+    def convert_activity(address_old,
+                         port_old,
+                         address_new,
+                         port_new,
+                         collection_old,
+                         collection_new,
                          params_map):
 
         # old database connection
         client = MongoClient(address_old, port_old)
         travel1 = client.travel1
+
+        latestcity = travel1.latestcity
 
         # new database connection
         client = MongoClient(address_new, port_new)
@@ -59,7 +69,7 @@ class Activity:
             # 需要特殊处理的字段,处理后以字典的形式添加到 other 中
             other = {}
             paragraphs = []
-            
+
             start_time = None
             end_time = None
             coordination = None
@@ -82,17 +92,26 @@ class Activity:
             if 'longitude' in document:
                 longitude = document['longitude']
                 coordination = longitude + ',' + latitude
-            
+
             paragraphs.append({'image_title': None, 'image_url': None,
-                                        'detail_up': None, 'detail_down': None, 'image_brief': None})
-                
-            other.update({'start_time':start_time, 'end_time':end_time, 'coordination': coordination,
-                          'last_modified_person': None, 'last_modified_time': None, 
+                               'detail_up': None, 'detail_down': None, 'image_brief': None})
+
+            other.update({'start_time': start_time, 'end_time': end_time, 'coordination': coordination,
+                          'last_modified_person': None, 'last_modified_time': None,
                           'paragraphs': paragraphs})
-            post = {}      
+            post = {}
 
             post.update(other)
             for i in range(len(params_map.keys())):
                 post.update({params_map.values()[i]: temp[i]})
+
+            # 添加关联的城市ID
+            post['city_id'] = None
+            for city in latestcity.find():
+                if 'activity_labels' in city:
+                    for activity_label in city['activity_labels']:
+                        if activity_label['title'] == post['title']:
+                            post['city_id'] = ObjectId(activity_label['_id'])
+
             db_new.insert(post)
             print post
