@@ -81,12 +81,12 @@ def main():
 #                                  Restaurant.collection_old, Restaurant.collection_new, Restaurant.params_map)
 
     print("convert shopping data")
-    Shopping.convert_shopping(address_old, port_old, address_new, port_new,
-                              Shopping.collection_old, Shopping.collection_new, Shopping.params_map)
+#    Shopping.convert_shopping(address_old, port_old, address_new, port_new,
+#                              Shopping.collection_old, Shopping.collection_new, Shopping.params_map)
     
     print("convert activity data")
-#    Activity.convert_activity(address_old, port_old, address_new, port_new,
-#                              Activity.collection_old, Activity.collection_new, Activity.params_map)
+    Activity.convert_activity(address_old, port_old, address_new, port_new,
+                              Activity.collection_old, Activity.collection_new, Activity.params_map)
 
     print("convert recommendInfo data")
 #    RecommendInfo.convert_recommend_info(address_old, port_old, address_new, port_new,

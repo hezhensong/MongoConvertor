@@ -26,6 +26,7 @@ class Activity:
         'desc': 'description',  # 描述
         'order_url': 'order_url',  # 订票地址
         'title': 'title',  # 标题
+        'address': 'address'
     }
 
     def __init__(self):
