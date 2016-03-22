@@ -2,6 +2,7 @@
 # -*- coding: UTF-8 -*-
 
 from Area import Area
+from WeatherTranslation import WeatherTranslation
 
 
 # 插入新增数据，这部分数据不需要从老库导入
@@ -13,6 +14,8 @@ def main():
     port_new = 37017
 
     Area.insert_area(address_old, port_old, address_new, port_new)
+
+    WeatherTranslation.insert_weather_translation(address_new, port_new)
 
     print("OK")
 

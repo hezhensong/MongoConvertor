@@ -20,8 +20,8 @@ class Pgc:
                   }
 
     @staticmethod
-    def convert_pgc(address_old, port_old, address_new, port_new, collection_old, collection_new,
-                     params_map):
+    def convert_pgc(address_old, port_old, address_new, port_new,
+                    collection_old, collection_new, params_map):
 
         # old database connection
         client = MongoClient(address_old, port_old)
@@ -99,6 +99,8 @@ class Pgc:
             post.update(other)
             for i in range(len(params_map.keys())):
                 post.update({params_map.values()[i]: temp[i]})
+
+            # http://weegotest.b0.upaiyun.com/brands/iosimgs/56e77fd671dcaff16900015b.jpeg
             db_new.insert(post)
             print post
         

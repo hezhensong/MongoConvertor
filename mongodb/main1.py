@@ -2,6 +2,7 @@
 # -*- coding: UTF-8 -*-
 
 from Activity import Activity
+from WeatherTranslation import WeatherTranslation
 
 
 def main():
@@ -14,9 +15,7 @@ def main():
     address_new = '192.168.6.254'
     port_new = 37017
 
-    print("convert activity data")
-    Activity.convert_activity(address_old, port_old, address_new, port_new,
-                              collection_old, collection_new, Activity.params_map)
+    Pgc.convert_pgc(address_old, port_old, address_new, port_new, collection_old, collection_new, params_map)
 
     print("OK")
 

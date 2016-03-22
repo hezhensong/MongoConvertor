@@ -3,7 +3,6 @@
 
 import datetime
 
-from bson import ObjectId
 from pymongo import MongoClient
 
 
@@ -105,13 +104,26 @@ class Activity:
             for i in range(len(params_map.keys())):
                 post.update({params_map.values()[i]: temp[i]})
 
+            if post['title'] == u'猴年特展（Monkey Business）':
+                pass
+
             # 添加关联的城市ID
             post['city_id'] = None
             for city in latestcity.find():
+                found = False
+
                 if 'activity_labels' in city:
                     for activity_label in city['activity_labels']:
                         if activity_label['title'] == post['title']:
-                            post['city_id'] = ObjectId(activity_label['_id'])
+                            post['city_id'] = city['_id']
+                            found = True
+                            break
+
+                if found is True:
+                    break
+
+            # 修改图片地址为全路径
+            post['cover_image'] = "http://weegotest.b0.upaiyun.com/activities/iosimgs/" + post['cover_image']
 
             db_new.insert(post)
             print post
