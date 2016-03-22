@@ -7,6 +7,7 @@ from Pgc import Pgc
 from Area import Area
 from City import City
 from Tag import Tag
+from Person import Person
 
 
 def main():
@@ -19,10 +20,7 @@ def main():
     address_new = '192.168.6.254'
     port_new = 37017
 
-    # City.convert_city(address_old, port_old, address_new, port_new)
-    Tag.convert_tag(address_old, port_old, address_new, port_new)
-
-    Area.insert_area(address_old, port_old, address_new, port_new)
+    Person.convert_person(address_old, port_old, address_new, port_new)
 
     print("OK")
 

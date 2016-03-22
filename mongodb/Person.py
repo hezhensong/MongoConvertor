@@ -26,7 +26,7 @@ class Person:
         for people in peoples.find():
             _id = people['_id']
             if 'head_image' in people:
-                head_image = people['head_image']
+                head_image = "http://weegotest.b0.upaiyun.com/brands/iosimgs/" + people['head_image']
             else:
                 head_image = None
 
@@ -42,6 +42,8 @@ class Person:
 
             if 'simple_introduce' in people:
                 simple_introduce = people['simple_introduce']
+                for simple in simple_introduce:
+                    simple['image'] = "http://weegotest.b0.upaiyun.com/restaurant/origin/" + simple['image']
             else:
                 simple_introduce = None
 

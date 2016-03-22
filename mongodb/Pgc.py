@@ -84,7 +84,7 @@ class Pgc:
                     if 'poi_desc' in temp_poi_list[i]:
                         poi_desc = temp_poi_list[i]['poi_desc']
                     if 'poi_image' in temp_poi_list[i]:
-                        poi_image = temp_poi_list[i]['poi_image']
+                        poi_image = "http://weegotest.b0.upaiyun.com/attractions/origin/" + temp_poi_list[i]['poi_image']
                     if 'poi_image_desc' in temp_poi_list[i]:
                         poi_image_desc = temp_poi_list[i]['poi_image_desc']
                     temp_poi = {}
