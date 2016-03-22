@@ -75,6 +75,9 @@ class City:
             label_list.append({"_id": ObjectId("000000000000"), "name": "购物商圈"})
             label_list.append({"_id": ObjectId("000000000000"), "name": "商圈"})
 
+            if city_old['continents'] == u'美洲':
+                city_old['continents'] = u'北美'
+
             area = {
                 'continent': city_old['continents'],
                 'country': city_old['countryname']

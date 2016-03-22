@@ -57,6 +57,7 @@ class WeatherTranslation:
         weather_translation.insert({"english": "clear", "chinese": "晴"})
         weather_translation.insert({"english": "clear (night)", "chinese": "晴"})
         weather_translation.insert({"english": "sunny", "chinese": "阳光明媚"})
+        weather_translation.insert({"english": "mostly sunny", "chinese": "阳光明媚"})
         weather_translation.insert({"english": "fair", "chinese": "晴"})
         weather_translation.insert({"english": "fair (night)", "chinese": "晴"})
         weather_translation.insert({"english": "fair (day)", "chinese": "晴"})

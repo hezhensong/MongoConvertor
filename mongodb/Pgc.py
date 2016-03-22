@@ -8,9 +8,9 @@ from bson.objectid import ObjectId
 class Pgc:
     def __init__(self):
         pass
-    
+
     collection_old = 'pgcs'
-    
+
     collection_new = 'pgc'
 
     params_map = {'_id': '_id',
@@ -66,12 +66,12 @@ class Pgc:
                         person = ObjectId(person['_id'].strip())
                     else:
                         person = ''
-                    
+
             if 'pgc_city' in document:
                 city_id = document['pgc_city']
                 if '_id' in city_id:
                     city_id = ObjectId(city_id['_id'].strip())
-            
+
             if 'pgc_poi' in document:
                 temp_poi_list = document['pgc_poi']
                 for i in range(len(temp_poi_list)):
@@ -88,11 +88,11 @@ class Pgc:
                     if 'poi_image_desc' in temp_poi_list[i]:
                         poi_image_desc = temp_poi_list[i]['poi_image_desc']
                     temp_poi = {}
-                    temp_poi.update({'_id': _id, 'type': type, 'poi_desc': poi_desc,'name': name,
+                    temp_poi.update({'_id': _id, 'type': type, 'poi_desc': poi_desc, 'name': name,
                                      'poi_image': poi_image, 'poi_image_desc': poi_image_desc})
                     poi_list.append(temp_poi)
-            
-            other.update({'person': person, 'city_id' : city_id,
+
+            other.update({'person': person, 'city_id': city_id,
                           'poi_list': poi_list})
 
             post = {}
@@ -100,7 +100,7 @@ class Pgc:
             for i in range(len(params_map.keys())):
                 post.update({params_map.values()[i]: temp[i]})
 
-            # http://weegotest.b0.upaiyun.com/brands/iosimgs/56e77fd671dcaff16900015b.jpeg
+            post['cover_image'] = "http://weegotest.b0.upaiyun.com/brands/iosimgs/" + post['cover_image']
+
             db_new.insert(post)
             print post
-        
