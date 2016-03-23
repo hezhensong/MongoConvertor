@@ -1,7 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
+import datetime
 
+import pytz
 from pymongo import MongoClient
+from bson.objectid import ObjectId
 
 
 class RecommendHistory:
@@ -21,17 +24,17 @@ class RecommendHistory:
         recommend_history.remove()
 
         post = {
-            "city_id": "516a34f958e3511036000001",
-            "user_id": "5361414496",
-            "recommend_time": "2016-03-14T19:15:00Z",
+            "city_id": ObjectId("516a34f958e3511036000001"),
+            "user_id": ObjectId("516a34f958e3511036000011"),
+            "recommend_time": datetime.datetime(2016, 3, 14, 19, 15, 0, 0, tzinfo=pytz.utc),
             "recommend_content": [
                 {
                     "type": 0,
-                    "content_id": "516cc44ce3c6a60f69000011"
+                    "content_id": ObjectId("516cc44ce3c6a60f69000011")
                 },
                 {
                     "type": 1,
-                    "content_id": "5322c08d2fab6f0c1d000002"
+                    "content_id": ObjectId("5322c08d2fab6f0c1d000002")
                 }
             ]
         }

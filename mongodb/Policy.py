@@ -1,7 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
+import datetime
 
+import pytz
 from pymongo import MongoClient
+from bson.objectid import ObjectId
 
 
 class Policy:
@@ -22,10 +25,10 @@ class Policy:
         policy.remove()
 
         post = {
-            "city_id": "516a34f958e3511036000001",
-            "start_time": "2016-03-14T00:00:00Z",
-            "end_time": "2016-03-14T23:00:00Z",
-            "radius": "20000",
+            "city_id": ObjectId("516a34f958e3511036000001"),
+            "start_time": datetime.datetime(2016, 3, 14, 0, 0, 0, 0, tzinfo=pytz.utc),
+            "end_time": datetime.datetime(2016, 3, 14, 23, 0, 0, 0, tzinfo=pytz.utc),
+            "radius": 20000,
             "type": {
                 "attraction": [],
                 "restaurant": [],
@@ -35,9 +38,10 @@ class Policy:
                 "pgc": [],
                 "news": []
             },
-            "status": "0",
-            "last_modify_time": "2016-03-14T22:00:00Z",
+            "status": True,
+            "last_modify_time": datetime.datetime(2016, 3, 14, 22, 0, 0, 0, tzinfo=pytz.utc),
             "last_modify_person": "weego"
         }
         policy.insert(post)
+        print post
 
