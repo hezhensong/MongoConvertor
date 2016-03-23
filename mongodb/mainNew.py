@@ -2,6 +2,8 @@
 # -*- coding: UTF-8 -*-
 
 from Area import Area
+from Policy import Policy
+from RecommendHistory import RecommendHistory
 from WeatherTranslation import WeatherTranslation
 
 
@@ -13,9 +15,13 @@ def main():
     address_new = '192.168.6.254'
     port_new = 37017
 
-    Area.insert_area(address_old, port_old, address_new, port_new)
+    # Area.insert_area(address_old, port_old, address_new, port_new)
+    #
+    # WeatherTranslation.insert_weather_translation(address_new, port_new)
 
-    WeatherTranslation.insert_weather_translation(address_new, port_new)
+    Policy.insert_policy(address_new, port_new)
+
+    RecommendHistory.insert_recommend_history(address_new, port_new)
 
     print("OK")
 
