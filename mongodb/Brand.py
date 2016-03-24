@@ -15,7 +15,6 @@ class Brand:
     # 注意:这里只定义不需要做特殊处理的字段
     params_map = {'_id': '_id',
                   'advice': 'advice',
-                  'cover_image': 'cover_image',
                   'title': 'title',
                   'desc':'desc' 
     }
@@ -52,8 +51,16 @@ class Brand:
                     temp[i] = document[params_map.keys()[i]]
 
             # 需要特殊处理的字段,处理后以字典的形式添加到 other 中
+            image_url = 'http://weegotest.b0.upaiyun.com/shoparea/iosimgs/'
+            cover_image = None
             other = {}
-            other.update({'tag': None})
+            
+            if 'cover_image' in document:
+                cover_image = document['cover_image']
+                if cover_image != '':
+                    cover_image = image_url + cover_image
+                    
+            other.update({'tag': None, 'cover_image': cover_image})
 
             post = {}
             post.update(other)

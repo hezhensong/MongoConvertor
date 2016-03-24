@@ -42,6 +42,7 @@ class Spot:
                 if params_map.keys()[i] in document:
                     temp[i] = document[params_map.keys()[i]]
 
+            image_url = 'http://weegotest.b0.upaiyun.com/attractions/iosimgs/'
             post = {}
 
             if 'spot' in document:
@@ -49,7 +50,8 @@ class Spot:
                 if spot != None:
                     for i in range(len(spot)):
                         if 'cover_image' in spot[i]:
-                            cover_image = spot[i]['cover_image']
+                            if spot[i]['cover_image'] != '':
+                                cover_image = image_url + spot[i]['cover_image']
                         if 'title' in spot[i]:
                             title = spot[i]['title']
                         if 'desc' in spot[i]:
@@ -57,7 +59,7 @@ class Spot:
                         if 'advice' in spot[i]:
                             advice = spot[i]['advice']
                             
-                        num = db_old.find({'cover_image': cover_image, 'title': title,
+                        num = db_new.find({'cover_image': cover_image, 'title': title,
                                           'desc': desc, 'advice': advice}).count() 
                         if num > 1:
                             print('重复项')
@@ -67,3 +69,4 @@ class Spot:
                             temp_spot.update({'cover_image': cover_image, 'title': title,
                                               'desc': desc, 'advice': advice, 'tag': None})
                             db_new.insert(temp_spot)
+                            print(temp_spot)

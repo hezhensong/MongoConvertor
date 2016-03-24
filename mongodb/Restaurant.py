@@ -3,7 +3,7 @@
 
 from pymongo import MongoClient
 import datetime
-
+import HTMLParser
 
 class Restaurant:
     def __init__(self):
@@ -22,13 +22,8 @@ class Restaurant:
                   'city_name': 'city_name', # 城市名
                   'comments_from': 'comments_from', # 评论来源
                   'comments_url': 'comments_url', # 评论 url
-                  'cover_image': 'cover_image', # 背景图片
-                  'image': 'image', # 图片
-                  'introduce': 'introduction', # 介绍
                   'price_desc': 'price_desc', # 价格描述
-                  'brief_introduce': 'brief_introduction', # 简介
                   'tel': 'tel', # 电话
-                  'tips': 'tips', # 提示
                   'website': 'website', # 网站
                   'rating': 'rating', # 评分
                   'openTable_url':'open_table_url'  # 服务预订 url
@@ -68,6 +63,9 @@ class Restaurant:
             longitude = None
             open_time = []
             cover_image = None
+            dish_cover_image = None
+            image = None
+            image_url = 'http://weegotest.b0.upaiyun.com/restaurant/iosimgs/'
             title = None
             desc = None
             advice = None
@@ -99,7 +97,45 @@ class Restaurant:
             sub_tag = []
             _id = None
             tag = None
+            introduction = None
+            brief_introduction = None
+            tips = None
+            price_level = 1
+            
             other = {}
+            
+            if 'price_level' in document:
+                price_level = document['price_level']
+                if type(price_level) == str or type(price_level) == unicode:
+                    price_level = 1
+                if price_level == 5:
+                    price_level = 4
+                    
+            if 'introduce' in document:
+                introduction = document['introduce']
+                if (introduction.find('&') != -1):
+                    introduction = HTMLParser.HTMLParser().unescape(introduction)
+                    
+            if 'brief_introduce' in document:
+                brief_introduction = document['brief_introduce']
+                if (brief_introduction.find('&') != -1):
+                    brief_introduction = HTMLParser.HTMLParser().unescape(brief_introduction)
+            
+            if 'tips' in document:
+                tips = document['tips']
+                if (tips.find('&') != -1):
+                    tips = HTMLParser.HTMLParser().unescape(tips)
+            
+            if 'cover_image' in document:
+                cover_image = document['cover_image']
+                if cover_image != '':
+                    cover_image = image_url + cover_image
+                    
+            if 'image' in document:
+                image = document['image']
+                if image != None and len(image) > 0:
+                    for i in range(len(image)):
+                        image[i] = image_url + image[i]
             
             if 'category' in document:
                 category = document['category']
@@ -174,16 +210,18 @@ class Restaurant:
             if 'menu' in document:
                 dish = document['menu']
                 for i in range(len(dish)):
-                    cover_image = dish[i]['cover_image']
+                    if 'cover_image' in dish[i]:
+                        if dish[i]['cover_image'] != '':
+                            dish_cover_image = image_url + dish[i]['cover_image']
                     desc = dish[i]['desc']
                     advice = dish[i]['advice']
                     
-                    dish_id = travel2['dish'].find_one({'cover_image': cover_image,
+                    dish_id = travel2['dish'].find_one({'cover_image': dish_cover_image,
                                               'desc': desc, 'advice': advice})['_id']
                     
                     print(dish_id)
                     temp_dish = {}
-                    temp_dish.update({'_id': dish_id, 'cover_image':cover_image, 'desc':desc,
+                    temp_dish.update({'_id': dish_id, 'cover_image':dish_cover_image, 'desc':desc,
                                       'advice': advice, 'title': title, 'tag': None})
                     newdish.append(temp_dish)
             
@@ -231,6 +269,8 @@ class Restaurant:
             
             other.update({'coordination': coordination , 'open_time': open_time,
                           'dish': newdish, 'facilities': facilities,'comments': new_comments,
+                          'cover_image': cover_image, 'image': image, 'price_level': price_level,
+                          'introduction':introduction, 'brief_introduction': brief_introduction, 'tips': tips,
                           'master_label': master_tag, 'sub_tag': sub_tag, 'is_show': is_show,
                           'last_modified_person': None, 'last_modified_time': None})
             

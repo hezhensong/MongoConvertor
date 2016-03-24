@@ -88,8 +88,8 @@ class Pgc:
                     if 'poi_image_desc' in temp_poi_list[i]:
                         poi_image_desc = temp_poi_list[i]['poi_image_desc']
                     temp_poi = {}
-                    temp_poi.update({'_id': _id, 'type': type, 'poi_desc': poi_desc, 'name': name,
-                                     'poi_image': poi_image, 'poi_image_desc': poi_image_desc})
+                    temp_poi.update({'_id': _id, 'type': type, 'paragraph_desc': poi_desc, 'name': name,
+                                     'poi_image': poi_image, 'paragraph_title': poi_image_desc})
                     poi_list.append(temp_poi)
 
             other.update({'person': person, 'city_id': city_id,
