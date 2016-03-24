@@ -89,6 +89,7 @@ class Shopping:
             tips = ''
             price_level = 1
             activities = []
+            master_label = []
             other = {}
             
             if 'activities' in document:
@@ -127,11 +128,20 @@ class Shopping:
                     for i in range(len(image)):
                         image[i] = image_url + image[i]
             
+            if 'city_id' in document:
+                temp_city = travel1['latestcity'].find_one({'_id':document['city_id']})
+                if temp_city is not None:
+                    if 'shoplabels' in temp_city:
+                        shoplabels = temp_city['shoplabels']
+                        if shoplabels is not None and len(shoplabels) > 0:
+                            for i in range(len(shoplabels)):
+                                temp_label = {}
+                                temp_label.update({'id': ObjectId(shoplabels[i]['_id'])})
+                                temp_label.update({'label': shoplabels[i]['title'] })
+                                master_label.append(temp_label)
+            
             if 'category' in document:
                 category = document['category']
-                if len(category) > 0:
-                    master_tag.update({'_id': '','label': ''})
-                
                 for i in range(len(category)):
                     if category != None:
                         if '_id' in category[i]:
@@ -227,7 +237,7 @@ class Shopping:
                 is_show = False
             
             other.update({'coordination': coordination , 'open_time': open_time,'sub_tag': sub_tag,
-                          'master_label': master_tag, 'is_show': is_show, 'comments': new_comments,
+                          'master_label': master_label, 'is_show': is_show, 'comments': new_comments,
                           'cover_image': cover_image, 'image': image, 'price_level': price_level,
                           'activities': activities, 'introduction':introduction, 'brief_introduction': brief_introduction, 'tips': tips,
                           'brand': new_brand, 'last_modified_person': '', 'last_modified_time': datetime.datetime(1970,1,1)})

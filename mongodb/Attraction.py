@@ -6,6 +6,7 @@ import datetime
 import time
 import HTMLParser
 from bson.objectid import ObjectId
+from TimeZoneUtil import TimeZoneUtil
 
 class Attraction:
     def __init__(self):

@@ -94,7 +94,7 @@ class Activity:
 
             other.update({'start_time': start_time, 'end_time': end_time, 
                           'act_time': act_time, 'coordination': coordination,
-                          'last_modified_person': '', 'last_modified_time': '',
+                          'last_modified_person': '', 'last_modified_time': datetime.datetime(1970,1,1),
                           'paragraphs': paragraphs})
             post = {}
 
@@ -123,7 +123,8 @@ class Activity:
             # 修改图片地址为全路径
             post['cover_image'] = "http://weegotest.b0.upaiyun.com/activities/iosimgs/" + post['cover_image']
             db_new.insert(post)
-#            print post
+            print post
+            
         new_start_time = datetime.datetime(1970,1,1,0,0,0,tzinfo=pytz.utc)
         new_end_time = datetime.datetime(1970,1,1,0,0,0,tzinfo=pytz.utc)
         for document in db_new.find():

@@ -94,7 +94,7 @@ def main():
 #    RecommendInfo.convert_recommend_info(address_old, port_old, address_new, port_new,
 #                                           RecommendInfo.collection_old, RecommendInfo.collection_new, RecommendInfo.params_map)
     print("convert recommendHistory data")
-    RecommendHistory.insert_recommend_history(address_new, port_new)
+#    RecommendHistory.insert_recommend_history(address_new, port_new)
 
     print("convert plan data")
 #    Plan.convert_plan(address_old, port_old, address_new, port_new,
