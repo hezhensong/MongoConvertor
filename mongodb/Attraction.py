@@ -5,6 +5,7 @@ from pymongo import MongoClient
 import datetime
 import time
 import HTMLParser
+from bson.objectid import ObjectId
 
 class Attraction:
     def __init__(self):
@@ -15,7 +16,6 @@ class Attraction:
     collection_new = 'attraction'
 
     params_map = {'_id': '_id', # 景点 ID
-                  'activities': 'activities', # 景点活动
                   'address': 'address', # 景点地址
                   'attractions': 'name', # 景点名
                   'attractions_en': 'name_en', # 景点英文名
@@ -49,48 +49,53 @@ class Attraction:
         db_new.remove()
 
         # 临时数组
-        temp = [None] * len(params_map.keys())
+        temp = [''] * len(params_map.keys())
 
-        # 判断当前文档是否含有某个字段,若有则取出后赋值给临时数组,否则为 None
+        # 判断当前文档是否含有某个字段,若有则取出后赋值给临时数组,否则为 ''
         for document in db_old.find():
             for i in range(len(params_map.keys())):
                 if params_map.keys()[i] in document:
                     temp[i] = document[params_map.keys()[i]]
 
             # 需要特殊处理的字段,处理后以字典的形式添加到 other 中
-            coordination = None
-            latitude = None
-            longitude = None
+            coordination = ''
+            latitude = ''
+            longitude = ''
             open_time = []
             comments = []
+            activities = []
             new_comments = []
-            new_date = None
-            rating = None
-            nickname = None
-            text = None
-            title = None
+            new_date = datetime.datetime(1970, 1 ,1)
+            rating = ''
+            nickname = ''
+            text = ''
+            title = ''
             language = 'zh'
             master_tag = {}
             new_master_tag = {}
             sub_tag = []
             new_sub_tag = []
-            _id = None
-            tag = None
+            _id = ''
+            tag = ''
             spot = []
-            spot_id = None
+            spot_id = ''
             new_spot = []
-            cover_image =  None
-            spot_cover_image = None
-            image = None
-            title = None
-            desc = None
-            advice = None
+            cover_image =  ''
+            spot_cover_image = ''
+            image = []
+            title = ''
+            desc = ''
+            advice = ''
             image_url = 'http://weegotest.b0.upaiyun.com/attractions/iosimgs/'
-            introduction = None
-            brief_introduction = None
-            tips = None
+            introduction = ''
+            brief_introduction = ''
+            tips = ''
             price_level = 1
+            last_modified_time = datetime.datetime(1970, 1, 1)
             other = {}
+            
+            if 'activities' in document:
+                activities = document['activities']
             
             if 'price_level' in document:
                 price_level = document['price_level']
@@ -117,7 +122,7 @@ class Attraction:
                     
             if 'image' in document:
                 image = document['image']
-                if image != None and len(image) > 0:
+                if image is not None and len(image) > 0:
                     for i in range(len(image)):
                         image[i] = image_url + image[i]
                         
@@ -153,7 +158,7 @@ class Attraction:
                                 day = 1
                             new_date = datetime.datetime(year, month ,day)
                         else:
-                            new_date = None
+                            new_date = datetime.datetime(1970, 1 ,1)
                             
                     if 'rating' in comments[i]:
                         rating = comments[i]['rating']
@@ -180,7 +185,7 @@ class Attraction:
                 
             if 'subLabelNew' in document:
                 sub_tag = document['subLabelNew']
-                if sub_tag != None:
+                if sub_tag is not None and sub_tag != '':
                     for i in range(len(sub_tag)):
                         if '_id' in sub_tag[i]:
                             _id = sub_tag[i]['_id']
@@ -192,7 +197,7 @@ class Attraction:
             
             if 'spot' in document:
                 spot = document['spot']
-                if spot != None:
+                if spot != '':
                     for i in range(len(spot)):
                         if 'cover_image' in spot[i]:
                             if spot[i]['cover_image'] != '':
@@ -209,7 +214,7 @@ class Attraction:
                         
                         temp_spot = {}
                         temp_spot.update({'_id': spot_id, 'cover_image': spot_cover_image, 'title': title,
-                                          'desc': desc, 'advice': advice, 'tag': None})
+                                          'desc': desc, 'advice': advice, 'tag': ''})
                         new_spot.append(temp_spot)
             # 是否线上展示
             if 'show_flag' in document:
@@ -223,10 +228,10 @@ class Attraction:
 
 
             other.update({'is_show': is_show,'coordination': coordination , 'open_time': open_time,
-                          'open_table_url': None, 'comments': new_comments,'spot': new_spot,
+                          'open_table_url': '', 'comments': new_comments,'spot': new_spot,
                           'cover_image': cover_image, 'image': image, 'price_level': price_level,
-                          'master_label': new_master_tag,'sub_tag': new_sub_tag,
-                          'last_modified_person': None, 'last_modified_time': None,
+                          'activities': activities, 'master_label': new_master_tag,'sub_tag': new_sub_tag,
+                          'last_modified_person': '', 'last_modified_time':  last_modified_time,
                           'introduction': introduction, 'brief_introduction': brief_introduction, 'tips': tips })
 
             post = {}

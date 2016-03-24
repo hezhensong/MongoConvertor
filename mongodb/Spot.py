@@ -34,7 +34,7 @@ class Spot:
         db_new.remove()
 
         # 临时数组
-        temp = [None] * len(params_map.keys())
+        temp = [''] * len(params_map.keys())
 
         # 判断当前文档是否含有某个字段,若有则取出后赋值给临时数组,否则为 None
         for document in db_old.find():
@@ -47,7 +47,7 @@ class Spot:
 
             if 'spot' in document:
                 spot = document['spot']
-                if spot != None:
+                if spot is not None:
                     for i in range(len(spot)):
                         if 'cover_image' in spot[i]:
                             if spot[i]['cover_image'] != '':
@@ -67,6 +67,6 @@ class Spot:
                         else:
                             temp_spot = {}
                             temp_spot.update({'cover_image': cover_image, 'title': title,
-                                              'desc': desc, 'advice': advice, 'tag': None})
+                                              'desc': desc, 'advice': advice, 'tag': ''})
                             db_new.insert(temp_spot)
                             print(temp_spot)

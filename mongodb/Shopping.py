@@ -5,6 +5,7 @@ from pymongo import MongoClient
 from bson.objectid import ObjectId
 import datetime
 import HTMLParser
+import datetime
 
 class Shopping:
     collection_old = 'shoppings'
@@ -12,7 +13,6 @@ class Shopping:
     collection_new = 'shopping'
     
     params_map = {'_id':'_id', # 购物 ID
-                  'activities': 'activities', # 购物活动
                   'address': 'address', # 购物地址
                   'name': 'name', # 购物名
                   'name_en': 'name_en', # 购物英文名
@@ -49,7 +49,7 @@ class Shopping:
         db_new.remove()
 
         # 临时数组
-        temp = [None] * len(params_map.keys())
+        temp = [''] * len(params_map.keys())
 
         # 判断当前文档是否含有某个字段,若有则取出后赋值给临时数组,否则为 None
         for document in db_old.find():
@@ -58,37 +58,41 @@ class Shopping:
                     temp[i] = document[params_map.keys()[i]]
 
             # 需要特殊处理的字段,以字典的形式添加到 other 中
-            coordination = None
-            latitude = None
-            longitude = None
+            coordination = ''
+            latitude = ''
+            longitude = ''
             open_time = []
             master_tag = {}
             comments = []
             new_comments = []
-            new_date = None
-            rating = None
-            nickname = None
-            text = None
-            title = None
+            new_date = datetime.datetime(1970,1,1)
+            rating = ''
+            nickname = ''
+            text = ''
+            title = ''
             language = 'zh'
             sub_tag = []
-            _id = None
-            tag = None
+            _id = ''
+            tag = ''
             brand = []
             new_brand = []
-            brand_id = None
-            cover_image = None
-            brand_cover_image =  None
-            image = None
-            title = None
-            desc = None
-            advice = None
+            brand_id = ''
+            cover_image = ''
+            brand_cover_image =  ''
+            image = []
+            title = ''
+            desc = ''
+            advice = ''
             image_url = 'http://weegotest.b0.upaiyun.com/shoparea/iosimgs/'
-            introduction = None
-            brief_introduction = None
-            tips = None
+            introduction = ''
+            brief_introduction = ''
+            tips = ''
             price_level = 1
+            activities = []
             other = {}
+            
+            if 'activities' in document:
+                activities = document['activities']
             
             if 'price_level' in document:
                 price_level = document['price_level']
@@ -126,7 +130,7 @@ class Shopping:
             if 'category' in document:
                 category = document['category']
                 if len(category) > 0:
-                    master_tag.update({'_id': None,'label': None})
+                    master_tag.update({'_id': '','label': ''})
                 
                 for i in range(len(category)):
                     if category != None:
@@ -169,7 +173,7 @@ class Shopping:
                         
                         temp_brand = {}
                         temp_brand.update({'_id': brand_id, 'cover_image': brand_cover_image, 'title': title,
-                                          'desc': desc, 'advice': advice, 'tag': None})
+                                          'desc': desc, 'advice': advice, 'tag': ''})
                         new_brand.append(temp_brand)
             
             
@@ -178,7 +182,7 @@ class Shopping:
                 for i in range(len(comments)):
                     if type(comments[i]) == unicode:
                         temp_comments = {}
-                        temp_comments.update({'date': None,'rating': rating,'nickname': nickname,
+                        temp_comments.update({'date': datetime.datetime(1970,1,1),'rating': rating,'nickname': nickname,
                                               'language': language,'text': comments[i], 'title': title})
                         new_comments.append(temp_comments)
                     else:
@@ -198,7 +202,7 @@ class Shopping:
                                         day = 1
                                     new_date = datetime.datetime(year, month ,day)
                                 else:
-                                    new_date = None
+                                    new_date = datetime.datetime(1970,1,1)
                             if 'rating' in comments[i]:
                                 rating = comments[i]['rating']
                             if 'nickname' in comments[i]:
@@ -225,8 +229,8 @@ class Shopping:
             other.update({'coordination': coordination , 'open_time': open_time,'sub_tag': sub_tag,
                           'master_label': master_tag, 'is_show': is_show, 'comments': new_comments,
                           'cover_image': cover_image, 'image': image, 'price_level': price_level,
-                          'introduction':introduction, 'brief_introduction': brief_introduction, 'tips': tips,
-                          'brand': new_brand, 'last_modified_person': None, 'last_modified_time': None})
+                          'activities': activities, 'introduction':introduction, 'brief_introduction': brief_introduction, 'tips': tips,
+                          'brand': new_brand, 'last_modified_person': '', 'last_modified_time': datetime.datetime(1970,1,1)})
 
             post = {}
             post.update(other)

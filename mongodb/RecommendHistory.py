@@ -30,11 +30,15 @@ class RecommendHistory:
             "recommend_content": [
                 {
                     "type": 0,
-                    "content_id": ObjectId("516cc44ce3c6a60f69000011")
+                    "content_id": ObjectId("516cc44ce3c6a60f69000011"),
+                    "content_first": "标题1.1",
+                    "content_second": "标题2.1"
                 },
                 {
                     "type": 1,
-                    "content_id": ObjectId("5322c08d2fab6f0c1d000002")
+                    "content_id": ObjectId("5322c08d2fab6f0c1d000002"),
+                    "content_first": "标题1.2",
+                    "content_second": "标题2.2"
                 }
             ]
         }

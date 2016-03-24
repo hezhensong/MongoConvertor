@@ -2,8 +2,10 @@
 # -*- coding: UTF-8 -*-
 
 import datetime
+import pytz
 
 from pymongo import MongoClient
+from TimeZoneUtil import TimeZoneUtil
 
 
 class Activity:
@@ -17,7 +19,6 @@ class Activity:
     # 注意:这里只定义不需要做特殊处理的字段
     params_map = {
         '_id': '_id',  # 活动 ID
-        'acttime': 'act_time',  # 活动时间
         'acturl': 'act_url',  # 活动 url
         'atype': 'type',  # 活动类型
         'cover_image': 'cover_image',  # 背景图片
@@ -58,7 +59,7 @@ class Activity:
         db_new.remove()
 
         # 临时数组
-        temp = [None] * len(params_map.keys())
+        temp = [''] * len(params_map.keys())
 
         # 判断当前文档是否含有某个字段,若有则取出后赋值给临时数组,否则为 None
         for document in db_old.find():
@@ -70,34 +71,30 @@ class Activity:
             other = {}
             paragraphs = []
 
-            start_time = None
-            end_time = None
-            coordination = None
-            latitude = None
-            longitude = None
+            start_time = ''
+            end_time = ''
+            act_time = ''
+            coordination = ''
+            latitude = ''
+            longitude = ''
             if 'start_time' in document:
-                temp_start = document['start_time']
-                start_year = int(temp_start[0:4])
-                start_month = int(temp_start[4:6])
-                start_date = int(temp_start[6:8])
-                start_time = datetime.datetime(start_year, start_month, start_date)
+                start_time = document['start_time']
             if 'end_time' in document:
-                temp_end = document['end_time']
-                end_year = int(temp_end[0:4])
-                end_month = int(temp_end[4:6])
-                end_date = int(temp_end[6:8])
-                end_time = datetime.datetime(end_year, end_month, end_date)
+                end_time = document['end_time']
+            if 'acttime' in document:
+                    act_time = document['acttime']
             if 'latitude' in document:
                 latitude = document['latitude']
             if 'longitude' in document:
                 longitude = document['longitude']
                 coordination = longitude + ',' + latitude
 
-            paragraphs.append({'image_title': None, 'image_url': None,
-                               'detail_up': None, 'detail_down': None, 'image_brief': None})
+            paragraphs.append({'image_title': '', 'image_url': '',
+                               'detail_up': '', 'detail_down': '', 'image_brief': ''})
 
-            other.update({'start_time': start_time, 'end_time': end_time, 'coordination': coordination,
-                          'last_modified_person': None, 'last_modified_time': None,
+            other.update({'start_time': start_time, 'end_time': end_time, 
+                          'act_time': act_time, 'coordination': coordination,
+                          'last_modified_person': '', 'last_modified_time': '',
                           'paragraphs': paragraphs})
             post = {}
 
@@ -109,7 +106,7 @@ class Activity:
                 pass
 
             # 添加关联的城市ID
-            post['city_id'] = None
+            post['city_id'] = ''
             for city in latestcity.find():
                 found = False
 
@@ -125,6 +122,29 @@ class Activity:
 
             # 修改图片地址为全路径
             post['cover_image'] = "http://weegotest.b0.upaiyun.com/activities/iosimgs/" + post['cover_image']
-
             db_new.insert(post)
-            print post
+#            print post
+        new_start_time = datetime.datetime(1970,1,1,0,0,0,tzinfo=pytz.utc)
+        new_end_time = datetime.datetime(1970,1,1,0,0,0,tzinfo=pytz.utc)
+        for document in db_new.find():
+            temp_start_time = document['start_time']
+            new_start_year = int(temp_start_time[0:4])
+            new_start_month = int(temp_start_time[4:6])
+            new_start_day = int(temp_start_time[6:8])
+            
+            if document['city_id'] != '':
+                new_start_time = TimeZoneUtil.gettimezone(document['city_id'], new_start_year, new_start_month, new_start_day,
+                                                       0, 0, 0)
+            
+            temp_end_time = document['end_time']
+            new_end_year = int(temp_end_time[0:4])
+            new_end_month = int(temp_end_time[4:6])
+            new_end_day = int(temp_end_time[6:8])
+            
+            if document['city_id'] != '':
+                new_end_time = TimeZoneUtil.gettimezone(document['city_id'], new_end_year, new_end_month, new_end_day,
+                                                       0, 0, 0)
+            
+            db_new.update({'_id':document['_id']},{"$set": {'start_time': new_start_time, 'end_time': new_end_time}}) 
+        
+            
