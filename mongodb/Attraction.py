@@ -4,6 +4,7 @@
 from pymongo import MongoClient
 import datetime
 import time
+import HTMLParser
 
 class Attraction:
     def __init__(self):
@@ -22,13 +23,8 @@ class Attraction:
                   'cityname': 'city_name', # 城市名
                   'comments_from': 'comments_from', # 评论来源
                   'comments_url': 'comments_url', # 评论 url
-                  'coverImageName': 'cover_image', # 背景图片
-                  'image': 'image', # 图片
-                  'introduce': 'introduction', # 介绍
                   'price': 'price_desc', # 价格描述
-                  'short_introduce': 'brief_introduction', # 简介
                   'telno': 'tel', # 电话
-                  'tips': 'tips', # 提示
                   'website': 'website', # 网站
                   'yelp_rating': 'rating' # 评分
                   }
@@ -84,11 +80,47 @@ class Attraction:
             spot_id = None
             new_spot = []
             cover_image =  None
+            spot_cover_image = None
+            image = None
             title = None
             desc = None
             advice = None
+            image_url = 'http://weegotest.b0.upaiyun.com/attractions/iosimgs/'
+            introduction = None
+            brief_introduction = None
+            tips = None
+            price_level = 1
             other = {}
-
+            
+            if 'price_level' in document:
+                price_level = document['price_level']
+            
+            if 'introduce' in document:
+                introduction = document['introduce']
+                if (introduction.find('&') != -1):
+                    introduction = HTMLParser.HTMLParser().unescape(introduction)
+                    
+            if 'short_introduce' in document:
+                brief_introduction = document['short_introduce']
+                if (brief_introduction.find('&') != -1):
+                    brief_introduction = HTMLParser.HTMLParser().unescape(brief_introduction)
+            
+            if 'tips' in document:
+                tips = document['tips']
+                if (tips.find('&') != -1):
+                    tips = HTMLParser.HTMLParser().unescape(tips)
+            
+            if 'coverImageName' in document:
+                cover_image = document['coverImageName']
+                if cover_image != '':
+                    cover_image = image_url + cover_image
+                    
+            if 'image' in document:
+                image = document['image']
+                if image != None and len(image) > 0:
+                    for i in range(len(image)):
+                        image[i] = image_url + image[i]
+                        
             if 'latitude' in document:
                 latitude = str(document['latitude'])
             if 'longitude' in document:
@@ -163,7 +195,8 @@ class Attraction:
                 if spot != None:
                     for i in range(len(spot)):
                         if 'cover_image' in spot[i]:
-                            cover_image = spot[i]['cover_image']
+                            if spot[i]['cover_image'] != '':
+                                spot_cover_image = image_url + spot[i]['cover_image']
                         if 'title' in spot[i]:
                             title = spot[i]['title']
                         if 'desc' in spot[i]:
@@ -171,11 +204,11 @@ class Attraction:
                         if 'advice' in spot[i]:
                             advice = spot[i]['advice']
                         
-                        spot_id = travel2['spot'].find_one({'cover_image': cover_image, 'title': title,
+                        spot_id = travel2['spot'].find_one({'cover_image': spot_cover_image, 'title': title,
                                           'desc': desc, 'advice': advice})['_id']
                         
                         temp_spot = {}
-                        temp_spot.update({'_id': spot_id, 'cover_image': cover_image, 'title': title,
+                        temp_spot.update({'_id': spot_id, 'cover_image': spot_cover_image, 'title': title,
                                           'desc': desc, 'advice': advice, 'tag': None})
                         new_spot.append(temp_spot)
             # 是否线上展示
@@ -191,8 +224,10 @@ class Attraction:
 
             other.update({'is_show': is_show,'coordination': coordination , 'open_time': open_time,
                           'open_table_url': None, 'comments': new_comments,'spot': new_spot,
+                          'cover_image': cover_image, 'image': image, 'price_level': price_level,
                           'master_label': new_master_tag,'sub_tag': new_sub_tag,
-                          'last_modified_person': None, 'last_modified_time': None})
+                          'last_modified_person': None, 'last_modified_time': None,
+                          'introduction': introduction, 'brief_introduction': brief_introduction, 'tips': tips })
 
             post = {}
             post.update(other)

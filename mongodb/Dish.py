@@ -43,16 +43,19 @@ class Dish:
                     temp[i] = document[params_map.keys()[i]]
 
             # 需要特殊处理的字段,处理后以字典的形式添加到 other 中
+            image_url = 'http://weegotest.b0.upaiyun.com/restaurant/iosimgs/'
             other = {}
 
             if 'menu' in document:
                 dish = document['menu']
                 for i in range(len(dish)):
-                    cover_image = dish[i]['cover_image']
+                    if 'cover_image' in dish[i]:
+                        if dish[i]['cover_image'] != '':
+                            cover_image = image_url + dish[i]['cover_image']
                     desc = dish[i]['desc']
                     advice = dish[i]['advice']
                     
-                    num = db_old.find({'cover_image': cover_image, 'desc':desc,
+                    num = db_new.find({'cover_image': cover_image, 'desc':desc,
                                       'advice': advice}).count() 
                     if num > 1:
                         print('重复项')

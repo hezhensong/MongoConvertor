@@ -4,6 +4,7 @@
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 import datetime
+import HTMLParser
 
 class Shopping:
     collection_old = 'shoppings'
@@ -19,13 +20,8 @@ class Shopping:
                   'city_name': 'city_name', # 城市名
                   'comments_from': 'comments_from', # 评论来源
                   'comments_url': 'comments_url', # 评论 url
-                  'cover_image': 'cover_image', # 背景图片
-                  'image': 'image', # 图片
-                  'introduce': 'introduction', # 介绍
                   'price_desc': 'price_desc', # 价格描述
-                  'brief_introduce': 'brief_introduction', # 简介
                   'tel': 'tel', # 电话
-                  'tips': 'tips', # 提示
                   'url': 'website', # 网站
                   'rating': 'rating' # 评分
                 }
@@ -81,11 +77,51 @@ class Shopping:
             brand = []
             new_brand = []
             brand_id = None
-            cover_image =  None
+            cover_image = None
+            brand_cover_image =  None
+            image = None
             title = None
             desc = None
             advice = None
+            image_url = 'http://weegotest.b0.upaiyun.com/shoparea/iosimgs/'
+            introduction = None
+            brief_introduction = None
+            tips = None
+            price_level = 1
             other = {}
+            
+            if 'price_level' in document:
+                price_level = document['price_level']
+                if type(price_level) == str or type(price_level) == unicode:
+                    price_level = 1
+                if price_level == 5:
+                    price_level = 4
+            
+            if 'introduce' in document:
+                introduction = document['introduce']
+                if (introduction.find('#') != -1):
+                    introduction = HTMLParser.HTMLParser().unescape(introduction)
+                    
+            if 'short_introduce' in document:
+                brief_introduction = document['short_introduce']
+                if (brief_introduction.find('#') != -1):
+                    brief_introduction = HTMLParser.HTMLParser().unescape(brief_introduction)
+            
+            if 'tips' in document:
+                tips = document['tips']
+                if (tips.find('#') != -1):
+                    tips = HTMLParser.HTMLParser().unescape(tips)
+            
+            if 'cover_image' in document:
+                cover_image = document['cover_image']
+                if cover_image != '':
+                    cover_image = image_url + cover_image
+                    
+            if 'image' in document:
+                image = document['image']
+                if image != None and len(image) > 0:
+                    for i in range(len(image)):
+                        image[i] = image_url + image[i]
             
             if 'category' in document:
                 category = document['category']
@@ -117,7 +153,6 @@ class Shopping:
                     open_time.append(temp_open_time)
             
             
-            print(document['_id'])
             if 'brand' in document:
                 brand = document['brand']
                 if brand != None:
@@ -126,13 +161,14 @@ class Shopping:
                             brand_id = brand[i]['_id']
                             db_brand = travel2['brand'].find_one({'_id': ObjectId(brand_id)})
                             if db_brand != None:
-                                cover_image = db_brand['cover_image']
+                                if db_brand['cover_image'] != '' and db_brand['cover_image'] != None:
+                                    brand_cover_image = image_url + db_brand['cover_image']
                                 title = db_brand['title']
                                 desc = db_brand['desc']
                                 advice = db_brand['advice']
                         
                         temp_brand = {}
-                        temp_brand.update({'_id': brand_id, 'cover_image': cover_image, 'title': title,
+                        temp_brand.update({'_id': brand_id, 'cover_image': brand_cover_image, 'title': title,
                                           'desc': desc, 'advice': advice, 'tag': None})
                         new_brand.append(temp_brand)
             
@@ -188,6 +224,8 @@ class Shopping:
             
             other.update({'coordination': coordination , 'open_time': open_time,'sub_tag': sub_tag,
                           'master_label': master_tag, 'is_show': is_show, 'comments': new_comments,
+                          'cover_image': cover_image, 'image': image, 'price_level': price_level,
+                          'introduction':introduction, 'brief_introduction': brief_introduction, 'tips': tips,
                           'brand': new_brand, 'last_modified_person': None, 'last_modified_time': None})
 
             post = {}
