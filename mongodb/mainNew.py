@@ -1,17 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 
-from Area import Area
+from News import News
 from Policy import Policy
-from RecommendHistory import RecommendHistory
-from WeatherTranslation import WeatherTranslation
 from PolicyMap import PolicyMap
+from RecommendHistory import RecommendHistory
 
 
 # 插入新增数据，这部分数据不需要从老库导入
-
-
-
 def main():
     address_old = '192.168.37.128'
     port_old = 27017
@@ -28,6 +24,8 @@ def main():
     RecommendHistory.insert_recommend_history(address_new, port_new)
 
     PolicyMap.insert_policy_map(address_new, port_new)
+
+    News.insert_news(address_new, port_new)
 
     print("OK")
 
