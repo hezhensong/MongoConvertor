@@ -34,7 +34,7 @@ class Dish:
         db_new.remove()
 
         # 临时数组
-        temp = [None] * len(params_map.keys())
+        temp = [''] * len(params_map.keys())
 
         # 判断当前文档是否含有某个字段,若有则取出后赋值给临时数组,否则为 None
         for document in db_old.find():
@@ -63,6 +63,6 @@ class Dish:
                     else :
                         temp_dish = {}
                         temp_dish.update({'cover_image': cover_image, 'desc':desc,
-                                      'advice': advice, 'title': None, 'tag': None})
+                                      'advice': advice, 'title': '', 'tag': ''})
                         db_new.insert(temp_dish)
                         print temp_dish

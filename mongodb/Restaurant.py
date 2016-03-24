@@ -14,7 +14,6 @@ class Restaurant:
     collection_new = 'restaurant'
     
     params_map = {'_id':'_id', # 餐厅ID
-                  'activities': 'activities', # 餐厅活动
                   'address': 'address', # 餐厅地址地址
                   'name': 'name', # 餐厅名
                   'name_en': 'name_en', # 餐厅英文名
@@ -49,7 +48,7 @@ class Restaurant:
         db_new.remove()
 
         # 临时数组
-        temp = [None] * len(params_map.keys())
+        temp = [''] * len(params_map.keys())
 
         # 判断当前文档是否含有某个字段,若有则取出后赋值给临时数组,否则为 None
         for document in db_old.find():
@@ -58,22 +57,23 @@ class Restaurant:
                     temp[i] = document[params_map.keys()[i]]
 
             # 需要特殊处理的字段,处理后以字典的形式添加到 other 中
-            coordination = None
-            latitude = None
-            longitude = None
+            coordination = ''
+            latitude = ''
+            longitude = ''
             open_time = []
-            cover_image = None
-            dish_cover_image = None
-            image = None
+            cover_image = ''
+            dish_cover_image = ''
+            image = []
             image_url = 'http://weegotest.b0.upaiyun.com/restaurant/iosimgs/'
-            title = None
-            desc = None
-            advice = None
+            title = ''
+            desc = ''
+            advice = ''
             newdish = []
-            dish_id = None
+            dish_id = ''
             facilities = {}
-            alcohol = None
-            noise = None
+            activities = []
+            alcohol = ''
+            noise = ''
             waiter = False
             tv = False
             outseat = False 
@@ -88,21 +88,24 @@ class Restaurant:
             master_tag = {}
             comments = []
             new_comments = []
-            new_date = None
-            rating = None
-            nickname = None
-            text = None
-            title = None
+            new_date = datetime.datetime(1970,1,1)
+            rating = ''
+            nickname = ''
+            text = ''
+            title = ''
             language = 'zh'
             sub_tag = []
-            _id = None
-            tag = None
-            introduction = None
-            brief_introduction = None
-            tips = None
+            _id = ''
+            tag = ''
+            introduction = ''
+            brief_introduction = ''
+            tips = ''
             price_level = 1
             
             other = {}
+            
+            if 'activities' in document:
+                activities = document['activities']
             
             if 'price_level' in document:
                 price_level = document['price_level']
@@ -133,17 +136,17 @@ class Restaurant:
                     
             if 'image' in document:
                 image = document['image']
-                if image != None and len(image) > 0:
+                if image is not None and len(image) > 0:
                     for i in range(len(image)):
                         image[i] = image_url + image[i]
             
             if 'category' in document:
                 category = document['category']
                 if len(category) > 0:
-                    master_tag.update({'_id': None,'label': None})
+                    master_tag.update({'_id': '','label': ''})
                 
                 for i in range(len(category)):
-                    if category != None:
+                    if category is not None:
                         if '_id' in category[i]:
                             _id = category[i]['_id']
                         if 'name' in category[i]:
@@ -171,7 +174,7 @@ class Restaurant:
                 for i in range(len(comments)):
                     if type(comments[i]) == unicode:
                         temp_comments = {}
-                        temp_comments.update({'date': None,'rating': rating,'nickname': nickname,
+                        temp_comments.update({'date': datetime.datetime(1970,1,1),'rating': rating,'nickname': nickname,
                                               'language': language, 'text': comments[i], 'title': title})
                         new_comments.append(temp_comments)
                     else:
@@ -191,7 +194,7 @@ class Restaurant:
                                         day = 1
                                     new_date = datetime.datetime(year, month ,day)
                                 else:
-                                    new_date = None
+                                    new_date = datetime.datetime(1970,1,1)
                             if 'rating' in comments[i]:
                                 rating = comments[i]['rating']
                             if 'nickname' in comments[i]:
@@ -222,7 +225,7 @@ class Restaurant:
                     print(dish_id)
                     temp_dish = {}
                     temp_dish.update({'_id': dish_id, 'cover_image':dish_cover_image, 'desc':desc,
-                                      'advice': advice, 'title': title, 'tag': None})
+                                      'advice': advice, 'title': title, 'tag': ''})
                     newdish.append(temp_dish)
             
             if 'info' in document:
@@ -272,7 +275,7 @@ class Restaurant:
                           'cover_image': cover_image, 'image': image, 'price_level': price_level,
                           'introduction':introduction, 'brief_introduction': brief_introduction, 'tips': tips,
                           'master_label': master_tag, 'sub_tag': sub_tag, 'is_show': is_show,
-                          'last_modified_person': None, 'last_modified_time': None})
+                          'activities': activities, 'last_modified_person': '', 'last_modified_time': ''})
             
             post = {}      
             post.update(other)

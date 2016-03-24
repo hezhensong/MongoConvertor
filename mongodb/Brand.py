@@ -52,7 +52,7 @@ class Brand:
 
             # 需要特殊处理的字段,处理后以字典的形式添加到 other 中
             image_url = 'http://weegotest.b0.upaiyun.com/shoparea/iosimgs/'
-            cover_image = None
+            cover_image = ''
             other = {}
             
             if 'cover_image' in document:
@@ -60,7 +60,7 @@ class Brand:
                 if cover_image != '':
                     cover_image = image_url + cover_image
                     
-            other.update({'tag': None, 'cover_image': cover_image})
+            other.update({'tag': '', 'cover_image': cover_image})
 
             post = {}
             post.update(other)
