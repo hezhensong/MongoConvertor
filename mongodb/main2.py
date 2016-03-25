@@ -18,15 +18,13 @@ from Brand import Brand
 from Spot import Spot
 from Dish import Dish
 from Person import Person
-
-
-
+from POILabelId import POILabelId
 
 def main():
     address_old = 'localhost'
     port_old = 27017
 
-    address_new = '192.168.6.254'
+    address_new = '192.168.8.253'
 #    address_new = 'localhost'
     port_new = 37017
 
@@ -34,8 +32,9 @@ def main():
     print("convert label type data")
 #    LabelType.insert_label_type(address_new, port_new)
 
+    # label 表依赖于 attraction、restaurant、shopping 表      
     print("convert label data")
-#    Label.convert_label(address_old, port_old, address_new, port_new)
+#    Label.convert_label(address_new, port_new)
 
     # 城市表 依赖新导入的Label表，需保证City前导入Label
     print("convert city data")
@@ -51,8 +50,8 @@ def main():
 #                            WeatherHistory.collection_old, WeatherHistory.collection_new, WeatherHistory.params_map)
 
     print("convert pgc data")
-#    Pgc.convert_pgc(address_old, port_old, address_new, port_new,
-#                              Pgc.collection_old, Pgc.collection_new, Pgc.params_map)
+    Pgc.convert_pgc(address_old, port_old, address_new, port_new,
+                              Pgc.collection_old, Pgc.collection_new, Pgc.params_map)
     
     print("convert person data")
 #    Person.convert_person(address_old, port_old, address_new, port_new)
@@ -74,21 +73,26 @@ def main():
 #    Brand.convert_brand(address_old, port_old, address_new, port_new,
 #                              Brand.collection_old, Brand.collection_new, Brand.params_map)
 
+    # label的  id 依赖于 label 表
     print("convert attraction data")
 #    Attraction.convert_attraction(address_old, port_old, address_new, port_new,
 #                                  Attraction.collection_old, Attraction.collection_new, Attraction.params_map)
-
+    # label的  id 依赖于 label 表
     print("convert restaurant data")
 #    Restaurant.convert_restaurant(address_old, port_old, address_new, port_new,
 #                                  Restaurant.collection_old, Restaurant.collection_new, Restaurant.params_map)
-
+    # label的  id 依赖于 label 表
     print("convert shopping data")
 #    Shopping.convert_shopping(address_old, port_old, address_new, port_new,
 #                              Shopping.collection_old, Shopping.collection_new, Shopping.params_map)
     
+    # 需 在 poi 表之后处理
+    print("change poi label id")
+#    POILabelId.attraction_label(address_new, port_new)
+    
     print("convert activity data")
-    Activity.convert_activity(address_old, port_old, address_new, port_new,
-                              Activity.collection_old, Activity.collection_new, Activity.params_map)
+#    Activity.convert_activity(address_old, port_old, address_new, port_new,
+#                              Activity.collection_old, Activity.collection_new, Activity.params_map)
 
     print("convert recommendInfo data")
 #    RecommendInfo.convert_recommend_info(address_old, port_old, address_new, port_new,

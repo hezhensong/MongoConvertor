@@ -9,22 +9,63 @@ class Label:
         pass
 
     @staticmethod
-    def convert_label(address_old, port_old, address_new, port_new):
-        # old database connection
-        client = MongoClient(address_old, port_old)
-        travel1 = client.travel1
-
-        # new database connection
+    def convert_label(address_new, port_new):
+       
         client = MongoClient(address_new, port_new)
         travel2 = client.travel2
 
-        # old collection latest city
-        labels_old = travel1.label
         label_new = travel2.label
-
+        attraction_new = travel2.attraction
+        restaurant_new = travel2.restaurant
+        shopping_new =  travel2.shopping
+        
         # clean former data
         label_new.remove()
-
+        
+        name = ''
+        name_array = []
+        
+        for document in attraction_new.find():
+            if 'master_label' in document:
+                if document['master_label'] is not None and document['master_label'] != {}:
+                    label_array = document['master_label']
+                    if label_array is not None and len(label_array) > 0:
+                        for i in range(len(label_array)):
+                            if label_array[i]['label'] != '':
+                                post = {'name': label_array[i]['label'], 'type': 0}
+                                if name_array.count({'name': label_array[i]['label'], 'type': 1}) == 0:
+                                    name_array.append({'name': label_array[i]['label'], 'type': 1})
+                                    label_new.insert(post)
+                                    print post
+            
+                    
+        for document in restaurant_new.find():
+            if 'master_label' in document:
+                if document['master_label'] is not None and document['master_label'] != {}:
+                    label_array = document['master_label']
+                    if label_array is not None and len(label_array) > 0:
+                        for i in range(len(label_array)):
+                            if label_array[i]['label'] != '':
+                                post = {'name': label_array[i]['label'], 'type': 1}
+                                if name_array.count({'name': label_array[i]['label'], 'type': 1}) == 0:
+                                    name_array.append({'name': label_array[i]['label'], 'type': 1})
+                                    label_new.insert(post)
+                                    print post
+        
+        for document in shopping_new.find():
+            if 'master_label' in document:
+                if document['master_label'] is not None and document['master_label'] != {}:
+                    label_array = document['master_label']
+                    if label_array is not None and len(label_array) > 0:
+                        for i in range(len(label_array)):
+                            if label_array[i]['label'] != '':
+                               post = {'name': label_array[i]['label'], 'type': 2}
+                               if name_array.count({'name': label_array[i]['label'], 'type': 2}) == 0:
+                                    name_array.append({'name': label_array[i]['label'], 'type': 2})
+                                    label_new.insert(post)
+                                    print post
+    
+        #             print(post)
         # for label_old in labels_old.find():
         #     _id = label_old['_id']
         #     title = label_old['label']

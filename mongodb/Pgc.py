@@ -57,7 +57,11 @@ class Pgc:
             poi_desc = None
             poi_image = None
             poi_image_desc = None
+            type = -1
             other = {}
+            
+            if 'type' in document:
+                type = int(document['type'])
 
             if 'pgc_people' in document:
                 person = document['pgc_people']
@@ -93,7 +97,7 @@ class Pgc:
                     poi_list.append(temp_poi)
 
             other.update({'person': person, 'city_id': city_id,
-                          'poi_list': poi_list})
+                          'poi_list': poi_list, 'type': type, 'author': '', 'source': ''})
 
             post = {}
             post.update(other)

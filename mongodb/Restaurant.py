@@ -5,6 +5,8 @@ from pymongo import MongoClient
 import datetime
 import HTMLParser
 from bson.objectid import ObjectId
+import pytz
+from TimeZoneUtil import TimeZoneUtil
 
 class Restaurant:
     def __init__(self):
@@ -90,7 +92,7 @@ class Restaurant:
             master_label = []
             comments = []
             new_comments = []
-            new_date = datetime.datetime(1970,1,1)
+            new_date = datetime.datetime(1970, 1, 1, 0, 0, 0, tzinfo = pytz.utc)
             rating = ''
             nickname = ''
             text = ''
@@ -150,7 +152,7 @@ class Restaurant:
                         if reslabels is not None and len(reslabels) > 0:
                             for i in range(len(reslabels)):
                                 temp_label = {}
-                                temp_label.update({'id': ObjectId(reslabels[i]['_id'])})
+                                temp_label.update({'_id': ObjectId(reslabels[i]['_id'])})
                                 temp_label.update({'label': reslabels[i]['title'] })
                                 master_label.append(temp_label)
             
@@ -159,7 +161,7 @@ class Restaurant:
                 if tags_zh is not None and len(tags_zh) > 0:
                     for i in range(len(tags_zh)):
                         temp_label = {}
-                        temp_label.update({'id': ''})
+                        temp_label.update({'_id': ''})
                         temp_label.update({'label': tags_zh[i] })
                         master_label.append(temp_label)
             
@@ -194,7 +196,7 @@ class Restaurant:
                 for i in range(len(comments)):
                     if type(comments[i]) == unicode:
                         temp_comments = {}
-                        temp_comments.update({'date': datetime.datetime(1970,1,1),'rating': rating,'nickname': nickname,
+                        temp_comments.update({'date': datetime.datetime(1970, 1, 1, 0, 0, 0, tzinfo = pytz.utc),'rating': rating,'nickname': nickname,
                                               'language': language, 'text': comments[i], 'title': title})
                         new_comments.append(temp_comments)
                     else:
@@ -212,9 +214,12 @@ class Restaurant:
                                     day = int(temp_date[index2+3:index3])
                                     if day == 0:
                                         day = 1
-                                    new_date = datetime.datetime(year, month ,day)
+                                    if TimeZoneUtil.timezoneMap.has_key(document['city_id']):
+                                        new_date =  TimeZoneUtil.gettimezone(document['city_id'],year, month ,day, 0, 0, 0)
+                                    else:
+                                        new_date = datetime.datetime(year, month, day, 0, 0, 0, tzinfo = pytz.utc) 
                                 else:
-                                    new_date = datetime.datetime(1970,1,1)
+                                    new_date = datetime.datetime(1970, 1, 1, 0, 0, 0, tzinfo = pytz.utc)
                             if 'rating' in comments[i]:
                                 rating = comments[i]['rating']
                             if 'nickname' in comments[i]:
@@ -295,7 +300,7 @@ class Restaurant:
                           'cover_image': cover_image, 'image': image, 'price_level': price_level,
                           'introduction':introduction, 'brief_introduction': brief_introduction, 'tips': tips,
                           'master_label': master_label, 'sub_tag': sub_tag, 'is_show': is_show,
-                          'activities': activities, 'last_modified_person': '', 'last_modified_time': ''})
+                          'activities': activities, 'last_modified_person': '', 'last_modified_time': datetime.datetime(1970, 1, 1, 0, 0, 0, tzinfo = pytz.utc)})
             
             post = {}      
             post.update(other)

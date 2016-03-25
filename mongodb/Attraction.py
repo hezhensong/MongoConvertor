@@ -6,6 +6,7 @@ import datetime
 import time
 import HTMLParser
 from bson.objectid import ObjectId
+import pytz
 from TimeZoneUtil import TimeZoneUtil
 
 class Attraction:
@@ -66,7 +67,7 @@ class Attraction:
             comments = []
             activities = []
             new_comments = []
-            new_date = datetime.datetime(1970, 1 ,1)
+            new_date = datetime.datetime(1970, 1, 1, 0, 0, 0, tzinfo = pytz.utc)
             rating = ''
             nickname = ''
             text = ''
@@ -92,7 +93,8 @@ class Attraction:
             brief_introduction = ''
             tips = ''
             price_level = 1
-            last_modified_time = datetime.datetime(1970, 1, 1)
+            master_label = []
+            last_modified_time = datetime.datetime(1970, 1, 1, 0, 0, 0, tzinfo = pytz.utc)
             other = {}
             
             if 'activities' in document:
@@ -157,9 +159,12 @@ class Attraction:
                             day = int(temp_date[index2+3:index3])
                             if day == 0:
                                 day = 1
-                            new_date = datetime.datetime(year, month ,day)
+                            if TimeZoneUtil.timezoneMap.has_key(document['city_id']):
+                                new_date =  TimeZoneUtil.gettimezone(document['city_id'],year, month ,day, 0, 0, 0)
+                            else:
+                                new_date = datetime.datetime(year, month, day, 0, 0, 0, tzinfo = pytz.utc)    
                         else:
-                            new_date = datetime.datetime(1970, 1 ,1)
+                            new_date = datetime.datetime(1970, 1, 1, 0, 0, 0, tzinfo = pytz.utc)
                             
                     if 'rating' in comments[i]:
                         rating = comments[i]['rating']
@@ -182,7 +187,9 @@ class Attraction:
                     _id = master_tag['_id']
                 if 'label' in master_tag:
                     tag = master_tag['label']
+                new_master_tag = {}
                 new_master_tag.update({'_id': _id,'label': tag})
+                master_label.append(new_master_tag)
                 
             if 'subLabelNew' in document:
                 sub_tag = document['subLabelNew']
@@ -231,7 +238,7 @@ class Attraction:
             other.update({'is_show': is_show,'coordination': coordination , 'open_time': open_time,
                           'open_table_url': '', 'comments': new_comments,'spot': new_spot,
                           'cover_image': cover_image, 'image': image, 'price_level': price_level,
-                          'activities': activities, 'master_label': new_master_tag,'sub_tag': new_sub_tag,
+                          'activities': activities, 'master_label': master_label,'sub_tag': new_sub_tag,
                           'last_modified_person': '', 'last_modified_time':  last_modified_time,
                           'introduction': introduction, 'brief_introduction': brief_introduction, 'tips': tips })
 

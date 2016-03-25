@@ -6,6 +6,8 @@ from bson.objectid import ObjectId
 import datetime
 import HTMLParser
 import datetime
+import pytz
+from TimeZoneUtil import TimeZoneUtil
 
 class Shopping:
     collection_old = 'shoppings'
@@ -65,7 +67,7 @@ class Shopping:
             master_tag = {}
             comments = []
             new_comments = []
-            new_date = datetime.datetime(1970,1,1)
+            new_date = datetime.datetime(1970, 1, 1, 0, 0, 0, tzinfo = pytz.utc)
             rating = ''
             nickname = ''
             text = ''
@@ -136,7 +138,7 @@ class Shopping:
                         if shoplabels is not None and len(shoplabels) > 0:
                             for i in range(len(shoplabels)):
                                 temp_label = {}
-                                temp_label.update({'id': ObjectId(shoplabels[i]['_id'])})
+                                temp_label.update({'_id': ObjectId(shoplabels[i]['_id'])})
                                 temp_label.update({'label': shoplabels[i]['title'] })
                                 master_label.append(temp_label)
             
@@ -192,7 +194,7 @@ class Shopping:
                 for i in range(len(comments)):
                     if type(comments[i]) == unicode:
                         temp_comments = {}
-                        temp_comments.update({'date': datetime.datetime(1970,1,1),'rating': rating,'nickname': nickname,
+                        temp_comments.update({'date': datetime.datetime(1970, 1, 1, 0, 0, 0, tzinfo = pytz.utc),'rating': rating,'nickname': nickname,
                                               'language': language,'text': comments[i], 'title': title})
                         new_comments.append(temp_comments)
                     else:
@@ -210,9 +212,12 @@ class Shopping:
                                     day = int(temp_date[index2+3:index3])
                                     if day == 0:
                                         day = 1
-                                    new_date = datetime.datetime(year, month ,day)
+                                    if TimeZoneUtil.timezoneMap.has_key(document['city_id']):
+                                        new_date =  TimeZoneUtil.gettimezone(document['city_id'],year, month ,day, 0, 0, 0)
+                                    else:
+                                        new_date = datetime.datetime(year, month, day, 0, 0, 0, tzinfo = pytz.utc)  
                                 else:
-                                    new_date = datetime.datetime(1970,1,1)
+                                    new_date = datetime.datetime(1970, 1, 1, 0, 0, 0, tzinfo = pytz.utc)
                             if 'rating' in comments[i]:
                                 rating = comments[i]['rating']
                             if 'nickname' in comments[i]:
@@ -240,7 +245,7 @@ class Shopping:
                           'master_label': master_label, 'is_show': is_show, 'comments': new_comments,
                           'cover_image': cover_image, 'image': image, 'price_level': price_level,
                           'activities': activities, 'introduction':introduction, 'brief_introduction': brief_introduction, 'tips': tips,
-                          'brand': new_brand, 'last_modified_person': '', 'last_modified_time': datetime.datetime(1970,1,1)})
+                          'brand': new_brand, 'last_modified_person': '', 'last_modified_time': datetime.datetime(1970, 1, 1, 0, 0, 0, tzinfo = pytz.utc)})
 
             post = {}
             post.update(other)
