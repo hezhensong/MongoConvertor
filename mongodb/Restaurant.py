@@ -184,13 +184,8 @@ class Restaurant:
                 coordination = longitude + ',' + latitude
                 
             if 'open_time' in document:
-                temp_open_time = document['open_time']
-                if type(temp_open_time) == list:
-                    for i in range(len(temp_open_time)):
-                        open_time.append(temp_open_time[i]['desc'])
-                else:
-                    open_time.append(temp_open_time)
-
+                open_time = document['open_time']
+            
             if 'comments' in document:
                 comments = document['comments']
                 for i in range(len(comments)):
@@ -295,7 +290,7 @@ class Restaurant:
             else:
                 is_show = False
             
-            other.update({'coordination': coordination , 'open_time': open_time,
+            other.update({'type': 1, 'coordination': coordination , 'open_time': open_time,
                           'dish': newdish, 'facilities': facilities,'comments': new_comments,
                           'cover_image': cover_image, 'image': image, 'price_level': price_level,
                           'introduction':introduction, 'brief_introduction': brief_introduction, 'tips': tips,

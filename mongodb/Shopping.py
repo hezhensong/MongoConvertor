@@ -161,14 +161,8 @@ class Shopping:
                 coordination = longitude + ',' + latitude
                 
             if 'open_time' in document:
-                temp_open_time = document['open_time']
-                if type(temp_open_time) == list:
-                    for i in range(len(temp_open_time)):
-                        open_time.append(temp_open_time[i]['desc'])
-                else:
-                    open_time.append(temp_open_time)
-            
-            
+                open_time = document['open_time']
+
             if 'brand' in document:
                 brand = document['brand']
                 if brand != None:
@@ -241,7 +235,7 @@ class Shopping:
             else:
                 is_show = False
             
-            other.update({'coordination': coordination , 'open_time': open_time,'sub_tag': sub_tag,
+            other.update({'type': 2, 'coordination': coordination , 'open_time': open_time,'sub_tag': sub_tag,
                           'master_label': master_label, 'is_show': is_show, 'comments': new_comments,
                           'cover_image': cover_image, 'image': image, 'price_level': price_level,
                           'activities': activities, 'introduction':introduction, 'brief_introduction': brief_introduction, 'tips': tips,

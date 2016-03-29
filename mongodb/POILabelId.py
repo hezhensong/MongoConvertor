@@ -33,30 +33,30 @@ class POILabelId:
             if attraction_document['master_label'] is not None and len(attraction_document['master_label']) > 0:
                 master_label =  attraction_document['master_label']
                 for i in range(len(master_label)):
-                    if master_label[i]['label'] != '':
                         temp = label_new.find_one({'name': master_label[i]['label']})
                         print temp
-                        attraction_new.update({'_id':attraction_document['_id']},{'$set':{'master_label.' + str(i) +'._id': temp['_id'] }})
+                        if temp is not None:
+                            attraction_new.update({'_id':attraction_document['_id']},{'$set':{'master_label.' + str(i) +'._id': temp['_id'] }})
         print('attraction label id changed')
       
         for restaurant_document in restaurant_new.find():
             if restaurant_document['master_label'] is not None and len(restaurant_document['master_label']) > 0:
                 master_label =  restaurant_document['master_label']
                 for i in range(len(master_label)):
-                    if master_label[i]['label'] != '':
                         temp = label_new.find_one({'name': master_label[i]['label']})
                         print temp
-                        restaurant_new.update({'_id':restaurant_document['_id']},{'$set':{ 'master_label.' + str(i) +'._id': temp['_id'] }})
+                        if temp is not None:
+                            restaurant_new.update({'_id':restaurant_document['_id']},{'$set':{ 'master_label.' + str(i) +'._id': temp['_id'] }})
         print('restaurant label id changed')
         
         for shopping_document in shopping_new.find():
             if shopping_document['master_label'] is not None and len(shopping_document['master_label']) > 0:
                 master_label =  shopping_document['master_label']
                 for i in range(len(master_label)):
-                    if master_label[i]['label'] != '':
                         temp = label_new.find_one({'name': master_label[i]['label']})
                         print temp
-                        shopping_new.update({'_id':shopping_document['_id']},{'$set':{ 'master_label.' + str(i) +'._id': temp['_id'] }})
+                        if temp is not None:
+                            shopping_new.update({'_id':shopping_document['_id']},{'$set':{ 'master_label.' + str(i) +'._id': temp['_id'] }})
         print('shopping label id changed')
         
         

@@ -64,6 +64,10 @@ class Label:
                                     name_array.append({'name': label_array[i]['label'], 'type': 2})
                                     label_new.insert(post)
                                     print post
+                                    
+        post = {'name': '商圈', 'type': 2}
+        label_new.insert(post)
+        print post
     
         #             print(post)
         # for label_old in labels_old.find():

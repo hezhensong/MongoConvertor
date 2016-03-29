@@ -24,7 +24,7 @@ def main():
     address_old = 'localhost'
     port_old = 27017
 
-    address_new = '192.168.8.253'
+    address_new = '192.168.8.250'
 #    address_new = 'localhost'
     port_new = 37017
 
@@ -50,8 +50,8 @@ def main():
 #                            WeatherHistory.collection_old, WeatherHistory.collection_new, WeatherHistory.params_map)
 
     print("convert pgc data")
-    Pgc.convert_pgc(address_old, port_old, address_new, port_new,
-                              Pgc.collection_old, Pgc.collection_new, Pgc.params_map)
+#    Pgc.convert_pgc(address_old, port_old, address_new, port_new,
+#                              Pgc.collection_old, Pgc.collection_new, Pgc.params_map)
     
     print("convert person data")
 #    Person.convert_person(address_old, port_old, address_new, port_new)

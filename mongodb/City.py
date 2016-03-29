@@ -72,7 +72,9 @@ class City:
 
         # old collection latest city
         latest_city = travel1.latestcity
+        old_label = travel1.label
         city_new = travel2.city
+        new_label = travel2.label
 
         # clean former data
         city_new.remove()
@@ -90,43 +92,56 @@ class City:
 
 
             label_dict = {}
+            label_list = []
             # 景点 list
-#            label = travel2.label
-#            if 'attrlabels' in city_old:
-
-#                label_list_old = city_old['attrlabels']
-#                if len(label_list_old) > 0:
-#                    for label_old in label_list_old:
-#                        label_id = ObjectId(label_old['_id'])
-#                        if label_id != u'{{_id}}':
-#                            label_temp = label.find_one({"_id": label_id})
-#                            name = label_temp['name']
-
-#                            if str(label_temp['type']) in label_dict.keys():
-#                                label_dict[str(label_temp['type'])].append({"_id": label_id, "name": name})
-#                            else:
-#                                label_dict[str(label_temp['type'])] = [{"_id": label_id, "name": name}]
+            if 'attrlabels' in city_old:
+                label_list_old = city_old['attrlabels']
+                if len(label_list_old) > 0:
+                    for label_old in label_list_old:
+                        label_id = label_old['_id']
+                        if label_id != '':
+                            label_temp = old_label.find_one({'_id': ObjectId(label_id)}) 
+                            temp_new_label = new_label.find_one({'name': label_temp['label'], 'type': 0})
+                            label_list.append({'_id': temp_new_label['_id'], 'name': temp_new_label['name'] })
+                    label_dict['0'] = label_list       
 
             # 餐厅 list
-            label_dict['1'] = []
-            label_list = label_dict['1']
-            if city_name == u"旧金山":
-                label_list.append({"_id": ObjectId("000000000000"), "name": "惬意时光"})
-                label_list.append({"_id": ObjectId("000000000000"), "name": "国际风味"})
-                label_list.append({"_id": ObjectId("000000000000"), "name": "人气中餐"})
-                label_list.append({"_id": ObjectId("000000000000"), "name": "本地独家"})
+            label_list = []
+            
+            if 'reslabels' in city_old and len(city_old['reslabels']) > 0:
+                for label_old in city_old['reslabels']:
+                    if 'title' in label_old:
+                        temp_new_label = new_label.find_one({'name': label_old['title'], 'type': 1})
+                        label_list.append({'_id': temp_new_label['_id'], 'name': temp_new_label['name'] })
+                label_dict['1'] = label_list
             else:
-                label_list.append({"_id": ObjectId("000000000000"), "name": "米其林推荐"})
-                label_list.append({"_id": ObjectId("000000000000"), "name": "本地特色"})
-                label_list.append({"_id": ObjectId("000000000000"), "name": "人气热门"})
-                label_list.append({"_id": ObjectId("000000000000"), "name": "城市精选"})
+                temp_new_label = new_label.find_one({'name': u'米其林推荐' , 'type': 1})
+                label_list.append({'_id': temp_new_label['_id'], 'name': temp_new_label['name'] })
+                    
+                temp_new_label = new_label.find_one({'name': u'本地特色' , 'type': 1})
+                label_list.append({'_id': temp_new_label['_id'], 'name': temp_new_label['name'] })
+                
+                temp_new_label = new_label.find_one({'name': u'人气热门' , 'type': 1})
+                label_list.append({'_id': temp_new_label['_id'], 'name': temp_new_label['name'] })
+                
+                temp_new_label = new_label.find_one({'name': u'城市精选' , 'type': 1})
+                label_list.append({'_id': temp_new_label['_id'], 'name': temp_new_label['name'] })   
+                
+                label_dict['1'] = label_list
 
-            # 购物 list
-            label_dict['2'] = []
-            label_list = label_dict['2']
-            label_list.append({"_id": ObjectId("000000000000"), "name": "购物商圈"})
-            label_list.append({"_id": ObjectId("000000000000"), "name": "商圈"})
-
+           # 购物 list
+            label_list = []
+            if 'shoplabels' in city_old and len(city_old['shoplabels']) > 0:
+                for label_old in city_old['shoplabels']:
+                    if 'title' in label_old:
+                        temp_new_label = new_label.find_one({'name': label_old['title'], 'type': 2})
+                        label_list.append({'_id': temp_new_label['_id'], 'name': temp_new_label['name'] })
+                label_dict['2'] = label_list 
+            else:
+                temp_new_label = new_label.find_one({'name': u'商圈' , 'type': 2})
+                label_list.append({'_id': temp_new_label['_id'], 'name': temp_new_label['name'] })
+                label_dict['2'] = label_list 
+                
             if city_old['continents'] == u'美洲':
                 city_old['continents'] = u'北美'
 

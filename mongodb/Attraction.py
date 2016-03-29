@@ -138,10 +138,9 @@ class Attraction:
             if 'open_time' in document:
                 temp_open_time = document['open_time']
                 if type(temp_open_time) == list:
-                    for i in range(len(temp_open_time)):
-                        open_time.append(temp_open_time[i]['desc'])
+                    open_time = temp_open_time
                 else:
-                    open_time.append(temp_open_time)
+                    open_time.append({'desc': temp_open_time,'value': ''})
             
             if 'comments' in document:
                 comments = document['comments']
@@ -235,7 +234,7 @@ class Attraction:
                 is_show = False
 
 
-            other.update({'is_show': is_show,'coordination': coordination , 'open_time': open_time,
+            other.update({'type': 0, 'is_show': is_show,'coordination': coordination , 'open_time': open_time,
                           'open_table_url': '', 'comments': new_comments,'spot': new_spot,
                           'cover_image': cover_image, 'image': image, 'price_level': price_level,
                           'activities': activities, 'master_label': master_label,'sub_tag': new_sub_tag,

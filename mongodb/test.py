@@ -57,4 +57,11 @@ if temp_array.count(temp3) == 0:
     temp_array.append(temp3)
 print temp_array
 
+test = 'abc*'
+print test.find('*')
+
+
+test = [{'a':1},{'b':2}]
+print type(test)
+
 
