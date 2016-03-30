@@ -24,8 +24,7 @@ class Shopping:
                   'comments_url': 'comments_url', # 评论 url
                   'price_desc': 'price_desc', # 价格描述
                   'tel': 'tel', # 电话
-                  'url': 'website', # 网站
-                  'rating': 'rating' # 评分
+                  'url': 'website' # 网站
                 }
 
     def __init__(self):
@@ -68,7 +67,6 @@ class Shopping:
             comments = []
             new_comments = []
             new_date = datetime.datetime(1970, 1, 1, 0, 0, 0, tzinfo = pytz.utc)
-            rating = ''
             nickname = ''
             text = ''
             title = ''
@@ -85,14 +83,20 @@ class Shopping:
             title = ''
             desc = ''
             advice = ''
-            image_url = 'http://weegotest.b0.upaiyun.com/shoparea/iosimgs/'
+            image_url = 'http://weegotest.b0.upaiyun.com/shopping/iosimgs/'
             introduction = ''
             brief_introduction = ''
             tips = ''
             price_level = 1
             activities = []
             master_label = []
+            rating = 0.0
             other = {}
+            
+            if 'rating' in document:
+                rating = document['rating']
+                if type(rating) == int:
+                    rating = float(rating)
             
             if 'activities' in document:
                 activities = document['activities']
@@ -235,7 +239,7 @@ class Shopping:
             else:
                 is_show = False
             
-            other.update({'type': 2, 'coordination': coordination , 'open_time': open_time,'sub_tag': sub_tag,
+            other.update({'rating': rating,'type': 2, 'coordination': coordination , 'open_time': open_time,'sub_tag': sub_tag,
                           'master_label': master_label, 'is_show': is_show, 'comments': new_comments,
                           'cover_image': cover_image, 'image': image, 'price_level': price_level,
                           'activities': activities, 'introduction':introduction, 'brief_introduction': brief_introduction, 'tips': tips,

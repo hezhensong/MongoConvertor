@@ -83,8 +83,8 @@ def main():
 #                                  Restaurant.collection_old, Restaurant.collection_new, Restaurant.params_map)
     # label的  id 依赖于 label 表
     print("convert shopping data")
-#    Shopping.convert_shopping(address_old, port_old, address_new, port_new,
-#                              Shopping.collection_old, Shopping.collection_new, Shopping.params_map)
+    Shopping.convert_shopping(address_old, port_old, address_new, port_new,
+                              Shopping.collection_old, Shopping.collection_new, Shopping.params_map)
     
     # 需 在 poi 表之后处理
     print("change poi label id")
