@@ -6,6 +6,8 @@ from bson.objectid import ObjectId
 import datetime
 import HTMLParser
 import datetime
+import pytz
+from TimeZoneUtil import TimeZoneUtil
 
 class Shopping:
     collection_old = 'shoppings'
@@ -22,8 +24,7 @@ class Shopping:
                   'comments_url': 'comments_url', # 评论 url
                   'price_desc': 'price_desc', # 价格描述
                   'tel': 'tel', # 电话
-                  'url': 'website', # 网站
-                  'rating': 'rating' # 评分
+                  'url': 'website' # 网站
                 }
 
     def __init__(self):
@@ -65,8 +66,7 @@ class Shopping:
             master_tag = {}
             comments = []
             new_comments = []
-            new_date = datetime.datetime(1970,1,1)
-            rating = ''
+            new_date = datetime.datetime(1970, 1, 1, 0, 0, 0, tzinfo = pytz.utc)
             nickname = ''
             text = ''
             title = ''
@@ -83,13 +83,20 @@ class Shopping:
             title = ''
             desc = ''
             advice = ''
-            image_url = 'http://weegotest.b0.upaiyun.com/shoparea/iosimgs/'
+            image_url = 'http://weegotest.b0.upaiyun.com/shopping/iosimgs/'
             introduction = ''
             brief_introduction = ''
             tips = ''
             price_level = 1
             activities = []
+            master_label = []
+            rating = 0.0
             other = {}
+            
+            if 'rating' in document:
+                rating = document['rating']
+                if type(rating) == int:
+                    rating = float(rating)
             
             if 'activities' in document:
                 activities = document['activities']
@@ -127,11 +134,20 @@ class Shopping:
                     for i in range(len(image)):
                         image[i] = image_url + image[i]
             
+            if 'city_id' in document:
+                temp_city = travel1['latestcity'].find_one({'_id':document['city_id']})
+                if temp_city is not None:
+                    if 'shoplabels' in temp_city:
+                        shoplabels = temp_city['shoplabels']
+                        if shoplabels is not None and len(shoplabels) > 0:
+                            for i in range(len(shoplabels)):
+                                temp_label = {}
+                                temp_label.update({'_id': ObjectId(shoplabels[i]['_id'])})
+                                temp_label.update({'label': shoplabels[i]['title'] })
+                                master_label.append(temp_label)
+            
             if 'category' in document:
                 category = document['category']
-                if len(category) > 0:
-                    master_tag.update({'_id': '','label': ''})
-                
                 for i in range(len(category)):
                     if category != None:
                         if '_id' in category[i]:
@@ -149,14 +165,8 @@ class Shopping:
                 coordination = longitude + ',' + latitude
                 
             if 'open_time' in document:
-                temp_open_time = document['open_time']
-                if type(temp_open_time) == list:
-                    for i in range(len(temp_open_time)):
-                        open_time.append(temp_open_time[i]['desc'])
-                else:
-                    open_time.append(temp_open_time)
-            
-            
+                open_time = document['open_time']
+
             if 'brand' in document:
                 brand = document['brand']
                 if brand != None:
@@ -182,7 +192,7 @@ class Shopping:
                 for i in range(len(comments)):
                     if type(comments[i]) == unicode:
                         temp_comments = {}
-                        temp_comments.update({'date': datetime.datetime(1970,1,1),'rating': rating,'nickname': nickname,
+                        temp_comments.update({'date': datetime.datetime(1970, 1, 1, 0, 0, 0, tzinfo = pytz.utc),'rating': rating,'nickname': nickname,
                                               'language': language,'text': comments[i], 'title': title})
                         new_comments.append(temp_comments)
                     else:
@@ -200,9 +210,12 @@ class Shopping:
                                     day = int(temp_date[index2+3:index3])
                                     if day == 0:
                                         day = 1
-                                    new_date = datetime.datetime(year, month ,day)
+                                    if TimeZoneUtil.timezoneMap.has_key(document['city_id']):
+                                        new_date =  TimeZoneUtil.gettimezone(document['city_id'],year, month ,day, 0, 0, 0)
+                                    else:
+                                        new_date = datetime.datetime(year, month, day, 0, 0, 0, tzinfo = pytz.utc)  
                                 else:
-                                    new_date = datetime.datetime(1970,1,1)
+                                    new_date = datetime.datetime(1970, 1, 1, 0, 0, 0, tzinfo = pytz.utc)
                             if 'rating' in comments[i]:
                                 rating = comments[i]['rating']
                             if 'nickname' in comments[i]:
@@ -226,11 +239,11 @@ class Shopping:
             else:
                 is_show = False
             
-            other.update({'coordination': coordination , 'open_time': open_time,'sub_tag': sub_tag,
-                          'master_label': master_tag, 'is_show': is_show, 'comments': new_comments,
+            other.update({'rating': rating,'type': 2, 'coordination': coordination , 'open_time': open_time,'sub_tag': sub_tag,
+                          'master_label': master_label, 'is_show': is_show, 'comments': new_comments,
                           'cover_image': cover_image, 'image': image, 'price_level': price_level,
                           'activities': activities, 'introduction':introduction, 'brief_introduction': brief_introduction, 'tips': tips,
-                          'brand': new_brand, 'last_modified_person': '', 'last_modified_time': datetime.datetime(1970,1,1)})
+                          'brand': new_brand, 'last_modified_person': '', 'last_modified_time': datetime.datetime(1970, 1, 1, 0, 0, 0, tzinfo = pytz.utc)})
 
             post = {}
             post.update(other)

@@ -21,11 +21,11 @@ def main():
 
     Policy.insert_policy(address_new, port_new)
 
-    RecommendHistory.insert_recommend_history(address_new, port_new)
+#    RecommendHistory.insert_recommend_history(address_new, port_new)
 
-    PolicyMap.insert_policy_map(address_new, port_new)
+#    PolicyMap.insert_policy_map(address_new, port_new)
 
-    News.insert_news(address_new, port_new)
+#    News.insert_news(address_new, port_new)
 
     print("OK")
 

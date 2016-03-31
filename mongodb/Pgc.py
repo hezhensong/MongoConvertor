@@ -39,7 +39,7 @@ class Pgc:
         db_new.remove()
 
         # 临时数组
-        temp = [None] * len(params_map.keys())
+        temp = [''] * len(params_map.keys())
 
         # 判断当前文档是否含有某个字段,若有则取出后赋值给临时数组,否则为 None
         for document in db_old.find():
@@ -47,17 +47,25 @@ class Pgc:
                 if params_map.keys()[i] in document:
                     temp[i] = document[params_map.keys()[i]]
 
-            person = None
-            city_id = None
+            person = ''
+            city_id = ''
             poi_list = []
             temp_poi_list = []
-            _id = None
-            name = None
-            type = None
-            poi_desc = None
-            poi_image = None
-            poi_image_desc = None
+            _id = ''
+            name = ''
+            poi_desc = ''
+            poi_image = ''
+            poi_image_desc = ''
+            type = -1
+            temp_type = ''
+            tag = ''
             other = {}
+            
+            if 'pgc_tags' in document:
+                tag = document['pgc_tags']
+            
+            if 'type' in document:
+                type = int(document['type'])
 
             if 'pgc_people' in document:
                 person = document['pgc_people']
@@ -78,7 +86,8 @@ class Pgc:
                     if '_id' in temp_poi_list[i]:
                         _id = temp_poi_list[i]['_id']
                     if 'type' in temp_poi_list[i]:
-                        type = temp_poi_list[i]['type']
+                        if temp_poi_list[i]['type'] != '':
+                            temp_type = temp_poi_list[i]['type']
                     if 'name' in temp_poi_list[i]:
                         name = temp_poi_list[i]['name']
                     if 'poi_desc' in temp_poi_list[i]:
@@ -87,13 +96,19 @@ class Pgc:
                         poi_image = "http://weegotest.b0.upaiyun.com/attractions/origin/" + temp_poi_list[i]['poi_image']
                     if 'poi_image_desc' in temp_poi_list[i]:
                         poi_image_desc = temp_poi_list[i]['poi_image_desc']
+                    if _id.find('*') != -1:
+                        _id = ''
+                        temp_type =''
                     temp_poi = {}
-                    temp_poi.update({'_id': _id, 'type': type, 'paragraph_desc': poi_desc, 'name': name,
-                                     'poi_image': poi_image, 'paragraph_title': poi_image_desc})
+                    temp_poi.update({'_id': _id, 'type':temp_type, 'paragraph_desc': poi_desc, 'name': name,
+                                     'poi_image': poi_image, 'paragraph_title': poi_image_desc, 'image_url':'', 'image_source': ''})
                     poi_list.append(temp_poi)
 
-            other.update({'person': person, 'city_id': city_id,
-                          'poi_list': poi_list})
+            original = {}
+            original.update({'image': '', 'desc':'','url': '', 'author': '', 'source': ''})
+            other.update({'original' : original, 'tag': tag,
+                          'person': person, 'city_id': city_id,
+                          'poi_list': poi_list, 'type': type })
 
             post = {}
             post.update(other)

@@ -4,6 +4,9 @@
 from pymongo import MongoClient
 import datetime
 import HTMLParser
+from bson.objectid import ObjectId
+import pytz
+from TimeZoneUtil import TimeZoneUtil
 
 class Restaurant:
     def __init__(self):
@@ -50,6 +53,7 @@ class Restaurant:
         # 临时数组
         temp = [''] * len(params_map.keys())
 
+
         # 判断当前文档是否含有某个字段,若有则取出后赋值给临时数组,否则为 None
         for document in db_old.find():
             for i in range(len(params_map.keys())):
@@ -85,10 +89,10 @@ class Restaurant:
             reserve = False
             wifi = False
 
-            master_tag = {}
+            master_label = []
             comments = []
             new_comments = []
-            new_date = datetime.datetime(1970,1,1)
+            new_date = datetime.datetime(1970, 1, 1, 0, 0, 0, tzinfo = pytz.utc)
             rating = ''
             nickname = ''
             text = ''
@@ -140,11 +144,29 @@ class Restaurant:
                     for i in range(len(image)):
                         image[i] = image_url + image[i]
             
+            if 'city_id' in document:
+                temp_city = travel1['latestcity'].find_one({'_id':document['city_id']})
+                if temp_city is not None:
+                    if 'reslabels' in temp_city:
+                        reslabels = temp_city['reslabels']
+                        if reslabels is not None and len(reslabels) > 0:
+                            for i in range(len(reslabels)):
+                                temp_label = {}
+                                temp_label.update({'_id': ObjectId(reslabels[i]['_id'])})
+                                temp_label.update({'label': reslabels[i]['title'] })
+                                master_label.append(temp_label)
+            
+            if 'tags_zh' in document:
+                tags_zh = document['tags_zh']
+                if tags_zh is not None and len(tags_zh) > 0:
+                    for i in range(len(tags_zh)):
+                        temp_label = {}
+                        temp_label.update({'_id': ''})
+                        temp_label.update({'label': tags_zh[i] })
+                        master_label.append(temp_label)
+            
             if 'category' in document:
-                category = document['category']
-                if len(category) > 0:
-                    master_tag.update({'_id': '','label': ''})
-                
+                category = document['category']                
                 for i in range(len(category)):
                     if category is not None:
                         if '_id' in category[i]:
@@ -162,19 +184,14 @@ class Restaurant:
                 coordination = longitude + ',' + latitude
                 
             if 'open_time' in document:
-                temp_open_time = document['open_time']
-                if type(temp_open_time) == list:
-                    for i in range(len(temp_open_time)):
-                        open_time.append(temp_open_time[i]['desc'])
-                else:
-                    open_time.append(temp_open_time)
-
+                open_time = document['open_time']
+            
             if 'comments' in document:
                 comments = document['comments']
                 for i in range(len(comments)):
                     if type(comments[i]) == unicode:
                         temp_comments = {}
-                        temp_comments.update({'date': datetime.datetime(1970,1,1),'rating': rating,'nickname': nickname,
+                        temp_comments.update({'date': datetime.datetime(1970, 1, 1, 0, 0, 0, tzinfo = pytz.utc),'rating': rating,'nickname': nickname,
                                               'language': language, 'text': comments[i], 'title': title})
                         new_comments.append(temp_comments)
                     else:
@@ -192,9 +209,12 @@ class Restaurant:
                                     day = int(temp_date[index2+3:index3])
                                     if day == 0:
                                         day = 1
-                                    new_date = datetime.datetime(year, month ,day)
+                                    if TimeZoneUtil.timezoneMap.has_key(document['city_id']):
+                                        new_date =  TimeZoneUtil.gettimezone(document['city_id'],year, month ,day, 0, 0, 0)
+                                    else:
+                                        new_date = datetime.datetime(year, month, day, 0, 0, 0, tzinfo = pytz.utc) 
                                 else:
-                                    new_date = datetime.datetime(1970,1,1)
+                                    new_date = datetime.datetime(1970, 1, 1, 0, 0, 0, tzinfo = pytz.utc)
                             if 'rating' in comments[i]:
                                 rating = comments[i]['rating']
                             if 'nickname' in comments[i]:
@@ -270,12 +290,12 @@ class Restaurant:
             else:
                 is_show = False
             
-            other.update({'coordination': coordination , 'open_time': open_time,
+            other.update({'type': 1, 'coordination': coordination , 'open_time': open_time,
                           'dish': newdish, 'facilities': facilities,'comments': new_comments,
                           'cover_image': cover_image, 'image': image, 'price_level': price_level,
                           'introduction':introduction, 'brief_introduction': brief_introduction, 'tips': tips,
-                          'master_label': master_tag, 'sub_tag': sub_tag, 'is_show': is_show,
-                          'activities': activities, 'last_modified_person': '', 'last_modified_time': ''})
+                          'master_label': master_label, 'sub_tag': sub_tag, 'is_show': is_show,
+                          'activities': activities, 'last_modified_person': '', 'last_modified_time': datetime.datetime(1970, 1, 1, 0, 0, 0, tzinfo = pytz.utc)})
             
             post = {}      
             post.update(other)

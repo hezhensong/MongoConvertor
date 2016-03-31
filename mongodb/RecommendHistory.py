@@ -25,8 +25,8 @@ class RecommendHistory:
 
         post = {
             "city_id": ObjectId("516a34f958e3511036000001"),
-            "user_id": ObjectId("516a34f958e3511036000011"),
-            "recommend_time": datetime.datetime(2016, 3, 14, 19, 15, 0, 0, tzinfo=pytz.utc),
+            "user_id": ObjectId("516a34f958e3511036000023"),
+            "recommend_time": datetime.datetime(2016, 3, 24, 19, 0, 0, tzinfo=pytz.utc),
             "recommend_content": [
                 {
                     "type": 0,
@@ -35,8 +35,8 @@ class RecommendHistory:
                     "content_second": "标题2.1"
                 },
                 {
-                    "type": 1,
-                    "content_id": ObjectId("5322c08d2fab6f0c1d000002"),
+                    "type": 5,
+                    "content_id": ObjectId("56961545ce1878937e00012b"),
                     "content_first": "标题1.2",
                     "content_second": "标题2.2"
                 }

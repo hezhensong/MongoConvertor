@@ -33,14 +33,14 @@ class Policy:
                 "attraction": [],
                 "restaurant": [],
                 "shopping": [],
-                "shopping_circle": [],
                 "activity": [],
                 "pgc": [],
                 "news": []
             },
             "status": True,
             "last_modify_time": datetime.datetime(2016, 3, 14, 22, 0, 0, 0, tzinfo=pytz.utc),
-            "last_modify_person": "weego"
+            "last_modify_person": "weego",
+            "coordination":'12,12'
         }
         policy.insert(post)
         print post
