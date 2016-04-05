@@ -90,11 +90,11 @@ class Activity:
                 coordination = longitude + ',' + latitude
 
             paragraphs.append({'image_title': '', 'image_url': '',
-                               'detail': '', 'image_brief': ''})
+                               'detail_up': '', 'detail_down': '', 'image_brief': ''})
 
             other.update({'start_time': start_time, 'end_time': end_time, 
                           'act_time': act_time, 'coordination': coordination,
-                          'last_modified_person': '', 'last_modified_time': datetime.datetime(1970,1,1),
+                          'last_modified_person': '', 'last_modified_time': '',
                           'paragraphs': paragraphs})
             post = {}
 
@@ -123,8 +123,7 @@ class Activity:
             # 修改图片地址为全路径
             post['cover_image'] = "http://weegotest.b0.upaiyun.com/activities/iosimgs/" + post['cover_image']
             db_new.insert(post)
-            print post
-            
+#            print post
         new_start_time = datetime.datetime(1970,1,1,0,0,0,tzinfo=pytz.utc)
         new_end_time = datetime.datetime(1970,1,1,0,0,0,tzinfo=pytz.utc)
         for document in db_new.find():
