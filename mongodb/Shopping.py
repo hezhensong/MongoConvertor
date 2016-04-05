@@ -241,7 +241,7 @@ class Shopping:
             
             other.update({'rating': rating,'type': 2, 'coordination': coordination , 'open_time': open_time,'sub_tag': sub_tag,
                           'master_label': master_label, 'is_show': is_show, 'comments': new_comments,
-                          'cover_image': cover_image, 'image': image, 'price_level': price_level,
+                          'open_table_url': '', 'cover_image': cover_image, 'image': image, 'price_level': price_level,
                           'activities': activities, 'introduction':introduction, 'brief_introduction': brief_introduction, 'tips': tips,
                           'brand': new_brand, 'last_modified_person': '', 'last_modified_time': datetime.datetime(1970, 1, 1, 0, 0, 0, tzinfo = pytz.utc)})
 

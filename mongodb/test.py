@@ -1,46 +1,49 @@
 # -*- coding: UTF-8 -*-
-import pytz
-import time
-import datetime
-from pytz import all_timezones
-from TimeZoneUtil import TimeZoneUtil
-from bson.objectid import ObjectId
+import urllib2  
+from bs4 import BeautifulSoup  
+  
+url = "http://www.tripadvisor.cn/Hotel_Review-g60763-d122020-Reviews-Chelsea_Pines_Inn-New_York_City_New_York.html"  
+header = {'User-Agent':'Mozilla/5.0'}
+req = urllib2.Request(url=url,headers=header)
+page = urllib2.urlopen(req)
+soup_packtpage = BeautifulSoup(page,"html.parser",from_encoding="utf-8")  
+page.close()
 
-test = [''] * 10
-print(test)
-print(len(test))
+names = []
+name_list = soup_packtpage.find_all('span',class_ = 'expand_inline scrname mbrName_')
+for name in name_list:
+    names.append(name.get_text().strip())
 
-print len(TimeZoneUtil.timezoneMap)
-#print TimeZoneUtil.gettimezone('516a35427dbbf72336000003',2016, 3, 24, 10, 42, 0)
+titles = []
+title_list = soup_packtpage.find_all('span',class_ = 'noQuotes')
+for title in title_list:
+    titles.append(title.get_text().strip())
 
-test = {'1':'a','2':'b'}
-print test['1']
-#print datetime.datetime.now(sh)
+ratings = []
+ratingDates = []
+other_list = soup_packtpage.find_all('div',class_ = 'rating reviewItemInline')
+for other in other_list:
+    rating = other.find('span', class_='rate sprite-rating_s rating_s')
+    ratings.append(rating.img.attrs['alt'].strip())
+    ratingDate = other.find('span', class_='ratingDate')
+    ratingDates.append(ratingDate.get_text().strip())
 
-print pytz.country_timezones('us')
-
-#print datetime.datetime(2009,2,21,8,10,0,tzinfo=sh)
-#print new
-utc = pytz.utc
-boston = pytz.timezone("Etc/GMT-8")
-newyork = pytz.timezone("America/New_York")
-
-
-origin1 = datetime.datetime(2016, 3, 24, 19, 0, 0, tzinfo=pytz.utc)
-print origin1
-origin2 = datetime.datetime(2009, 3, 24, 14, 0, 0, tzinfo=newyork)
-#print origin2
-print origin1
-#print origin2
-#new1 = origin1.astimezone(utc)
-new2 = origin2.astimezone(utc)
-#print new1
-print new2
-
-a = 2
-print type(a)
-
-b = 3.4
-print type(b)
+comments = []
+comments_list = soup_packtpage.find_all('p',class_='partial_entry')
+for comment in comments_list:
+    comments.append(comment.get_text().strip())
+    
+comment_data = []
+for i in range(len(names)):
+    temp = {}
+    temp.update({'name':names[i]})
+    temp.update({'title':titles[i]})
+    temp.update({'rating':ratings[i]})
+    temp.update({'date':ratingDates[i]})
+    temp.update({'content':comments[i]})
+    comment_data.append(temp)
+    
+for i in range(len(comment_data)):
+    print comment_data[i]['name'] + ':' + comment_data[i]['title'] + ':' + comment_data[i]['rating'] + ':' + comment_data[i]['date'] + ':' + comment_data[i]['content']
 
 
