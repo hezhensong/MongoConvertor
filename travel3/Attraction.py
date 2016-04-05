@@ -136,7 +136,7 @@ class Attraction:
             if 'price_level' in latest_attraction:
                 post['price_level'] = int(latest_attraction['price_level'])
             else:
-                post['price_level'] = 0
+                post['price_level'] = int(-1)
 
             # 营业时间
             if 'open_time' in latest_attraction:
