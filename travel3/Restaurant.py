@@ -77,8 +77,8 @@ class Restaurant:
                 post['city_id'] = None
 
             # city name
-            if 'cityname' in restuarant_temp:
-                post['city_name'] = restuarant_temp['cityname']
+            if 'city_name' in restuarant_temp:
+                post['city_name'] = restuarant_temp['city_name']
             else:
                 post['city_name'] = ''
                 
@@ -95,14 +95,25 @@ class Restaurant:
             post['image'] = []
             image_url = 'http://weegotest.b0.upaiyun.com/restaurant/iosimgs/'
 
+            
             if 'image' in restuarant_temp:
                 image_list = restuarant_temp['image']
 
+                # 遍历找背景图,use 标记为 cover
+                if 'cover_image' in restuarant_temp:
+                    cover_image = restuarant_temp['cover_image']
+
                 for image_item in image_list:
-                    image_element = {
-                        'url': image_url + image_item,
-                        'use': ''
-                    }
+                    if image_item == cover_image:
+                        image_element = {
+                            'url': image_url + image_item,
+                            'use': 'cover'
+                        }
+                    else:
+                        image_element = {
+                            'url': image_url + image_item,
+                            'use': ''
+                        }
                     post['image'].append(image_element)
 
              # 地址
@@ -128,7 +139,10 @@ class Restaurant:
             
              # 价格描述
             if 'price_desc' in restuarant_temp:
-                post['price_desc'] = str(restuarant_temp['price_desc'])
+                if restuarant_temp['price_desc'] != 'null':
+                    post['price_desc'] = str(restuarant_temp['price_desc'])
+                else:
+                    post['price_desc'] = ''
             else:
                 post['price_desc'] = ''
             
@@ -161,7 +175,7 @@ class Restaurant:
                 post['website'] = ''
 
             # 电话
-            if 'telno' in restuarant_temp:
+            if 'tel' in restuarant_temp:
                 post['telephone'] = restuarant_temp['tel']
             else:
                 post['telephone'] = ''
@@ -172,6 +186,8 @@ class Restaurant:
                     post['recommend_duration'] = restuarant_temp['recommand_duration']
                 elif len(restuarant_temp['recommand_duration']) > 0:
                     post['recommend_duration'] = int(restuarant_temp['recommand_duration'])
+                else:
+                    post['recommend_duration'] = int(0)
             else:
                 post['recommend_duration'] = int(0)
                 
@@ -213,7 +229,10 @@ class Restaurant:
                 
             # 总评分
             if 'rating' in restuarant_temp:
-                post['rating'] = restuarant_temp['rating']
+                if restuarant_temp['rating'] != None:
+                    post['rating'] = float(restuarant_temp['rating'])
+                else:
+                    post['rating'] = 0.0
             else:
                 post['rating'] = 0.0
             
@@ -230,6 +249,7 @@ class Restaurant:
                                 temp_label.update({'_id': ObjectId(reslabels[i]['_id'])})
                                 temp_label.update({'name': reslabels[i]['title'] })
                                 label.append(temp_label)
+                                
             # 类别标签 label 的第二部分
             if 'tags_zh' in restuarant_temp:
                 tags_zh = restuarant_temp['tags_zh']
@@ -267,6 +287,12 @@ class Restaurant:
                 post['comments_url'] = restuarant_temp['comments_url']
             else:
                 post['comments_url'] = ''
+                
+            # yelp网址
+            if 'url' in restuarant_temp:
+                post['yelp_url'] = restuarant_temp['url']
+            else:
+                post['yelp_url'] = ''
             
             # 评论,有些评论是只有 text 的脏数据
             new_comments = []
@@ -301,6 +327,28 @@ class Restaurant:
                                                   nickname,'text': text, 'title': title, 'language': language})
                             new_comments.append(temp_comments)         
             post['comments'] = new_comments
+            
+            # 菜品
+            new_dish = []
+            dish_cover_image = ''
+            desc = ''
+            if 'menu' in restuarant_temp:
+                dish = restuarant_temp['menu']
+                for i in range(len(dish)):
+                    if 'cover_image' in dish[i]:
+                        if dish[i]['cover_image'] != '':
+                            dish_cover_image = image_url + dish[i]['cover_image']
+                    if 'desc' in dish[i]:
+                        desc = dish[i]['desc']
+                    if 'advice' in dish[i]:
+                        advice = dish[i]['advice']
+                    
+                    dish_id = travel3['dish'].find_one({'cover_image': dish_cover_image,'desc': desc})['_id']
+                    temp_dish = {}
+                    temp_dish.update({'_id': dish_id, 'cover_image': dish_cover_image, 'desc':desc,
+                                      'advice': advice, 'title': '', 'tag': ''})
+                    new_dish.append(temp_dish)
+            post['dish'] = new_dish
             
             # 设施 
             alcohol = ''
