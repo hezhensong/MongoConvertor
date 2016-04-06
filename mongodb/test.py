@@ -1,6 +1,7 @@
 # -*- coding: UTF-8 -*-
 import urllib2  
 from bs4 import BeautifulSoup  
+import HTMLParser
   
 url = "http://www.tripadvisor.cn/Hotel_Review-g60763-d122020-Reviews-Chelsea_Pines_Inn-New_York_City_New_York.html"  
 header = {'User-Agent':'Mozilla/5.0'}
@@ -45,5 +46,6 @@ for i in range(len(names)):
     
 for i in range(len(comment_data)):
     print comment_data[i]['name'] + ':' + comment_data[i]['title'] + ':' + comment_data[i]['rating'] + ':' + comment_data[i]['date'] + ':' + comment_data[i]['content']
+
 
 
