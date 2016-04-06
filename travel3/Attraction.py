@@ -152,7 +152,14 @@ class Attraction:
 
             # 交通信息
             if 'traffic_info' in latest_attraction:
-                post['traffic_info'] = HTMLParser.HTMLParser().unescape(latest_attraction['traffic_info'])
+                post['traffic_info'] = HTMLParser.HTMLParser().unescape(latest_attraction['traffic_info']) \
+                    .replace('<p>', '') \
+                    .replace('</p>', '') \
+                    .replace('<br/>', '') \
+                    .replace('<span>', '') \
+                    .replace('</span>', '') \
+                    .replace('<div>', '') \
+                    .replace('</div>', '')
             else:
                 post['traffic_info'] = ''
 
@@ -196,19 +203,33 @@ class Attraction:
 
             # 一句话简介
             if 'short_introduce' in latest_attraction:
-                post['brief_introduction'] = HTMLParser.HTMLParser().unescape(latest_attraction['short_introduce'])
+                post['brief_introduction'] = HTMLParser.HTMLParser().unescape(latest_attraction['short_introduce']) \
+                    .replace('<p>', '') \
+                    .replace('</p>', '') \
+                    .replace('<br/>', '') \
+                    .replace('<span>', '') \
+                    .replace('</span>', '') \
+                    .replace('<div>', '') \
+                    .replace('</div>', '')
             else:
                 post['brief_introduction'] = ''
 
             # 简介
-            if 'short_introduce' in latest_attraction:
+            if 'introduce' in latest_attraction:
                 post['introduction'] = HTMLParser.HTMLParser().unescape(latest_attraction['introduce'])
             else:
                 post['introduction'] = ''
 
             # 小贴士
             if 'tips' in latest_attraction:
-                post['tips'] = HTMLParser.HTMLParser().unescape(latest_attraction['tips'])
+                post['tips'] = HTMLParser.HTMLParser().unescape(latest_attraction['tips']) \
+                    .replace('<p>', '') \
+                    .replace('</p>', '') \
+                    .replace('<br/>', '') \
+                    .replace('<span>', '') \
+                    .replace('</span>', '') \
+                    .replace('<div>', '') \
+                    .replace('</div>', '')
             else:
                 post['tips'] = ''
 
@@ -223,15 +244,12 @@ class Attraction:
 
             # 类别标签
             if 'masterLabelNew' in latest_attraction and isinstance(latest_attraction['masterLabelNew'], dict):
-                post['label'] = {
+                post['label'] = [{
                     'id': latest_attraction['masterLabelNew']['_id'],
                     'name': latest_attraction['masterLabelNew']['label']
-                }
+                }]
             else:
-                post['label'] = {
-                    'id': ObjectId('000000000000'),
-                    'name': '未归类'
-                }
+                post['label'] = []
 
             # 属性标签
             post['tag'] = []
