@@ -8,7 +8,7 @@ reload(sys)
 sys.setdefaultencoding('utf8')
 
 
-# 这个文件负责整个travel3的导入
+# 插入新增数据，这部分数据不需要从老库导入
 def main():
     address_old = '192.168.199.254'
     port_old = 27017
