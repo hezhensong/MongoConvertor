@@ -4,6 +4,9 @@
 import sys
 from Attraction import Attraction
 
+import sys
+from Brands import Brands
+
 reload(sys)
 sys.setdefaultencoding('utf8')
 
@@ -18,6 +21,9 @@ def main():
 
     print('convert latestattractions to attraction.')
     Attraction.convert_attraction(address_old, port_old, address_new, port_new)
+    
+    #print('convert travel1Brands to travel3Brands.')
+    #Brands.convert_Brands(address_old, port_old, address_new, port_new)
 
     print("OK")
 
