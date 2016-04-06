@@ -68,7 +68,7 @@ class Attraction:
             if 'city_id' in latest_attraction:
                 post['city_id'] = latest_attraction['city_id']
             else:
-                post['city_id'] = ''
+                post['city_id'] = None
 
             # city name
             if 'cityname' in latest_attraction:
