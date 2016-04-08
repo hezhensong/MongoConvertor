@@ -90,7 +90,7 @@ class Activity:
                 coordination = longitude + ',' + latitude
 
             paragraphs.append({'image_title': '', 'image_url': '',
-                               'detail_up': '', 'detail_down': '', 'image_brief': ''})
+                               'detail': '', 'image_brief': ''})
 
             other.update({'start_time': start_time, 'end_time': end_time, 
                           'act_time': act_time, 'coordination': coordination,
