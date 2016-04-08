@@ -53,7 +53,7 @@ class Shopping:
             else:
                 post['name_en'] = ''
             
-             # 是否线上展示
+            # 是否线上展示
             if 'show_flag' in shopping_temp:
                 show_flag = shopping_temp['show_flag']
                 if show_flag == u'1':
