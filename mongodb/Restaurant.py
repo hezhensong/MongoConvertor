@@ -1,12 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 
-from pymongo import MongoClient
-import datetime
 import HTMLParser
-from bson.objectid import ObjectId
+import datetime
+
 import pytz
+from bson.objectid import ObjectId
+from pymongo import MongoClient
+
 from TimeZoneUtil import TimeZoneUtil
+
 
 class Restaurant:
     def __init__(self):
@@ -15,21 +18,21 @@ class Restaurant:
     collection_old = 'restaurants'
 
     collection_new = 'restaurant'
-    
-    params_map = {'_id':'_id', # 餐厅ID
-                  'address': 'address', # 餐厅地址地址
-                  'name': 'name', # 餐厅名
-                  'name_en': 'name_en', # 餐厅英文名
-                  'city_id': 'city_id', # 城市 ID
-                  'city_name': 'city_name', # 城市名
-                  'comments_from': 'comments_from', # 评论来源
-                  'comments_url': 'comments_url', # 评论 url
-                  'price_desc': 'price_desc', # 价格描述
-                  'tel': 'tel', # 电话
-                  'website': 'website', # 网站
-                  'rating': 'rating', # 评分
-                  'openTable_url':'open_table_url'  # 服务预订 url
-    }
+
+    params_map = {'_id': '_id',  # 餐厅ID
+                  'address': 'address',  # 餐厅地址地址
+                  'name': 'name',  # 餐厅名
+                  'name_en': 'name_en',  # 餐厅英文名
+                  'city_id': 'city_id',  # 城市 ID
+                  'city_name': 'city_name',  # 城市名
+                  'comments_from': 'comments_from',  # 评论来源
+                  'comments_url': 'comments_url',  # 评论 url
+                  'price_desc': 'price_desc',  # 价格描述
+                  'tel': 'tel',  # 电话
+                  'website': 'website',  # 网站
+                  'rating': 'rating',  # 评分
+                  'openTable_url': 'open_table_url'  # 服务预订 url
+                  }
 
     @staticmethod
     def convert_restaurant(address_old, port_old, address_new, port_new, collection_old, collection_new,
@@ -52,7 +55,6 @@ class Restaurant:
 
         # 临时数组
         temp = [''] * len(params_map.keys())
-
 
         # 判断当前文档是否含有某个字段,若有则取出后赋值给临时数组,否则为 None
         for document in db_old.find():
@@ -80,7 +82,7 @@ class Restaurant:
             noise = ''
             waiter = False
             tv = False
-            outseat = False 
+            outseat = False
             group = False
             kid = False
             card = False
@@ -92,7 +94,7 @@ class Restaurant:
             master_label = []
             comments = []
             new_comments = []
-            new_date = datetime.datetime(1970, 1, 1, 0, 0, 0, tzinfo = pytz.utc)
+            new_date = datetime.datetime(1970, 1, 1, 0, 0, 0, tzinfo=pytz.utc)
             rating = ''
             nickname = ''
             text = ''
@@ -105,47 +107,47 @@ class Restaurant:
             brief_introduction = ''
             tips = ''
             price_level = 1
-            
+
             other = {}
-            
+
             if 'activities' in document:
                 activities = document['activities']
-            
+
             if 'price_level' in document:
                 price_level = document['price_level']
                 if type(price_level) == str or type(price_level) == unicode:
                     price_level = 1
                 if price_level == 5:
                     price_level = 4
-                    
+
             if 'introduce' in document:
                 introduction = document['introduce']
                 if (introduction.find('&') != -1):
                     introduction = HTMLParser.HTMLParser().unescape(introduction)
-                    
+
             if 'brief_introduce' in document:
                 brief_introduction = document['brief_introduce']
                 if (brief_introduction.find('&') != -1):
                     brief_introduction = HTMLParser.HTMLParser().unescape(brief_introduction)
-            
+
             if 'tips' in document:
                 tips = document['tips']
                 if (tips.find('&') != -1):
                     tips = HTMLParser.HTMLParser().unescape(tips)
-            
+
             if 'cover_image' in document:
                 cover_image = document['cover_image']
                 if cover_image != '':
                     cover_image = image_url + cover_image
-                    
+
             if 'image' in document:
                 image = document['image']
                 if image is not None and len(image) > 0:
                     for i in range(len(image)):
                         image[i] = image_url + image[i]
-            
+
             if 'city_id' in document:
-                temp_city = travel1['latestcity'].find_one({'_id':document['city_id']})
+                temp_city = travel1['latestcity'].find_one({'_id': document['city_id']})
                 if temp_city is not None:
                     if 'reslabels' in temp_city:
                         reslabels = temp_city['reslabels']
@@ -153,20 +155,20 @@ class Restaurant:
                             for i in range(len(reslabels)):
                                 temp_label = {}
                                 temp_label.update({'_id': ObjectId(reslabels[i]['_id'])})
-                                temp_label.update({'label': reslabels[i]['title'] })
+                                temp_label.update({'label': reslabels[i]['title']})
                                 master_label.append(temp_label)
-            
+
             if 'tags_zh' in document:
                 tags_zh = document['tags_zh']
                 if tags_zh is not None and len(tags_zh) > 0:
                     for i in range(len(tags_zh)):
                         temp_label = {}
                         temp_label.update({'_id': ''})
-                        temp_label.update({'label': tags_zh[i] })
+                        temp_label.update({'label': tags_zh[i]})
                         master_label.append(temp_label)
-            
+
             if 'category' in document:
-                category = document['category']                
+                category = document['category']
                 for i in range(len(category)):
                     if category is not None:
                         if '_id' in category[i]:
@@ -176,23 +178,25 @@ class Restaurant:
                         temp_sub_tag = {}
                         temp_sub_tag.update({'_id': _id, 'tag': tag})
                         sub_tag.append(temp_sub_tag)
-                
+
             if 'latitude' in document:
                 latitude = str(document['latitude'])
             if 'longitude' in document:
                 longitude = str(document['longitude'])
                 coordination = longitude + ',' + latitude
-                
+
             if 'open_time' in document:
                 open_time = document['open_time']
-            
+
             if 'comments' in document:
                 comments = document['comments']
                 for i in range(len(comments)):
                     if type(comments[i]) == unicode:
                         temp_comments = {}
-                        temp_comments.update({'date': datetime.datetime(1970, 1, 1, 0, 0, 0, tzinfo = pytz.utc),'rating': rating,'nickname': nickname,
-                                              'language': language, 'text': comments[i], 'title': title})
+                        temp_comments.update(
+                            {'date': datetime.datetime(1970, 1, 1, 0, 0, 0, tzinfo=pytz.utc), 'rating': rating,
+                             'nickname': nickname,
+                             'language': language, 'text': comments[i], 'title': title})
                         new_comments.append(temp_comments)
                     else:
                         if comments != [None]:
@@ -203,18 +207,19 @@ class Restaurant:
                                 index3 = temp_date.find('日')
                                 if index1 != -1:
                                     year = int(temp_date[0:index1])
-                                    month = int(temp_date[index1+3:index2])
+                                    month = int(temp_date[index1 + 3:index2])
                                     if month == 0:
                                         month = 1
-                                    day = int(temp_date[index2+3:index3])
+                                    day = int(temp_date[index2 + 3:index3])
                                     if day == 0:
                                         day = 1
                                     if TimeZoneUtil.timezoneMap.has_key(document['city_id']):
-                                        new_date =  TimeZoneUtil.gettimezone(document['city_id'],year, month ,day, 0, 0, 0)
+                                        new_date = TimeZoneUtil.gettimezone(document['city_id'], year, month, day, 0, 0,
+                                                                            0)
                                     else:
-                                        new_date = datetime.datetime(year, month, day, 0, 0, 0, tzinfo = pytz.utc) 
+                                        new_date = datetime.datetime(year, month, day, 0, 0, 0, tzinfo=pytz.utc)
                                 else:
-                                    new_date = datetime.datetime(1970, 1, 1, 0, 0, 0, tzinfo = pytz.utc)
+                                    new_date = datetime.datetime(1970, 1, 1, 0, 0, 0, tzinfo=pytz.utc)
                             if 'rating' in comments[i]:
                                 rating = comments[i]['rating']
                             if 'nickname' in comments[i]:
@@ -226,10 +231,10 @@ class Restaurant:
                             if 'language' in comments[i]:
                                 language = comments[i]['language']
                             temp_comments = {}
-                            temp_comments.update({'date': new_date,'rating': rating,'nickname': 
-                                                  nickname,'text': text, 'title': title, 'language': language})
+                            temp_comments.update({'date': new_date, 'rating': rating, 'nickname':
+                                nickname, 'text': text, 'title': title, 'language': language})
                             new_comments.append(temp_comments)
-            
+
             if 'menu' in document:
                 dish = document['menu']
                 for i in range(len(dish)):
@@ -238,16 +243,16 @@ class Restaurant:
                             dish_cover_image = image_url + dish[i]['cover_image']
                     desc = dish[i]['desc']
                     advice = dish[i]['advice']
-                    
+
                     dish_id = travel2['dish'].find_one({'cover_image': dish_cover_image,
-                                              'desc': desc, 'advice': advice})['_id']
-                    
+                                                        'desc': desc, 'advice': advice})['_id']
+
                     print(dish_id)
                     temp_dish = {}
-                    temp_dish.update({'_id': dish_id, 'cover_image':dish_cover_image, 'desc':desc,
+                    temp_dish.update({'_id': dish_id, 'cover_image': dish_cover_image, 'desc': desc,
                                       'advice': advice, 'title': title, 'tag': ''})
                     newdish.append(temp_dish)
-            
+
             if 'info' in document:
                 temp_facilities = document['info']
                 if 'alcohol' in temp_facilities:
@@ -259,7 +264,7 @@ class Restaurant:
                 if 'tv' in temp_facilities:
                     tv = temp_facilities['tv']
                 if 'out_seat' in temp_facilities:
-                    outseat = temp_facilities['out_seat'] 
+                    outseat = temp_facilities['out_seat']
                 if 'g_f_group' in temp_facilities:
                     group = temp_facilities['g_f_group']
                 if 'g_f_kid' in temp_facilities:
@@ -274,12 +279,12 @@ class Restaurant:
                     reserve = temp_facilities['yu_ding']
                 if 'wifi' in temp_facilities:
                     wifi = temp_facilities['wifi']
-                
+
                 facilities.update({'alcohol': alcohol, 'noise': noise, 'waiter': waiter,
                                    'tv': tv, 'outseat': outseat, 'group': group, 'kid': kid,
                                    'card': card, 'takeout': takeout, 'delivery': delivery,
                                    'reserve': reserve, 'wifi': wifi})
-                
+
             # 是否线上展示
             if 'show_flag' in document:
                 show_flag = document['show_flag']
@@ -289,17 +294,18 @@ class Restaurant:
                     is_show = False
             else:
                 is_show = False
-            
-            other.update({'type': 1, 'coordination': coordination , 'open_time': open_time,
-                          'dish': newdish, 'facilities': facilities,'comments': new_comments,
+
+            other.update({'type': 1, 'coordination': coordination, 'open_time': open_time,
+                          'dish': newdish, 'facilities': facilities, 'comments': new_comments,
                           'cover_image': cover_image, 'image': image, 'price_level': price_level,
-                          'introduction':introduction, 'brief_introduction': brief_introduction, 'tips': tips,
+                          'introduction': introduction, 'brief_introduction': brief_introduction, 'tips': tips,
                           'master_label': master_label, 'sub_tag': sub_tag, 'is_show': is_show,
-                          'activities': activities, 'last_modified_person': '', 'last_modified_time': datetime.datetime(1970, 1, 1, 0, 0, 0, tzinfo = pytz.utc)})
-            
-            post = {}      
+                          'activities': activities, 'last_modified_person': '',
+                          'last_modified_time': datetime.datetime(1970, 1, 1, 0, 0, 0, tzinfo=pytz.utc)})
+
+            post = {}
             post.update(other)
             for i in range(len(params_map.keys())):
-                post.update({params_map.values()[i]:temp[i]})
+                post.update({params_map.values()[i]: temp[i]})
             db_new.insert(post)
             print post

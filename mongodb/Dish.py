@@ -60,6 +60,7 @@ class Dish:
                     if num > 1:
                         print('重复项')
                         print(document['_id'])
+                        
                     else :
                         temp_dish = {}
                         temp_dish.update({'cover_image': cover_image, 'desc':desc,
